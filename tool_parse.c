@@ -1,34 +1,5 @@
 #include "minishell.h"
 
-int    *set_quoted_bits(char *line)
-{
-    char	*quoted;
-    int		n;
-
-    quoted = malloc(sizeof(int) * (ft_strlen(line) + 1));
-    n = 0;
-    while (line[n])
-    {
-        if (line[n] == '\'')
-		{
-			quoted[n++] = QUOTATION_MARK;
-			while (line[n] && line[n] != '\'')
-				quoted[n++] = SINGLE_QUOTED;
-			quoted[n++] = QUOTATION_MARK;
-		}
-        else if (line[n] == '"')
-        {
-			quoted[n++] = QUOTATION_MARK;
-			while (line[n] && line[n] != '"')
-				quoted[n++] = DOUBLE_QUOTED;
-			quoted[n++] = QUOTATION_MARK;
-		}
-		else
-			quoted[n++] = NQ;
-    }
-	quoted[n] = '\0';
-}
-
 void    remove_substr(char **line, int sub_start, int sub_end)
 {
     char *tmp;
