@@ -12,13 +12,13 @@ t_token *new_token(int type, char *nword, char *nquo)
     return (new);
 }
 
-void    chang_token_value(t_token, tok, int type, char *nword, char *nquo)
+void    chang_token_value(t_token *tok, int type, char *nword, char *nquo)
 {
     char    *tmp;
     int     i;
 
     tok->type = type;
-    tmp = top->word;
+    tmp = tok->word;
     tok->word = nword;
     free(tmp);
     if (nquo == NULL)
@@ -42,7 +42,7 @@ char    *be_not_quoted(char *w)
     return (quo);
 }
 
-int    *set_quoted_bits(char *line)
+char    *set_quoted_bits(char *line)
 {
     char	*quoted;
     int		n;
@@ -69,4 +69,5 @@ int    *set_quoted_bits(char *line)
 			quoted[n++] = NQ;
     }
 	quoted[n] = '\0';
+    return (quoted);
 }

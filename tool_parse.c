@@ -12,7 +12,7 @@ void    remove_substr(char **line, int sub_start, int sub_end)
     free(tmp);
 }
 
-char	*combine_strings(char **tab)
+char	*combine_strings(char **tabs)
 {
 	char	*newl;
 	int		len;
@@ -20,18 +20,18 @@ char	*combine_strings(char **tab)
 
 	len = 0;
 	j = 0;
-	while (tab[j])
-		len += ft_strlen(*tab[j++]);
+	while (tabs[j])
+		len += ft_strlen(*tabs[j++]);
 	if (!(newl = malloc(sizeof(char) * (len + 1))))
 		clean_exit("Failed to malloc.");
 	*newl = '\0';
 	j = 0;
-	while (tab[j])
-		newl = ft_strlcat(newl, tab[j++], len);
+	while (tabs[j])
+		ft_strlcat(newl, tabs[j++], len);
 	return (newl);
 }
 
-void	str_idx_split(char *l, int *start, int *end, char **tab)
+void	str_idx_split(char *l, int *start, int *end, char **tabs)
 {
 	int i;
 	int n;
@@ -39,21 +39,23 @@ void	str_idx_split(char *l, int *start, int *end, char **tab)
 	i = 0;
 	n = 0;
 	if (start[0] > 0)
-		tab[n++] = ft_substr(l, 0, start[0]);
+		tabs[n++] = ft_substr(l, 0, start[0]);
 	while (start[i] > 0)
 	{
-		tab[n++] = ft_substr(l, start[i], end[i] - start[i] + 1);
+		tabs[n++] = ft_substr(l, start[i], end[i] - start[i] + 1);
 		if (l[end[i] + 1])
+		{
 			if (start[i + 1] > 0)
-				tab[n++] = ft_substr(l, end[i] + 1, start[i + 1] - end[i] - 1);
+				tabs[n++] = ft_substr(l, end[i] + 1, start[i + 1] - end[i] - 1);
 			else
-				tab[n++] = ft_strdup(&l[end[i] + 1]);
+				tabs[n++] = ft_strdup(&l[end[i] + 1]);
+		}
 		i++;
 	}
-	tab[n] = NULL;
+	tabs[n] = NULL;
 }
 
-int     num_of_vars(t_cml *tok)
+int     num_of_vars(t_token *tok)
 {
     int i;
     int n;

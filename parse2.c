@@ -2,24 +2,24 @@
 
 void    variable_expansion(t_token *tok)
 {
-    char	**tab;
+    char	**tabs;
 	char	**tab_q;
 	int		*start;
 	int		*end;
 	int		ret;
 
-    if (ret = num_of_vars(tok))
+    if ((ret = num_of_vars(tok)))
 		return ;
-    if (!(tab = malloc(sizeof(char *) * (ret * 2 + 2))) || 
+    if (!(tabs = malloc(sizeof(char *) * (ret * 2 + 2))) || 
         !(tab_q = malloc(sizeof(char *) * (ret * 2 + 2))) || 
         !(start = malloc(sizeof(int) * (ret + 1))) || 
         !(end = malloc(sizeof(int) * (ret + 1))))
     	clean_exit("Failed to malloc");
-    locate_vars_to_expand(tok, start, end));
-	str_idx_split(tok->word, start, end, tab);
+    locate_vars_to_expand(tok, start, end);
+	str_idx_split(tok->word, start, end, tabs);
 	str_idx_split(tok->quoted, start, end, tab_q);
-	ret = expand(tab, tab_q);
-	chang_token_value(tok, ret, combine_strings(tab), combine_strings(tab_q));
+	ret = expand(tabs, tab_q);
+	chang_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
     //free tab tabq start end.
 }
 
@@ -46,7 +46,7 @@ int     locate_vars_to_expand(t_token *tok, int *start, int *end)
     return (n);
 }
 
-int		expand(char **tab, char **tab_q)
+int		expand(char **tabs, char **tab_q)
 {
     char    *tmp;
     int     i;
@@ -54,15 +54,15 @@ int		expand(char **tab, char **tab_q)
 
     i = 0;
     type = WORD;
-    while (tab[i])
+    while (tabs[i])
     {
-        if (tab[i][0] = '$')
+        if (tabs[i][0] == '$')
         {
-            tmp = tab[i];
-            tab[i] = ft_strdup(getenv(&tab[i][1]));
+            tmp = tabs[i];
+            tabs[i] = ft_strdup(getenv(&tabs[i][1]));
             free(tmp);
             tmp = tab_q[i];
-            tab_q[i] = quoted_bit_reset(tab[i], tab_q[i][0], &type);
+            tab_q[i] = quoted_bit_reset(tabs[i], tab_q[i][0], &type);
             free(tmp);
         }
         i++;
@@ -79,7 +79,7 @@ char    *quoted_bit_reset(char *line, char c, int *type)
         exit (-1);
     while (line[n])
     {
-        if (line[n] == ' ' && c = NQ)
+        if (line[n] == ' ' && c == NQ)
             *type = UNQUOTED_SPACE;
         quo[n++] = c;
     }
@@ -88,20 +88,20 @@ char    *quoted_bit_reset(char *line, char c, int *type)
 
 void 	*var_space_splitting(t_list	*lst_token)
 {
-	char	*tab;
-	lst		*cur;
-	lst		*nlst;
-	lst		*nlst_last;
+	char	*tabs;
+	t_list	*cur;
+	t_list	*nlst;
+	t_list	*nlst_last;
 
 	cur = lst_token;
 	while (cur)
 	{
 		if (cur->content->type == UNQUOTED_SPACE)
 		{
-			tab = jump_quotes_ft_split(cur->content->word, cur->content->quoted, ' ');
-			chang_token_value(cur->content, WORD, *tab++, NULL);
-			while (*tab)
-				ft_lstadd_back(&nlst, ft_lstnew(new_token(WORD, *tab++, NULL)));
+			tabs = jump_quotes_ft_split(cur->content->word, cur->content->quoted, ' ');
+			chang_token_value(cur->content, WORD, *tabs++, NULL);
+			while (*tabs)
+				ft_lstadd_back(&nlst, ft_lstnew(new_token(WORD, *tabs++, NULL)));
 			nlst_last = ft_lstlast(nlst);
 			nlst_last->next = cur->next;
 			cur->next = nlst;
