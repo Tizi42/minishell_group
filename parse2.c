@@ -14,7 +14,7 @@ void    variable_expansion(t_token *tok)
         !(tab_q = malloc(sizeof(char *) * (ret * 2 + 2))) || 
         !(start = malloc(sizeof(int) * (ret + 1))) || 
         !(end = malloc(sizeof(int) * (ret + 1))))
-    	clean_exit("Failed to malloc");
+    	exit(0);//clean_exit("Failed to malloc");
     locate_vars_to_expand(tok, start, end);
 	str_idx_split(tok->word, start, end, tabs);
 	str_idx_split(tok->quoted, start, end, tab_q);
@@ -83,12 +83,13 @@ char    *quoted_bit_reset(char *line, char c, int *type)
             *type = UNQUOTED_SPACE;
         quo[n++] = c;
     }
-    quo[n] = -1;
+    quo[n] = '\0';
+    return (quo);
 }
 
-void 	*var_space_splitting(t_list	*lst_token)
+void 	var_space_splitting(t_list	*lst_token)
 {
-	char	*tabs;
+	char	**tabs;
 	t_list	*cur;
 	t_list	*nlst;
 	t_list	*nlst_last;
@@ -118,6 +119,7 @@ void set_argv(t_cml *cml)
 
 	i = 0;
 	lst = cml->lst_token;
+    cml->argv = malloc(sizeof(char *) * ft_lstsize(lst));
 	while (lst)
 	{
 		cml->argv[i++] = ft_strdup(lst->content->word);

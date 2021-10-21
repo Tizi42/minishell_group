@@ -11,8 +11,8 @@ int main(int ac, char **av)
 		line = readline(">");
 		cml = parse(line);
         i = 0;
-        while (*cml->argv)
-            printf("%d: %s\n", i++, *cml->argv++);
+        while (*(cml->argv))
+            printf("%d: %s\n", i++, *(cml->argv++));
 		free(line);
 	}
 	return (0);

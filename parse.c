@@ -6,13 +6,20 @@ t_cml    *parse(char *line)
     int     n;
 
     cmls = parse_pipe(line);
+    cmls->lst_redi = NULL;
+    cmls->lst_token = NULL;
     n = 0;
     while (cmls[n].line)
     {
+        printf("A\n");
         set_token(&cmls[n]);
+        printf("Atok: %s\n", cmls[n].lst_token->content->word);
 		ft_lstiter(cmls[n].lst_token, &quote_removal);
+        printf("Btok: %s\n", cmls[n].lst_token->content->word);
         ft_lstiter(cmls[n].lst_token, &variable_expansion);
+        printf("Ctok: %s\n", cmls[n].lst_token->content->word);
         var_space_splitting(cmls[n].lst_token);
+        printf("Dtok: %s\n", cmls[n].lst_token->content->word);
         set_argv(&cmls[n]);
         n++;
     }
@@ -26,8 +33,8 @@ t_cml   *parse_pipe(char *line)
     int     n;
 
     cml_tab = jump_quotes_ft_split(line, set_quoted_bits(line), '|');
-    if (!(cmls = malloc(sizeof(t_cml) * ( amount_of_cmls(cmls) + 1))))
-        clean_exit("Failed to malloc.");
+    if (!(cmls = malloc(sizeof(t_cml) * ( amount_of_cmls(cml_tab) + 1))))
+        exit(0);//clean_exit("Failed to malloc.");
     n = 0;
     while (cml_tab[n])
     {
@@ -48,8 +55,11 @@ void    set_token(t_cml *cml)
     parse_redirection(cml, &quoted);
     tabs = jump_quotes_ft_split(cml->line, quoted, ' ');
     while (*tabs)
+    {
         ft_lstadd_back(&(cml->lst_token), ft_lstnew(
-            new_token(WORD, *tabs, set_quoted_bits(*tabs++))));
+            new_token(WORD, *tabs, set_quoted_bits(*tabs))));
+        tabs++;
+    }
 }
 
 /*
@@ -96,11 +106,12 @@ void    quote_removal(t_token *tok)
 	{
 		if (tok->quoted[i] != QUOTATION_MARK)
 		{
-			tok->word[j++] = tmp[i];
+			tok->word[j] = tmp[i];
 			tok->quoted[j++] = tok->quoted[i];
 		}
 		i++;
 	}
 	tok->word[j] = '\0';
+    tok->quoted[j] = '\0';
 	free(tmp);
 }

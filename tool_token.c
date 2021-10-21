@@ -4,6 +4,8 @@ t_token *new_token(int type, char *nword, char *nquo)
 {
     t_token *new;
 
+    if (!(new = malloc(sizeof(t_token))))
+        exit(0);
     new->type = type;
     new->word = nword;
     if (nquo == NULL)
@@ -47,7 +49,7 @@ char    *set_quoted_bits(char *line)
     char	*quoted;
     int		n;
 
-    quoted = malloc(sizeof(int) * (ft_strlen(line) + 1));
+    quoted = malloc(sizeof(char) * (ft_strlen(line) + 1));
     n = 0;
     while (line[n])
     {
@@ -70,4 +72,17 @@ char    *set_quoted_bits(char *line)
     }
 	quoted[n] = '\0';
     return (quoted);
+}
+
+int     typeof_redi(char *line)
+{
+    if (*line == '>')
+    {
+        if (*(line + 1) == '>')
+            return (DGREAT);
+        return (GREAT);
+    }
+    if (*line == '<')
+        return (LESS);
+    return (-1);
 }

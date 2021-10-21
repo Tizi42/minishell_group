@@ -24,18 +24,18 @@
 #define LESS 3
 #define UNQUOTED_SPACE 4
 
-typedef	struct	s_list
-{
-	void			*content;
-	struct s_list	*next;
-}				t_list;
-
 typedef struct  s_token
 {
     int     type;
     char    *word;
     char	*quoted;
 }   t_token;
+
+typedef	struct	s_list
+{
+	t_token			*content;
+	struct s_list	*next;
+}				t_list;
 
 typedef struct  s_cml
 {
@@ -57,7 +57,7 @@ void    variable_expansion(t_token *tok);
 int     locate_vars_to_expand(t_token *tok, int *start, int *end);
 int		expand(char **tabs, char **tab_q);
 char    *quoted_bit_reset(char *line, char c, int *type);
-void 	*var_space_splitting(t_list	*lst_token);
+void 	var_space_splitting(t_list	*lst_token);
 void    set_argv(t_cml *cml);
 
 /* tool_parse.c */
@@ -65,12 +65,14 @@ void    remove_substr(char **line, int sub_start, int sub_end);
 char	*combine_strings(char **tabs);
 void	str_idx_split(char *l, int *start, int *end, char **tabs);
 int     num_of_vars(t_token *tok);
+int		amount_of_cmls(char **cml_tab);
 
 /* tool_token.c */
 t_token *new_token(int type, char *nword, char *nquo);
 void    chang_token_value(t_token *tok, int type, char *nword, char *nquo);
 char    *be_not_quoted(char *w);
 char    *set_quoted_bits(char *line);
+int     typeof_redi(char *line);
 
 /* tool_parse_split.c */
 char	**jump_quotes_ft_split(char const *s, char *quoted, char c);
@@ -90,7 +92,8 @@ char	*ft_strjoin(char const *s1, char const *s2);
 t_list	*ft_lstnew(void *content);
 void	ft_lstiter(t_list *lst, void (*f)(t_token *));
 void	ft_lstadd_back(t_list **alst, t_list *new);
-
+t_list	*ft_lstlast(t_list *lst);
+int	    ft_lstsize(t_list *lst);
 
 
 #endif

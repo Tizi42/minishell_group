@@ -21,9 +21,9 @@ char	*combine_strings(char **tabs)
 	len = 0;
 	j = 0;
 	while (tabs[j])
-		len += ft_strlen(*tabs[j++]);
+		len += ft_strlen(tabs[j++]);
 	if (!(newl = malloc(sizeof(char) * (len + 1))))
-		clean_exit("Failed to malloc.");
+		exit(0);//clean_exit("Failed to malloc.");
 	*newl = '\0';
 	j = 0;
 	while (tabs[j])
@@ -69,4 +69,16 @@ int     num_of_vars(t_token *tok)
         i++;
 	}
     return (n);
+}
+
+int		amount_of_cmls(char **cml_tab)
+{
+	int n;
+
+	n = 0;
+	if (!cml_tab)
+		return (0);
+	while (cml_tab[n])
+		n++;
+	return (n);
 }

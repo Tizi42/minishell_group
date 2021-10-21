@@ -31,3 +31,29 @@ void	ft_lstadd_back(t_list **alst, t_list *new)
 		alst = &((*alst)->next);
 	(*alst)->next = new;
 }
+
+t_list	*ft_lstlast(t_list *lst)
+{
+	t_list *last;
+
+	last = lst;
+	while (lst)
+	{
+		last = lst;
+		lst = lst->next;
+	}
+	return (last);
+}
+
+int	ft_lstsize(t_list *lst)
+{
+	int s;
+
+	s = 0;
+	while (lst)
+	{
+		s++;
+		lst = lst->next;
+	}
+	return (s);
+}
