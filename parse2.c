@@ -38,18 +38,11 @@ int     locate_vars_to_expand(t_token *tok, int *start, int *end)
             while (tok->word[i] && tok->word[i] != ' ' && tok->word[i] != '\'' 
                     && tok->word[i] != '"' && tok->word[i] != '$')
                 i++;
-            printf("s: %s, c:/%c/, i: %d\n", tok->word, tok->word[i], i);
             end[n++] = --i;
 		}
         i++;
 	}
     start[n] = -1;
-    n = 0;
-    while (start[n] != -1)
-    {
-        printf("start:%d, end: %d\n", start[n], end[n]);
-        n++;
-    }
     return (n);
 }
 
@@ -102,6 +95,7 @@ void 	var_space_splitting(t_list	*lst_token)
 	t_list	*nlst_last;
 
 	cur = lst_token;
+    nlst = NULL;
 	while (cur)
 	{
 		if (cur->content->type == UNQUOTED_SPACE)

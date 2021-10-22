@@ -22,20 +22,15 @@ t_cml    *parse(char *line)
     n = 0;
     while (cmls[n].line)
     {
-        //printf("A\n");
         set_token(&cmls[n]);
-        //printf("Atok: %s\n", cmls[n].lst_token->content->word);
-		ft_lstiter(cmls[n].lst_token, &quote_removal);
-        //printf("Btok: %s\n", cmls[n].lst_token->content->word);
         ft_lstiter(cmls[n].lst_token, &variable_expansion);
-        //printf("Ctok: %s\n", cmls[n].lst_token->content->word);
+        ft_lstiter(cmls[n].lst_token, &quote_removal);
         var_space_splitting(cmls[n].lst_token);
-        //printf("Dtok: %s\n", cmls[n].lst_token->content->word);
         set_argv(&cmls[n]);
         if (cmls[n].lst_redi)
         {
-            ft_lstiter(cmls[n].lst_redi, &quote_removal);
             ft_lstiter(cmls[n].lst_redi, &variable_expansion);
+            ft_lstiter(cmls[n].lst_redi, &quote_removal);
             if (if_unquoted_space(cmls[n].lst_redi))
                 exit (0); //ambiguous redirect.
         }
