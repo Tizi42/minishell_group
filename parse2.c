@@ -8,7 +8,7 @@ void    variable_expansion(t_token *tok)
 	int		*end;
 	int		ret;
 
-    if ((ret = num_of_vars(tok)))
+    if (!(ret = num_of_vars(tok)))
 		return ;
     if (!(tabs = malloc(sizeof(char *) * (ret * 2 + 2))) || 
         !(tab_q = malloc(sizeof(char *) * (ret * 2 + 2))) || 
@@ -19,7 +19,7 @@ void    variable_expansion(t_token *tok)
 	str_idx_split(tok->word, start, end, tabs);
 	str_idx_split(tok->quoted, start, end, tab_q);
 	ret = expand(tabs, tab_q);
-	chang_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
+    chang_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
     //free tab tabq start end.
 }
 
@@ -35,14 +35,21 @@ int     locate_vars_to_expand(t_token *tok, int *start, int *end)
 		if (tok->word[i] == '$' && tok->quoted[i] != SINGLE_QUOTED)
 		{
 			start[n] = i++;
-            while (tok->word[i] != ' ' && tok->word[i] != '\'' 
+            while (tok->word[i] && tok->word[i] != ' ' && tok->word[i] != '\'' 
                     && tok->word[i] != '"' && tok->word[i] != '$')
                 i++;
+            printf("s: %s, c:/%c/, i: %d\n", tok->word, tok->word[i], i);
             end[n++] = --i;
 		}
-            i++;
+        i++;
 	}
     start[n] = -1;
+    n = 0;
+    while (start[n] != -1)
+    {
+        printf("start:%d, end: %d\n", start[n], end[n]);
+        n++;
+    }
     return (n);
 }
 
@@ -119,7 +126,7 @@ void set_argv(t_cml *cml)
 
 	i = 0;
 	lst = cml->lst_token;
-    cml->argv = malloc(sizeof(char *) * ft_lstsize(lst));
+    cml->argv = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
 	while (lst)
 	{
 		cml->argv[i++] = ft_strdup(lst->content->word);

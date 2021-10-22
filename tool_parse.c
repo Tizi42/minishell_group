@@ -8,7 +8,7 @@ void    remove_substr(char **line, int sub_start, int sub_end)
         return ;
     tmp = *line;
     tmp[sub_start] = '\0';
-    *line = ft_strjoin(tmp, &tmp[sub_end + 1]);
+    *line = strjoin(tmp, &tmp[sub_end + 1]);
     free(tmp);
 }
 
@@ -40,7 +40,7 @@ void	str_idx_split(char *l, int *start, int *end, char **tabs)
 	n = 0;
 	if (start[0] > 0)
 		tabs[n++] = ft_substr(l, 0, start[0]);
-	while (start[i] > 0)
+	while (start[i] >= 0)
 	{
 		tabs[n++] = ft_substr(l, start[i], end[i] - start[i] + 1);
 		if (l[end[i] + 1])
@@ -62,6 +62,8 @@ int     num_of_vars(t_token *tok)
 
     i = 0;
     n = 0;
+	if (!tok->word)
+		return (0);
     while (tok->word[i])
 	{
 		if (tok->word[i] == '$' && tok->quoted[i] != SINGLE_QUOTED)

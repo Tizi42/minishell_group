@@ -35,6 +35,8 @@ char    *be_not_quoted(char *w)
     char    *quo;
     int     i;
 
+    if (!w)
+        return (NULL);
     if (!(quo =  malloc(sizeof(char) * (ft_strlen(w) + 1))))
         exit (-1);
     i = 0;
@@ -49,6 +51,8 @@ char    *set_quoted_bits(char *line)
     char	*quoted;
     int		n;
 
+    if (!line)
+        return (NULL);
     quoted = malloc(sizeof(char) * (ft_strlen(line) + 1));
     n = 0;
     while (line[n])

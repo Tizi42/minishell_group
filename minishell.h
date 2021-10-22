@@ -49,7 +49,7 @@ typedef struct  s_cml
 t_cml   *parse(char *line);
 t_cml   *parse_pipe(char *line);
 void    set_token(t_cml *cml);
-void    parse_redirection(t_cml *cml, char **quoted);
+void    parse_redirection(t_list **lst, char **l, char **quoted);
 void    quote_removal(t_token *tok);
 
 /* parse2.c */
@@ -86,7 +86,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlcat(char *restrict dst, const char *restrict src,
 		size_t dstsize);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*strjoin(char const *s1, char const *s2);
 
 /* tool_libft_lst.c */
 t_list	*ft_lstnew(void *content);

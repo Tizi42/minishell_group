@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+int     if_unquoted_space(t_list *lst)
+{
+	while (lst)
+	{
+		if (lst->content->type == UNQUOTED_SPACE)
+			return (1);
+		lst = lst->next;
+	}
+    return (0);
+}
+
 t_cml    *parse(char *line)
 {
     t_cml   *cmls;
@@ -11,16 +22,23 @@ t_cml    *parse(char *line)
     n = 0;
     while (cmls[n].line)
     {
-        printf("A\n");
+        //printf("A\n");
         set_token(&cmls[n]);
-        printf("Atok: %s\n", cmls[n].lst_token->content->word);
+        //printf("Atok: %s\n", cmls[n].lst_token->content->word);
 		ft_lstiter(cmls[n].lst_token, &quote_removal);
-        printf("Btok: %s\n", cmls[n].lst_token->content->word);
+        //printf("Btok: %s\n", cmls[n].lst_token->content->word);
         ft_lstiter(cmls[n].lst_token, &variable_expansion);
-        printf("Ctok: %s\n", cmls[n].lst_token->content->word);
+        //printf("Ctok: %s\n", cmls[n].lst_token->content->word);
         var_space_splitting(cmls[n].lst_token);
-        printf("Dtok: %s\n", cmls[n].lst_token->content->word);
+        //printf("Dtok: %s\n", cmls[n].lst_token->content->word);
         set_argv(&cmls[n]);
+        if (cmls[n].lst_redi)
+        {
+            ft_lstiter(cmls[n].lst_redi, &quote_removal);
+            ft_lstiter(cmls[n].lst_redi, &variable_expansion);
+            if (if_unquoted_space(cmls[n].lst_redi))
+                exit (0); //ambiguous redirect.
+        }
         n++;
     }
     return (cmls);
@@ -50,16 +68,24 @@ void    set_token(t_cml *cml)
 {
     char    **tabs;
     char    *quoted;
+    char    *line;
 
-    quoted = set_quoted_bits(cml->line);
-    parse_redirection(cml, &quoted);
-    tabs = jump_quotes_ft_split(cml->line, quoted, ' ');
+    line = ft_strdup(cml->line);
+    quoted = set_quoted_bits(line);
+    parse_redirection(&cml->lst_redi, &line, &quoted);
+    tabs = jump_quotes_ft_split(line, quoted, ' ');
+    if (!(*tabs))
+    {
+        ft_lstadd_back(&(cml->lst_token), ft_lstnew(
+            new_token(WORD, *tabs, set_quoted_bits(*tabs))));
+    }
     while (*tabs)
     {
         ft_lstadd_back(&(cml->lst_token), ft_lstnew(
             new_token(WORD, *tabs, set_quoted_bits(*tabs))));
         tabs++;
     }
+    free(line);
 }
 
 /*
@@ -67,25 +93,27 @@ void    set_token(t_cml *cml)
 * ct[1]: beinning of redirection operator
 * ct[2]: beginning of path
 */
-void    parse_redirection(t_cml *cml, char **quoted)
+void    parse_redirection(t_list **lst_redi, char **line, char **quoted)
 {
     int     ct[3];
 
     ft_memset(ct, 0, sizeof(ct));
-    while (cml->line[ct[0]])
+    while ((*line)[ct[0]])
     {
-        if (*quoted[ct[0]] == NQ && (cml->line[ct[0]] == '>' || cml->line[ct[0]] == '<'))
+        if (((*line)[ct[0]] == '>' || (*line)[ct[0]] == '<') && (*quoted)[ct[0]] == NQ)
         {
             ct[1] = ct[0]++;
-            if (cml->line[ct[0]] == '>')
+            if ((*line)[ct[0]] == '>')
                 ct[0]++;
-            while (cml->line[ct[0]] == ' ') //need to make sure in syntax check that the line doest end with < > >>
+            while ((*line)[ct[0]] == ' ') //need to make sure in syntax check that the line doest end with < > >>
                 ct[0]++;
             ct[2] = ct[0];
-            while (cml->line[ct[0]] && cml->line[ct[0]] != ' ' && *quoted[ct[0]] == NQ)
+            while ((*line)[ct[0]] && (((*line)[ct[0]] != ' ' && (*quoted)[ct[0]] == NQ) || ((*quoted)[ct[0]] > NQ)))
                 ct[0]++;
-            ft_lstadd_back(&(cml->lst_redi), ft_lstnew(new_token(typeof_redi(&cml->line[ct[1]]), ft_substr(cml->line, ct[2], ct[0] - ct[2]), NULL)));
-            remove_substr(&cml->line, ct[1], ct[0] - 1);
+            ft_lstadd_back(lst_redi, ft_lstnew(new_token(typeof_redi(&(*line)[ct[1]]), 
+                    ft_substr(*line, ct[2], ct[0] - ct[2]), 
+                    set_quoted_bits(ft_substr(*line, ct[2], ct[0] - ct[2])))));
+            remove_substr(line, ct[1], ct[0] - 1);
             remove_substr(quoted, ct[1], ct[0] - 1);
             ct[0] = ct[1] - 1;
         }
@@ -99,6 +127,8 @@ void    quote_removal(t_token *tok)
 	int		i;
 	int		j;
 
+    if (!tok->word)
+        return ;
 	tmp = ft_strdup(tok->word);
 	i = 0;
 	j = 0;
