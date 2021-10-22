@@ -32,7 +32,7 @@ int main(int ac, char **av)
 			lst = cml[n].lst_redi;
 			while (lst)
 			{
-				printf("redi:type:%i, word:%s\n", lst->content->type, lst->content->word);
+				printf("redi:type:%i, word:%s\n", lst->tkn->type, lst->tkn->word);
 				lst = lst->next;
 			}
 			n++;

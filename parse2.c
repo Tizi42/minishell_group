@@ -22,10 +22,10 @@ void	variable_expansion(t_token *tok)
 
 	if (!(ret = num_of_vars(tok)))
 		return ;
-	if (!(tabs = malloc(sizeof(char *) * (ret * 2 + 2))) ||
-		!(tab_q = malloc(sizeof(char *) * (ret * 2 + 2))) ||
-		!(start = malloc(sizeof(int) * (ret + 1))) ||
-		!(end = malloc(sizeof(int) * (ret + 1))))
+	if (!(tabs = malloc(sizeof(char *) * (ret * 2 + 2)))
+		|| !(tab_q = malloc(sizeof(char *) * (ret * 2 + 2)))
+		|| !(start = malloc(sizeof(int) * (ret + 1)))
+		|| !(end = malloc(sizeof(int) * (ret + 1))))
 		exit(0);//clean_exit("Failed to malloc");
 	locate_vars_to_expand(tok, start, end);
 	str_idx_split(tok->word, start, end, tabs);
@@ -35,10 +35,10 @@ void	variable_expansion(t_token *tok)
 	//free tab tabq start end.
 }
 
-int		locate_vars_to_expand(t_token *tok, int *start, int *end)
+int	locate_vars_to_expand(t_token *tok, int *start, int *end)
 {
-	int i;
-	int n;
+	int	i;
+	int	n;
 
 	i = 0;
 	n = 0;
@@ -48,7 +48,7 @@ int		locate_vars_to_expand(t_token *tok, int *start, int *end)
 		{
 			start[n] = i++;
 			while (tok->word[i] && tok->word[i] != ' ' && tok->word[i] != '\''
-					&& tok->word[i] != '"' && tok->word[i] != '$')
+				&& tok->word[i] != '"' && tok->word[i] != '$')
 				i++;
 			end[n++] = --i;
 		}
@@ -58,11 +58,11 @@ int		locate_vars_to_expand(t_token *tok, int *start, int *end)
 	return (n);
 }
 
-int		expand(char **tabs, char **tab_q)
+int	expand(char **tabs, char **tab_q)
 {
-	char    *tmp;
-	int     i;
-	int     type;
+	char	*tmp;
+	int		i;
+	int		type;
 
 	i = 0;
 	type = WORD;
@@ -82,24 +82,7 @@ int		expand(char **tabs, char **tab_q)
 	return (type);
 }
 
-char    *quoted_bit_reset(char *line, char c, int *type)
-{
-	char    *quo;
-	int     n;
-
-	if (!(quo =  malloc(sizeof(char) * (ft_strlen(line) + 1))))
-		exit (-1);
-	while (line[n])
-	{
-		if (line[n] == ' ' && c == NQ)
-			*type = UNQUOTED_SPACE;
-		quo[n++] = c;
-	}
-	quo[n] = '\0';
-	return (quo);
-}
-
-void 	var_space_splitting(t_list	*lst_token)
+void	var_space_splitting(t_list	*lst_token)
 {
 	char	**tabs;
 	t_list	*cur;
@@ -110,12 +93,13 @@ void 	var_space_splitting(t_list	*lst_token)
 	nlst = NULL;
 	while (cur)
 	{
-		if (cur->content->type == UNQUOTED_SPACE)
+		if (cur->tkn->type == UNQUOTED_SPACE)
 		{
-			tabs = jump_quotes_ft_split(cur->content->word, cur->content->quoted, ' ');
-			chang_token_value(cur->content, WORD, *tabs++, NULL);
+			tabs = jump_quotes_ft_split(cur->tkn->word, cur->tkn->quoted, ' ');
+			chang_token_value(cur->tkn, WORD, *tabs++, NULL);
 			while (*tabs)
-				ft_lstadd_back(&nlst, ft_lstnew(new_token(WORD, *tabs++, NULL)));
+				ft_lstadd_back(&nlst, ft_lstnew(
+						new_token(WORD, *tabs++, NULL)));
 			nlst_last = ft_lstlast(nlst);
 			nlst_last->next = cur->next;
 			cur->next = nlst;
@@ -125,7 +109,7 @@ void 	var_space_splitting(t_list	*lst_token)
 	}
 }
 
-void set_argv(t_cml *cml)
+void	set_argv(t_cml *cml)
 {
 	int		i;
 	t_list	*lst;
@@ -135,7 +119,7 @@ void set_argv(t_cml *cml)
 	cml->argv = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
 	while (lst)
 	{
-		cml->argv[i++] = ft_strdup(lst->content->word);
+		cml->argv[i++] = ft_strdup(lst->tkn->word);
 		lst = lst->next;
 	}
 	cml->argv[i] = NULL;

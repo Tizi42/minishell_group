@@ -16,9 +16,26 @@ int		if_unquoted_space(t_list *lst)
 {
 	while (lst)
 	{
-		if (lst->content->type == UNQUOTED_SPACE)
+		if (lst->tkn->type == UNQUOTED_SPACE)
 			return (1);
 		lst = lst->next;
 	}
 	return (0);
+}
+
+char	*quoted_bit_reset(char *line, char c, int *type)
+{
+	char	*quo;
+	int		n;
+
+	if (!(quo = malloc(sizeof(char) * (ft_strlen(line) + 1))))
+		exit (-1);
+	while (line[n])
+	{
+		if (line[n] == ' ' && c == NQ)
+			*type = UNQUOTED_SPACE;
+		quo[n++] = c;
+	}
+	quo[n] = '\0';
+	return (quo);
 }

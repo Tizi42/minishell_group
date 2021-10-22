@@ -45,7 +45,7 @@ typedef struct s_token
 
 typedef struct s_list
 {
-	t_token			*content;
+	t_token			*tkn;
 	struct s_list	*next;
 }	t_list;
 
@@ -68,7 +68,6 @@ void	quote_removal(t_token *tok);
 void	variable_expansion(t_token *tok);
 int		locate_vars_to_expand(t_token *tok, int *start, int *end);
 int		expand(char **tabs, char **tab_q);
-char	*quoted_bit_reset(char *line, char c, int *type);
 void	var_space_splitting(t_list	*lst_token);
 void	set_argv(t_cml *cml);
 
@@ -81,6 +80,7 @@ int		amount_of_cmls(char **cml_tab);
 
 /* tool_parse2.c */
 int		if_unquoted_space(t_list *lst);
+char	*quoted_bit_reset(char *line, char c, int *type);
 
 /* tool_token.c */
 t_token	*new_token(int type, char *nword, char *nquo);
@@ -104,7 +104,7 @@ size_t	ft_strlcat(char *restrict dst, const char *restrict src,
 char	*strjoin(char const *s1, char const *s2);
 
 /* tool_libft_lst.c */
-t_list	*ft_lstnew(void *content);
+t_list	*ft_lstnew(void *tkn);
 void	ft_lstiter(t_list *lst, void (*f)(t_token *));
 void	ft_lstadd_back(t_list **alst, t_list *new);
 t_list	*ft_lstlast(t_list *lst);

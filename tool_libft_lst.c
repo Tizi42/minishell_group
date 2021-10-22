@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(void *tkn)
 {
 	t_list	*new;
 
 	if (!(new = malloc(sizeof(t_list))))
 		return (NULL);
-	new->content = content;
+	new->tkn = tkn;
 	new->next = NULL;
 	return (new);
 }
@@ -27,7 +27,7 @@ void	ft_lstiter(t_list *lst, void (*f)(t_token *))
 {
 	while (lst)
 	{
-		(*f)(lst->content);
+		(*f)(lst->tkn);
 		lst = lst->next;
 	}
 }
