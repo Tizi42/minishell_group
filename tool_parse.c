@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tool_parse.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/22 17:32:35 by tyuan             #+#    #+#             */
+/*   Updated: 2021/10/22 17:32:37 by tyuan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void    remove_substr(char **line, int sub_start, int sub_end)
 {
-    char *tmp;
+	char *tmp;
 
-    if (!line || !*line || sub_end < sub_start)
-        return ;
-    tmp = *line;
-    tmp[sub_start] = '\0';
-    *line = strjoin(tmp, &tmp[sub_end + 1]);
-    free(tmp);
+	if (!line || !*line || sub_end < sub_start)
+		return ;
+	tmp = *line;
+	tmp[sub_start] = '\0';
+	*line = strjoin(tmp, &tmp[sub_end + 1]);
+	free(tmp);
 }
 
 char	*combine_strings(char **tabs)
@@ -57,20 +69,20 @@ void	str_idx_split(char *l, int *start, int *end, char **tabs)
 
 int     num_of_vars(t_token *tok)
 {
-    int i;
-    int n;
+	int i;
+	int n;
 
-    i = 0;
-    n = 0;
+	i = 0;
+	n = 0;
 	if (!tok->word)
 		return (0);
-    while (tok->word[i])
+	while (tok->word[i])
 	{
 		if (tok->word[i] == '$' && tok->quoted[i] != SINGLE_QUOTED)
-            n++;
-        i++;
+			n++;
+		i++;
 	}
-    return (n);
+	return (n);
 }
 
 int		amount_of_cmls(char **cml_tab)
