@@ -6,13 +6,14 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/10/27 11:39:07 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/10/27 17:46:21 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/wait.h>
 #include "error.h"
 #include "builtins.h"
-#include <sys/wait.h>
+#include "execute.h"
 
 t_list	*init_env(char **envp)
 {
@@ -80,6 +81,7 @@ int	execute(char *const *args, t_list *env)
 {
 	pid_t	child;
 	char	**str_env;
+	char	*full_path;
 	int		status;
 
 	if (is_builtin(args[0]))
@@ -87,14 +89,13 @@ int	execute(char *const *args, t_list *env)
 	str_env = get_strs(env);
 	status = 0;
 	child = fork();
-	if (child)
+	if (child == 0)
 	{
-		if (execve(args[0], args, str_env) == -1)
-		{
-			execute_error(args[0]);
-			free(str_env);
-			exit(127);
-		}
+		full_path = search_path(args[0]);
+		execve(full_path, args, str_env);
+		execute_error(args[0]);
+		free(str_env);
+		exit(127);
 	}
 	waitpid(child, &status, 0);
 	free(str_env);
