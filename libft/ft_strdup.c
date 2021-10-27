@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:55:06 by jkromer           #+#    #+#             */
-/*   Updated: 2021/01/15 18:58:19 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/10/27 19:35:48 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strdup(const char *s)
 	if (!dup)
 		return (NULL);
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		dup[i] = s[i];
 		i++;

@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:52:42 by jkromer           #+#    #+#             */
-/*   Updated: 2021/01/15 18:59:34 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/10/27 19:36:16 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	len;
 
+	if (!s)
+		return (0);
 	len = 0;
 	while (s[len])
 		len++;

@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/10/27 17:46:21 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/10/27 19:01:52 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ static int	is_builtin(const char *prog)
 		|| ft_strcmp(prog, "exit") == 0);
 }
 
-static unsigned char	launch_builtin(char *const *args, t_list *env)
+static unsigned char	launch_builtin(
+	char *const *args,
+	t_list *env,
+	int last_status)
 {
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (cd(args[1]));
@@ -74,10 +77,10 @@ static unsigned char	launch_builtin(char *const *args, t_list *env)
 	else if (ft_strcmp(args[0], "unset") == 0)
 		return (unset(args, &env));
 	else
-		return (exit_builtin(args, 9)); // GET LAST_STATUS
+		return (exit_builtin(args, last_status));
 }
 
-int	execute(char *const *args, t_list *env)
+int	execute(char *const *args, t_list *env, int last_status)
 {
 	pid_t	child;
 	char	**str_env;
@@ -85,7 +88,7 @@ int	execute(char *const *args, t_list *env)
 	int		status;
 
 	if (is_builtin(args[0]))
-		return (launch_builtin(args, env));
+		return (launch_builtin(args, env, last_status));
 	str_env = get_strs(env);
 	status = 0;
 	child = fork();

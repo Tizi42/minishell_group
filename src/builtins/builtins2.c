@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 16:46:40 by jkromer           #+#    #+#             */
-/*   Updated: 2021/10/23 20:00:26 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/10/27 19:57:38 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,8 @@ static int	check_arg(const char *arg)
 
 unsigned char	exit_builtin(char *const *args,	unsigned char last_status)
 {
-	unsigned char	status;
-
 	ft_puts("exit");
-	if (!args[1])
+	if (!args || !args[1])
 		exit(last_status);
 	else if (args[2])
 	{
@@ -96,6 +94,5 @@ unsigned char	exit_builtin(char *const *args,	unsigned char last_status)
 		exit_error(args[1]);
 		exit(2);
 	}
-	status = (unsigned char)ft_atoi(args[1]);
-	exit(status);
+	exit((unsigned char)ft_atoi(args[1]));
 }
