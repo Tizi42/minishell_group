@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:00:34 by tyuan             #+#    #+#             */
-/*   Updated: 2021/10/27 15:41:59 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/10/29 15:59:56 by tyuan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ typedef struct s_cml
 t_cml	*parse(char *line);
 t_cml	*parse_pipe(char *line);
 void	set_token(t_cml *cml);
-void	parse_redirection(t_list **lst, char **l, char **quoted);
+void	parse_redirection(t_tknlst **lst, char **l, char **quoted);
 void	quote_removal(t_token *tok);
 
 /* parse2.c */
 void	variable_expansion(t_token *tok);
 int		locate_vars_to_expand(t_token *tok, int *start, int *end);
 int		expand(char **tabs, char **tab_q);
-void	var_space_splitting(t_list	*lst_token);
+void	var_space_splitting(t_tknlst	*lst_token);
 void	set_argv(t_cml *cml);
 
 /* tool_parse.c */
@@ -67,7 +67,7 @@ int		num_of_vars(t_token *tok);
 int		amount_of_cmls(char **cml_tab);
 
 /* tool_parse2.c */
-int		if_unquoted_space(t_list *lst);
+int		if_unquoted_space(t_tknlst *lst);
 char	*quoted_bit_reset(char *line, char c, int *type);
 
 /* tool_token.c */
