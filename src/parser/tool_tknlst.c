@@ -12,18 +12,18 @@
 
 #include "minishell.h"
 
-t_list	*ft_lstnew(void *tkn)
+t_tknlst	*ft_tknlstnew(void *tkn)
 {
-	t_list	*new;
+	t_tknlst	*new;
 
-	if (!(new = malloc(sizeof(t_list))))
+	if (!(new = malloc(sizeof(t_tknlst))))
 		return (NULL);
 	new->tkn = tkn;
 	new->next = NULL;
 	return (new);
 }
 
-void	ft_lstiter(t_list *lst, void (*f)(t_token *))
+void	ft_tknlstiter(t_tknlst *lst, void (*f)(t_token *))
 {
 	while (lst)
 	{
@@ -32,7 +32,7 @@ void	ft_lstiter(t_list *lst, void (*f)(t_token *))
 	}
 }
 
-void	ft_lstadd_back(t_list **alst, t_list *new)
+void	ft_tknlstadd_back(t_tknlst **alst, t_tknlst *new)
 {
 	if (*alst == NULL)
 	{
@@ -44,9 +44,9 @@ void	ft_lstadd_back(t_list **alst, t_list *new)
 	(*alst)->next = new;
 }
 
-t_list	*ft_lstlast(t_list *lst)
+t_tknlst	*ft_tknlstlast(t_tknlst *lst)
 {
-	t_list	*last;
+	t_tknlst	*last;
 
 	last = lst;
 	while (lst)
@@ -57,7 +57,7 @@ t_list	*ft_lstlast(t_list *lst)
 	return (last);
 }
 
-int	ft_lstsize(t_list *lst)
+int	ft_tknlstsize(t_tknlst *lst)
 {
 	int	s;
 

@@ -34,7 +34,7 @@ typedef struct s_token
 typedef struct s_tknlst
 {
 	t_token			*tkn;
-	struct s_tknlst	*n;
+	struct s_tknlst	*next;
 }					t_tknlst;
 
 typedef struct s_cml
@@ -79,17 +79,12 @@ int		typeof_redi(char *line);
 
 /* tool_parse_split.c */
 char	**jump_quotes_ft_split(char const *s, char *quoted, char c);
-void	*ft_memset(void *b, int c, size_t len);
 int		docp(char **tabs, char const *s, int *ct);
 int		sizec(char const *s, char c);
 
 /* tool_libft_str.c */
-size_t	ft_strlen(const char *s);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strdup(const char *s1);
-size_t	ft_strlcat(char *restrict dst, const char *restrict src,
-			size_t dstsize);
-char	*strjoin(char const *s1, char const *s2);
+char	*sh_substr(char const *s, unsigned int start, size_t len);
+char	*sh_strjoin(char const *s1, char const *s2);
 
 /* tool_libft_lst.c */
 t_tknlst	*ft_tknlstnew(void *tkn);

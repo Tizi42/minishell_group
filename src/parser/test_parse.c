@@ -17,7 +17,7 @@ int main(int ac, char **av)
 	char *line;
     t_cml *cml;
     int i;
-	t_list *lst;
+	t_tknlst *lst;
 
 	while (1)
 	{

@@ -12,19 +12,7 @@
 
 #include "minishell.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t len;
-
-	len = 0;
-	if (!s)
-		return (0);
-	while (s[len])
-		len++;
-	return (len);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*modified_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*ext;
 	size_t	i;
@@ -45,50 +33,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (ext);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	int		size;
-	char	*cp;
-
-	if (!(cp = malloc(sizeof(char) * (ft_strlen(s1) + 1))))
-		return (NULL);
-	size = 0;
-	while (s1 && s1[size])
-	{
-		cp[size] = s1[size];
-		size++;
-	}
-	cp[size] = '\0';
-	return (cp);
-}
-
-size_t		ft_strlcat(char *restrict dst, const char *restrict src,
-		size_t dstsize)
-{
-	int	i;
-	int	lendst;
-
-	lendst = 0;
-	while (*dst)
-	{
-		lendst++;
-		dst++;
-	}
-	i = 0;
-	while (src[i] && i < (int)dstsize - lendst - 1)
-	{
-		*dst = src[i];
-		dst++;
-		i++;
-	}
-	*dst = '\0';
-	if ((int)dstsize > lendst)
-		return (ft_strlen(src) + lendst);
-	else
-		return (ft_strlen(src) + dstsize);
-}
-
-char		*strjoin(char const *s1, char const *s2)
+char		*modified_strjoin(char const *s1, char const *s2)
 {
 	char	*a;
 	size_t	t1;

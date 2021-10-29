@@ -90,7 +90,7 @@ void	set_token(t_cml *cml)
 * ct[2]: beginning of path
 8 //need to make sure in syntax check that the line doest end with < > >>
 */
-void	parse_redirection(t_list **lst_redi, char **l, char **q)
+void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 {
 	int		ct[3];
 

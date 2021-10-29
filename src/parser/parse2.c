@@ -82,12 +82,12 @@ int	expand(char **tabs, char **tab_q)
 	return (type);
 }
 
-void	var_space_splitting(t_list	*lst_token)
+void	var_space_splitting(t_tknlst	*lst_token)
 {
 	char	**tabs;
-	t_list	*cur;
-	t_list	*nlst;
-	t_list	*nlst_last;
+	t_tknlst	*cur;
+	t_tknlst	*nlst;
+	t_tknlst	*nlst_last;
 
 	cur = lst_token;
 	nlst = NULL;
@@ -112,7 +112,7 @@ void	var_space_splitting(t_list	*lst_token)
 void	set_argv(t_cml *cml)
 {
 	int		i;
-	t_list	*lst;
+	t_tknlst	*lst;
 
 	i = 0;
 	lst = cml->lst_token;

@@ -41,21 +41,6 @@ char		**jump_quotes_ft_split(char const *s, char *quoted, char c)
 	return (tabs);
 }
 
-void	*ft_memset(void *b, int c, size_t len)
-{
-	size_t	i;
-	char	*rep;
-
-	rep = b;
-	i = 0;
-	while (i < len)
-	{
-		rep[i] = (unsigned char)c;
-		i++;
-	}
-	return (b);
-}
-
 int	docp(char **tabs, char const *s, int *ct)
 {
 	int i;

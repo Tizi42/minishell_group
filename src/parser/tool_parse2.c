@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int		if_unquoted_space(t_list *lst)
+int		if_unquoted_space(t_tknlst *lst)
 {
 	while (lst)
 	{
