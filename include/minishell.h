@@ -30,4 +30,7 @@
 # include "execute.h"
 # include "builtins.h"
 
+/* tool.c */
+void	*v_malloc(size_t size);
+
 #endif

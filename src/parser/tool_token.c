@@ -16,8 +16,7 @@ t_token	*new_token(int type, char *nword, char *nquo)
 {
 	t_token	*new;
 
-	if (!(new = malloc(sizeof(t_token))))
-		exit(0);
+	new = v_malloc(sizeof(t_token));
 	new->type = type;
 	new->word = nword;
 	if (nquo == NULL)
@@ -49,8 +48,7 @@ char	*be_not_quoted(char *w)
 
 	if (!w)
 		return (NULL);
-	if (!(quo =  malloc(sizeof(char) * (ft_strlen(w) + 1))))
-		exit (-1);
+	quo = v_malloc(sizeof(char) * (ft_strlen(w) + 1));
 	i = 0;
 	while (w[i])
 		quo[i++] = NQ;
@@ -63,24 +61,19 @@ char	*set_quoted_bits(char *line)
 	char	*quoted;
 	int		n;
 
-	if (!line)
-		return (NULL);
-	quoted = malloc(sizeof(char) * (ft_strlen(line) + 1));
+	quoted = v_malloc(sizeof(char) * (ft_strlen(line) + 1));
 	n = 0;
-	while (line[n])
+	while (line && line[n])
 	{
-		if (line[n] == '\'')
+		if (line[n] == '\'' || line[n] == '"')
 		{
 			quoted[n++] = QUOTATION_MARK;
-			while (line[n] && line[n] != '\'')
-				quoted[n++] = SINGLE_QUOTED;
-			quoted[n++] = QUOTATION_MARK;
-		}
-		else if (line[n] == '"')
-		{
-			quoted[n++] = QUOTATION_MARK;
-			while (line[n] && line[n] != '"')
-				quoted[n++] = DOUBLE_QUOTED;
+			if (line[n - 1] == '\'')
+				while (line[n] && line[n] != '\'')
+					quoted[n++] = SINGLE_QUOTED;
+			else if (line[n - 1] == '"')
+				while (line[n] && line[n] != '"')
+					quoted[n++] = DOUBLE_QUOTED;
 			quoted[n++] = QUOTATION_MARK;
 		}
 		else
@@ -90,7 +83,7 @@ char	*set_quoted_bits(char *line)
 	return (quoted);
 }
 
-int     typeof_redi(char *line)
+int	typeof_redi(char *line)
 {
 	if (*line == '>')
 	{

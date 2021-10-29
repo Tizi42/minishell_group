@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/* need to free tabs */
 void	variable_expansion(t_token *tok)
 {
 	char	**tabs;
@@ -20,19 +21,18 @@ void	variable_expansion(t_token *tok)
 	int		*end;
 	int		ret;
 
-	if (!(ret = num_of_vars(tok)))
+	ret = num_of_vars(tok);
+	if (!ret)
 		return ;
-	if (!(tabs = malloc(sizeof(char *) * (ret * 2 + 2)))
-		|| !(tab_q = malloc(sizeof(char *) * (ret * 2 + 2)))
-		|| !(start = malloc(sizeof(int) * (ret + 1)))
-		|| !(end = malloc(sizeof(int) * (ret + 1))))
-		exit(0);//clean_exit("Failed to malloc");
+	tabs = v_malloc(sizeof(char *) * (ret * 2 + 2));
+	tab_q = v_malloc(sizeof(char *) * (ret * 2 + 2));
+	start = v_malloc(sizeof(int) * (ret + 1));
+	end = v_malloc(sizeof(int) * (ret + 1));
 	locate_vars_to_expand(tok, start, end);
 	str_idx_split(tok->word, start, end, tabs);
 	str_idx_split(tok->quoted, start, end, tab_q);
 	ret = expand(tabs, tab_q);
 	chang_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
-	//free tab tabq start end.
 }
 
 int	locate_vars_to_expand(t_token *tok, int *start, int *end)
@@ -84,7 +84,7 @@ int	expand(char **tabs, char **tab_q)
 
 void	var_space_splitting(t_tknlst	*lst_token)
 {
-	char	**tabs;
+	char		**tabs;
 	t_tknlst	*cur;
 	t_tknlst	*nlst;
 	t_tknlst	*nlst_last;
@@ -111,12 +111,12 @@ void	var_space_splitting(t_tknlst	*lst_token)
 
 void	set_argv(t_cml *cml)
 {
-	int		i;
+	int			i;
 	t_tknlst	*lst;
 
 	i = 0;
 	lst = cml->lst_token;
-	cml->argv = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
+	cml->argv = v_malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
 	while (lst)
 	{
 		cml->argv[i++] = ft_strdup(lst->tkn->word);
