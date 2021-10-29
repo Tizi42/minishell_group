@@ -4,7 +4,7 @@ CFLAGS	=	-Wall -Werror -Wextra -g
 OBJ_DIR	=	obj/
 SRC_DIR	=	src/
 SRCS	+=	main.c errors.c
-SRCS	+=	parser/parse.c parser/parse2.c parser/tool_parse.c parser/tool_parse2.c parser/tool_parse_split.c parser/tool_token.c parser/tool_libft_lst.c
+SRCS	+=	parser/parse.c parser/parse2.c parser/tool_parse.c parser/tool_parse2.c parser/tool_parse_split.c parser/tool_token.c parser/tool_tknlst.c  parser/tool_str.c
 SRCS	+=	executer/execute.c executer/path_search.c
 SRCS	+=	builtins/builtins.c builtins/builtins2.c builtins/unset.c
 OBJS    =	$(addprefix $(OBJ_DIR), $(SRCS:.c=.o))

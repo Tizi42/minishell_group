@@ -12,41 +12,39 @@
 
 #include "minishell.h"
 
-char		**jump_quotes_ft_split(char const *s, char *quoted, char c)
+char	**jump_quotes_ft_split(char const *s, char *quoted, char c)
 {
-	char		**tabs;
-	int			count[3];
+	char	**tabs;
+	int		ct[3];
 
-	ft_memset(count, 0, sizeof(count));
-	if (s == NULL || !(tabs = malloc(sizeof(char *) * (sizec(s, c) + 2))))
+	if (!s)
 		return (NULL);
-	count[0] = -1;
-	while (s[count[1]])
+	ft_memset(ct, 0, sizeof(ct));
+	tabs = v_malloc(sizeof(char *) * (sizec(s, c) + 2));
+	ct[0] = -1;
+	while (s[ct[1]])
 	{
-		if ((s[count[1]] == c && quoted[count[1]] == NQ) || s[count[1] + 1] == '\0')
+		if ((s[ct[1]] == c && quoted[ct[1]] == NQ) || s[ct[1] + 1] == '\0')
 		{
-			if (s[count[1] + 1] == '\0' && s[count[1]] != c)
-				count[1]++;
-			if (count[1] - count[0] != 1)
-			{
-				if (!(docp(tabs, s, count)))
+			if (s[ct[1] + 1] == '\0' && s[ct[1]] != c)
+				ct[1]++;
+			if (ct[1] - ct[0] != 1)
+				if (!(docp(tabs, s, ct)))
 					return (NULL);
-			}
-			count[0] = count[1];
+			ct[0] = ct[1];
 		}
-		if (s[count[1]])
-			count[1]++;
+		if (s[ct[1]])
+			ct[1]++;
 	}
-	tabs[count[2]] = NULL;
+	tabs[ct[2]] = NULL;
 	return (tabs);
 }
 
 int	docp(char **tabs, char const *s, int *ct)
 {
-	int i;
+	int	i;
 
-	if (!(tabs[ct[2]] = malloc(sizeof(char) * (ct[1] - ct[0]))))
-		return (0);
+	tabs[ct[2]] = v_malloc(sizeof(char) * (ct[1] - ct[0]));
 	i = 0;
 	while (ct[0] + 1 + i < ct[1])
 	{
@@ -60,7 +58,7 @@ int	docp(char **tabs, char const *s, int *ct)
 
 int	sizec(char const *s, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (s == NULL)

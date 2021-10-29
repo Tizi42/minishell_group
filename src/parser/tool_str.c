@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tool_libft_str.c                                   :+:      :+:    :+:   */
+/*   tool_str.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/22 17:30:46 by tyuan             #+#    #+#             */
-/*   Updated: 2021/10/22 17:31:59 by tyuan            ###   ########.fr       */
+/*   Created: 2021/10/29 16:56:21 by tyuan             #+#    #+#             */
+/*   Updated: 2021/10/29 16:56:36 by tyuan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*modified_substr(char const *s, unsigned int start, size_t len)
+char	*sh_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*ext;
 	size_t	i;
@@ -21,8 +21,7 @@ char	*modified_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	if (ft_strlen(s) < start)
 		return (ft_strdup(""));
-	if (!(ext = malloc(len + 1)))
-		return (NULL);
+	ext = v_malloc(len + 1);
 	i = 0;
 	while (s[start + i] && i < len)
 	{
@@ -33,7 +32,7 @@ char	*modified_substr(char const *s, unsigned int start, size_t len)
 	return (ext);
 }
 
-char		*modified_strjoin(char const *s1, char const *s2)
+char	*sh_strjoin(char const *s1, char const *s2)
 {
 	char	*a;
 	size_t	t1;
@@ -41,8 +40,7 @@ char		*modified_strjoin(char const *s1, char const *s2)
 
 	t1 = 0;
 	t2 = 0;
-	if (!(a = malloc(ft_strlen(s1) + ft_strlen(s2) + 1)))
-		return (NULL);
+	a = v_malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	while (s1 && s1[t1])
 	{
 		a[t1] = s1[t1];

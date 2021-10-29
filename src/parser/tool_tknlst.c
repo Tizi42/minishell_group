@@ -16,8 +16,7 @@ t_tknlst	*ft_tknlstnew(void *tkn)
 {
 	t_tknlst	*new;
 
-	if (!(new = malloc(sizeof(t_tknlst))))
-		return (NULL);
+	new = v_malloc(sizeof(t_tknlst));
 	new->tkn = tkn;
 	new->next = NULL;
 	return (new);
