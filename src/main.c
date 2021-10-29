@@ -10,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include "parse.h"
-#include "execute.h"
-#include "builtins.h"
+#include "minishell.h"
 
 int	main(
 	int ac __attribute__((unused)),
