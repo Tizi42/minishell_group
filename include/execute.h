@@ -13,8 +13,6 @@
 #ifndef EXECUTE_H
 # define EXECUTE_H
 
-# include "libft.h"
-
 t_list	*init_env(char **envp);
 int		execute(char *const *args, t_list *env, int last_status);
 char	*search_path(const char *prog);

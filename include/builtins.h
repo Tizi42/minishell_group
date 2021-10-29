@@ -13,8 +13,6 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "libft.h"
-
 unsigned char	cd(const char *path);
 unsigned char	pwd(void);
 unsigned char	echo(char *const *args);
