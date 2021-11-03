@@ -29,6 +29,7 @@ char	*quoted_bit_reset(char *line, char c, int *type)
 	int		n;
 
 	quo = v_malloc(sizeof(char) * (ft_strlen(line) + 1));
+	n = 0;
 	while (line[n])
 	{
 		if (line[n] == ' ' && c == NQ)

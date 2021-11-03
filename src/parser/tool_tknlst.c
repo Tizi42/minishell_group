@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tool_libft_lst.c                                   :+:      :+:    :+:   */
+/*   tool_tknlst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:39 by tyuan             #+#    #+#             */
-/*   Updated: 2021/10/22 17:31:53 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/10/30 13:59:26 by tyuan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tknlst	*ft_tknlstnew(void *tkn)
+t_tknlst	*tknlstnew(void *tkn)
 {
 	t_tknlst	*new;
 
@@ -22,7 +22,7 @@ t_tknlst	*ft_tknlstnew(void *tkn)
 	return (new);
 }
 
-void	ft_tknlstiter(t_tknlst *lst, void (*f)(t_token *))
+void	tknlstiter(t_tknlst *lst, void (*f)(t_token *))
 {
 	while (lst)
 	{
@@ -31,7 +31,7 @@ void	ft_tknlstiter(t_tknlst *lst, void (*f)(t_token *))
 	}
 }
 
-void	ft_tknlstadd_back(t_tknlst **alst, t_tknlst *new)
+void	tknlstadd_back(t_tknlst **alst, t_tknlst *new)
 {
 	if (*alst == NULL)
 	{
@@ -43,7 +43,7 @@ void	ft_tknlstadd_back(t_tknlst **alst, t_tknlst *new)
 	(*alst)->next = new;
 }
 
-t_tknlst	*ft_tknlstlast(t_tknlst *lst)
+t_tknlst	*tknlstlast(t_tknlst *lst)
 {
 	t_tknlst	*last;
 
@@ -56,7 +56,7 @@ t_tknlst	*ft_tknlstlast(t_tknlst *lst)
 	return (last);
 }
 
-int	ft_tknlstsize(t_tknlst *lst)
+int	tknlstsize(t_tknlst *lst)
 {
 	int	s;
 

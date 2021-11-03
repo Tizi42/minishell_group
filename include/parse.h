@@ -82,15 +82,15 @@ char		**jump_quotes_ft_split(char const *s, char *quoted, char c);
 int			docp(char **tabs, char const *s, int *ct);
 int			sizec(char const *s, char c);
 
-/* tool_libft_str.c */
-char		*sh_substr(char const *s, unsigned int start, size_t len);
-char		*sh_strjoin(char const *s1, char const *s2);
+/* tool_str.c */
+char	*sh_substr(char const *s, unsigned int start, size_t len);
+char	*sh_strjoin(char const *s1, char const *s2);
 
-/* tool_libft_lst.c */
-t_tknlst	*ft_tknlstnew(void *tkn);
-void		ft_tknlstiter(t_tknlst *lst, void (*f)(t_token *));
-void		ft_tknlstadd_back(t_tknlst **alst, t_tknlst *new);
-t_tknlst	*ft_tknlstlast(t_tknlst *lst);
-int			ft_tknlstsize(t_tknlst *lst);
+/* tool_tknlst.c */
+t_tknlst	*tknlstnew(void *tkn);
+void		tknlstiter(t_tknlst *lst, void (*f)(t_token *));
+void		tknlstadd_back(t_tknlst **alst, t_tknlst *new);
+t_tknlst	*tknlstlast(t_tknlst *lst);
+int			tknlstsize(t_tknlst *lst);
 
 #endif
