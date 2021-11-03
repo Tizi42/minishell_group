@@ -28,7 +28,6 @@ t_token	*new_token(int type, char *nword, char *nquo)
 void	chang_token_value(t_token *tok, int type, char *nword, char *nquo)
 {
 	char	*tmp;
-	int		i;
 
 	tok->type = type;
 	tmp = tok->word;

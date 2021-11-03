@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-/* need to free tabs */
 void	variable_expansion(t_token *tok)
 {
 	char	**tabs;
@@ -33,6 +32,8 @@ void	variable_expansion(t_token *tok)
 	str_idx_split(tok->quoted, start, end, tab_q);
 	ret = expand(tabs, tab_q);
 	chang_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
+	//cleanup(tabs, (char *)start);
+	//cleanup(tab_q, (char *)end);
 }
 
 int	locate_vars_to_expand(t_token *tok, int *start, int *end)
@@ -82,7 +83,7 @@ int	expand(char **tabs, char **tab_q)
 	return (type);
 }
 
-void	var_space_splitting(t_tknlst	*lst_token)
+void	var_space_splitting(t_tknlst *lst_token)
 {
 	char		**tabs;
 	t_tknlst	*cur;
@@ -98,9 +99,9 @@ void	var_space_splitting(t_tknlst	*lst_token)
 			tabs = jump_quotes_ft_split(cur->tkn->word, cur->tkn->quoted, ' ');
 			chang_token_value(cur->tkn, WORD, *tabs++, NULL);
 			while (*tabs)
-				ft_lstadd_back(&nlst, ft_lstnew(
+				tknlstadd_back(&nlst, tknlstnew(
 						new_token(WORD, *tabs++, NULL)));
-			nlst_last = ft_lstlast(nlst);
+			nlst_last = tknlstlast(nlst);
 			nlst_last->next = cur->next;
 			cur->next = nlst;
 			cur = nlst_last;
@@ -116,7 +117,7 @@ void	set_argv(t_cml *cml)
 
 	i = 0;
 	lst = cml->lst_token;
-	cml->argv = v_malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
+	cml->argv = v_malloc(sizeof(char *) * (tknlstsize(lst) + 1));
 	while (lst)
 	{
 		cml->argv[i++] = ft_strdup(lst->tkn->word);

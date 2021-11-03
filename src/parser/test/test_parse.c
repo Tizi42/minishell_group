@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:35 by tyuan             #+#    #+#             */
-/*   Updated: 2021/10/22 17:31:16 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/10/30 14:16:01 by tyuan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main(int ac, char **av)
     t_cml *cml;
     int i;
 	t_tknlst *lst;
-
+ac = 0; av = NULL;
 	while (1)
 	{
 		line = readline(">");
