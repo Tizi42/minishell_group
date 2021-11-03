@@ -6,17 +6,11 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:50:11 by jkromer           #+#    #+#             */
-/*   Updated: 2021/10/27 16:54:53 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/03 10:33:14 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-static void	cleanup(char **paths, char *new_prog)
-{
-	free(new_prog);
-	free_split(paths);
-}
+#include "minishell.h"
 
 char	*search_path(const char *prog)
 {

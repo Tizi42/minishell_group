@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:08 by tyuan             #+#    #+#             */
-/*   Updated: 2021/10/22 17:30:20 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/03 10:34:35 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	set_token(t_cml *cml)
 	tabs = jump_quotes_ft_split(line, quoted, ' ');
 	if (!(*tabs))
 	{
-		tknlstadd_back(&(cml->lst_token), tknlstnew(
+    tknlstadd_back(&(cml->lst_token), tknlstnew(
 				new_token(WORD, *tabs, set_quoted_bits(*tabs))));
 	}
 	while (*tabs)
