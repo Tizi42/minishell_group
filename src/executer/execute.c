@@ -6,14 +6,11 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/10/27 19:01:52 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/03 10:30:06 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/wait.h>
-#include "error.h"
-#include "builtins.h"
-#include "execute.h"
+#include "minishell.h"
 
 t_list	*init_env(char **envp)
 {
@@ -82,7 +79,7 @@ static unsigned char	launch_builtin(
 
 int	execute(char *const *args, t_list *env, int last_status)
 {
-	pid_t	child;
+	pid_t	pid;
 	char	**str_env;
 	char	*full_path;
 	int		status;
@@ -91,8 +88,8 @@ int	execute(char *const *args, t_list *env, int last_status)
 		return (launch_builtin(args, env, last_status));
 	str_env = get_strs(env);
 	status = 0;
-	child = fork();
-	if (child == 0)
+	pid = fork();
+	if (pid == 0)
 	{
 		full_path = search_path(args[0]);
 		execve(full_path, args, str_env);
@@ -100,7 +97,7 @@ int	execute(char *const *args, t_list *env, int last_status)
 		free(str_env);
 		exit(127);
 	}
-	waitpid(child, &status, 0);
+	waitpid(pid, &status, 0);
 	free(str_env);
 	return (status);
 }

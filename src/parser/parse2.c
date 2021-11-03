@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:27 by tyuan             #+#    #+#             */
-/*   Updated: 2021/10/22 17:30:31 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/03 10:27:54 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ void	var_space_splitting(t_tknlst	*lst_token)
 			tabs = jump_quotes_ft_split(cur->tkn->word, cur->tkn->quoted, ' ');
 			chang_token_value(cur->tkn, WORD, *tabs++, NULL);
 			while (*tabs)
-				ft_lstadd_back(&nlst, ft_lstnew(
+				ft_tknlstadd_back(&nlst, ft_tknlstnew(
 						new_token(WORD, *tabs++, NULL)));
-			nlst_last = ft_lstlast(nlst);
+			nlst_last = ft_tknlstlast(nlst);
 			nlst_last->next = cur->next;
 			cur->next = nlst;
 			cur = nlst_last;
@@ -116,7 +116,7 @@ void	set_argv(t_cml *cml)
 
 	i = 0;
 	lst = cml->lst_token;
-	cml->argv = v_malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
+	cml->argv = v_malloc(sizeof(char *) * (ft_tknlstsize(lst) + 1));
 	while (lst)
 	{
 		cml->argv[i++] = ft_strdup(lst->tkn->word);

@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 15:42:05 by tyuan             #+#    #+#             */
-/*   Updated: 2021/10/29 15:42:22 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/03 10:36:36 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,20 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <sys/errno.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <curses.h>
-# include <term.h>
-# include <dirent.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 
 # include "libft.h"
 # include "parse.h"
 # include "execute.h"
 # include "builtins.h"
+# include "error.h"
 
 /* tool.c */
 void	*v_malloc(size_t size);
+void	cleanup(char **paths, char *new_prog);
 
 #endif

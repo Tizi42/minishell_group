@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:08 by tyuan             #+#    #+#             */
-/*   Updated: 2021/10/22 17:30:20 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/03 10:34:35 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ t_cml	*parse(char *line)
 	while (cmls[n].line)
 	{
 		set_token(&cmls[n]);
-		ft_lstiter(cmls[n].lst_token, &variable_expansion);
-		ft_lstiter(cmls[n].lst_token, &quote_removal);
+		ft_tknlstiter(cmls[n].lst_token, &variable_expansion);
+		ft_tknlstiter(cmls[n].lst_token, &quote_removal);
 		var_space_splitting(cmls[n].lst_token);
 		set_argv(&cmls[n]);
 		if (cmls[n].lst_redi)
 		{
-			ft_lstiter(cmls[n].lst_redi, &variable_expansion);
-			ft_lstiter(cmls[n].lst_redi, &quote_removal);
+			ft_tknlstiter(cmls[n].lst_redi, &variable_expansion);
+			ft_tknlstiter(cmls[n].lst_redi, &quote_removal);
 			if (if_unquoted_space(cmls[n].lst_redi))
 				exit (0);
 		}
@@ -72,12 +72,12 @@ void	set_token(t_cml *cml)
 	tabs = jump_quotes_ft_split(line, quoted, ' ');
 	if (!(*tabs))
 	{
-		ft_lstadd_back(&(cml->lst_token), ft_lstnew(
+		ft_tknlstadd_back(&(cml->lst_token), ft_tknlstnew(
 				new_token(WORD, *tabs, set_quoted_bits(*tabs))));
 	}
 	while (*tabs)
 	{
-		ft_lstadd_back(&(cml->lst_token), ft_lstnew(
+		ft_tknlstadd_back(&(cml->lst_token), ft_tknlstnew(
 				new_token(WORD, *tabs, set_quoted_bits(*tabs))));
 		tabs++;
 	}
@@ -108,7 +108,7 @@ void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 			while ((*l)[ct[0]] && (((*l)[ct[0]] != ' ' &&
 					(*q)[ct[0]] == NQ) || ((*q)[ct[0]] > NQ)))
 				ct[0]++;
-			ft_lstadd_back(lst_redi, ft_lstnew(new_token(typeof_redi(&(*l)
+			ft_tknlstadd_back(lst_redi, ft_tknlstnew(new_token(typeof_redi(&(*l)
 						[ct[1]]), sh_substr(*l, ct[2], ct[0] - ct[2]),
 						set_quoted_bits(sh_substr(*l, ct[2], ct[0] - ct[2])))));
 			remove_substr(l, ct[1], ct[0] - 1);
