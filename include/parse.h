@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:00:34 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/03 09:05:47 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/03 10:59:18 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ int			docp(char **tabs, char const *s, int *ct);
 int			sizec(char const *s, char c);
 
 /* tool_str.c */
-char	*sh_substr(char const *s, unsigned int start, size_t len);
-char	*sh_strjoin(char const *s1, char const *s2);
+char		*sh_substr(char const *s, unsigned int start, size_t len);
+char		*sh_strjoin(char const *s1, char const *s2);
 
 /* tool_tknlst.c */
 t_tknlst	*tknlstnew(void *tkn);
