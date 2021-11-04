@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/03 10:30:06 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/03 16:42:29 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,27 +77,26 @@ static unsigned char	launch_builtin(
 		return (exit_builtin(args, last_status));
 }
 
-int	execute(char *const *args, t_list *env, int last_status)
+int	execute(char *const *args, t_exec exec)
 {
 	pid_t	pid;
 	char	**str_env;
 	char	*full_path;
-	int		status;
 
 	if (is_builtin(args[0]))
-		return (launch_builtin(args, env, last_status));
-	str_env = get_strs(env);
-	status = 0;
+		return (launch_builtin(args, exec.env, exec.status));
+	str_env = get_strs(exec.env);
 	pid = fork();
 	if (pid == 0)
 	{
+		redirect_io(exec);
 		full_path = search_path(args[0]);
 		execve(full_path, args, str_env);
 		execute_error(args[0]);
 		free(str_env);
 		exit(127);
 	}
-	waitpid(pid, &status, 0);
+	waitpid(pid, &exec.status, 0);
 	free(str_env);
-	return (status);
+	return (exec.status);
 }
