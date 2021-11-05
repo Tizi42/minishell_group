@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/05 10:09:55 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/05 10:58:08 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ int	execute(char *const *args, t_exec *exec)
 	if (is_builtin(args[0]))
 		return (launch_builtin(args, exec->env, exec->status));
 	strs_env = env_to_strs(exec->env);
-	exec->pids[exec->n] = fork();
-	if (exec->pids[exec->n++] == 0)
+	exec->pids[exec->nb_ps] = fork();
+	if (exec->pids[exec->nb_ps++] == 0)
 	{
 		redirect_io(exec);
 		if (ft_starts_with(args[0], "/") || ft_starts_with(args[0], "./"))

@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/05 10:08:08 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/05 11:43:42 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	int	i;
 	int	j;
 
-	exec->n = 0;
+	exec->nb_ps = 0;
+	exec->nb_pipe = 0;
 	i = 0;
 	while (cml[i].line)
 	{
@@ -28,7 +29,7 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 		if (exec->out != STDOUT_FILENO)
 			close(exec->out);
 		j = 0;
-		while (j < exec->n)
+		while (j < exec->nb_ps)
 			waitpid(exec->pids[j++], &exec->status, 0);
 		i++;
 	}
