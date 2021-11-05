@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 12:15:10 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/05 12:52:45 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/05 13:22:41 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	set_io(t_cml *cml, t_exec *exec, int i)
 		if (exec->nb_pipe > 1)
 			exec->nb_pipe = 0;
 	}
-	printf("command: [%s]\nin  = %d\nout = %d\n\n", cml[i].line, exec->in, exec->out);
 }
 
 void	redirect_io(t_exec *exec)
