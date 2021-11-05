@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/03 16:42:29 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/05 10:09:55 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,23 @@ t_list	*init_env(char **envp)
 	return (env);
 }
 
-static char	**get_strs(t_list *env)
+static char	**env_to_strs(t_list *env)
 {
-	char	**str_env;
+	char	**strs_env;
 	int		i;
 	int		len;
 
 	len = ft_lstsize(env);
-	str_env = malloc(sizeof(char *) * (len + 1));
+	strs_env = malloc(sizeof(char *) * (len + 1));
 	i = 0;
 	while (env)
 	{
-		str_env[i] = env->c;
+		strs_env[i] = env->c;
 		env = env->n;
 		i++;
 	}
-	str_env[len] = NULL;
-	return (str_env);
+	strs_env[len] = NULL;
+	return (strs_env);
 }
 
 static int	is_builtin(const char *prog)
@@ -77,26 +77,27 @@ static unsigned char	launch_builtin(
 		return (exit_builtin(args, last_status));
 }
 
-int	execute(char *const *args, t_exec exec)
+int	execute(char *const *args, t_exec *exec)
 {
-	pid_t	pid;
-	char	**str_env;
+	char	**strs_env;
 	char	*full_path;
 
 	if (is_builtin(args[0]))
-		return (launch_builtin(args, exec.env, exec.status));
-	str_env = get_strs(exec.env);
-	pid = fork();
-	if (pid == 0)
+		return (launch_builtin(args, exec->env, exec->status));
+	strs_env = env_to_strs(exec->env);
+	exec->pids[exec->n] = fork();
+	if (exec->pids[exec->n++] == 0)
 	{
 		redirect_io(exec);
-		full_path = search_path(args[0]);
-		execve(full_path, args, str_env);
+		if (ft_starts_with(args[0], "/") || ft_starts_with(args[0], "./"))
+			full_path = args[0];
+		else
+			full_path = search_path(args[0]);
+		execve(full_path, args, strs_env);
 		execute_error(args[0]);
-		free(str_env);
+		free(strs_env);
 		exit(127);
 	}
-	waitpid(pid, &exec.status, 0);
-	free(str_env);
-	return (exec.status);
+	free(strs_env);
+	return (exec->status);
 }
