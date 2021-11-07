@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 12:15:10 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/05 13:22:41 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/07 12:24:07 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,22 @@ void	set_io(t_cml *cml, t_exec *exec, int i)
 
 void	redirect_io(t_exec *exec)
 {
-	int	i;
-
 	if (exec->in != STDIN_FILENO)
-		dup2(exec->in, STDIN_FILENO);
-	if (exec->out != STDOUT_FILENO)
-		dup2(exec->out, STDOUT_FILENO);
-	i = 0;
-	while (i < exec->nb_pipe)
 	{
-		close(exec->pipe_fds[i][0]);
-		close(exec->pipe_fds[i][1]);
-		i++;
+		dup2(exec->in, STDIN_FILENO);
+		close(exec->in);
 	}
+	if (exec->out != STDOUT_FILENO)
+	{
+		dup2(exec->out, STDOUT_FILENO);
+		close(exec->out);
+	}
+}
+
+void	reset_io(t_exec *exec)
+{
+	dup2(exec->saved_stdin, STDIN_FILENO);
+	dup2(exec->saved_stdout, STDOUT_FILENO);
+	close(exec->saved_stdin);
+	close(exec->saved_stdout);
 }

@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/05 22:44:07 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/07 13:05:39 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,27 @@ static int	is_builtin(const char *prog)
 static unsigned char	launch_builtin(
 	char *const *args,
 	t_list *env,
-	int last_status)
+	int last_status,
+	t_exec *exec)
 {
+	unsigned char	status;
+
 	if (ft_strcmp(args[0], "cd") == 0)
-		return (cd(args[1]));
+		status = cd(args[1]);
 	else if (ft_strcmp(args[0], "pwd") == 0)
-		return (pwd());
+		status = pwd();
 	else if (ft_strcmp(args[0], "echo") == 0)
-		return (echo(args));
+		status = echo(args);
 	else if (ft_strcmp(args[0], "env") == 0)
-		return (env_builtin(env));
+		status = env_builtin(env);
 	else if (ft_strcmp(args[0], "export") == 0)
-		return (export(args, &env));
+		status = export(args, &env);
 	else if (ft_strcmp(args[0], "unset") == 0)
-		return (unset(args, &env));
+		status = unset(args, &env);
 	else
-		return (exit_builtin(args, last_status));
+		status = exit_builtin(args, last_status);
+	reset_io(exec);
+	return (status);
 }
 
 int	execute(char *const *args, t_exec *exec)
@@ -82,13 +87,14 @@ int	execute(char *const *args, t_exec *exec)
 	char	**strs_env;
 	char	*full_path;
 
+	redirect_io(exec);
 	if (is_builtin(args[0]))
-		return (launch_builtin(args, exec->env, exec->status));
+		return (launch_builtin(args, exec->env, exec->status, exec));
 	strs_env = env_to_strs(exec->env);
 	exec->pids[exec->nb_ps] = fork();
 	if (exec->pids[exec->nb_ps++] == 0)
 	{
-		redirect_io(exec);
+		// maybe close the unused pipe end
 		if (ft_starts_with(args[0], "/") || ft_starts_with(args[0], "./"))
 			full_path = args[0];
 		else
@@ -98,6 +104,7 @@ int	execute(char *const *args, t_exec *exec)
 		free(strs_env);
 		exit(127);
 	}
+	reset_io(exec);
 	free(strs_env);
 	return (exec->status);
 }
