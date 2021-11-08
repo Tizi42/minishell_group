@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 13:26:37 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/08 13:30:38 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/08 17:13:30 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 int	open_error(const char *file)
 {
 	perror(file);
-	return (1);
+	return (0);
 }
