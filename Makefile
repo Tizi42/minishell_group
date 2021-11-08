@@ -3,9 +3,9 @@ CC		=	gcc
 CFLAGS	=	-Wall -Werror -Wextra -g
 OBJ_DIR	=	obj/
 SRC_DIR	=	src/
-SRCS	+=	main.c error.c tool.c
+SRCS	+=	main.c error.c error2.c tool.c
 SRCS	+=	parser/parse.c parser/parse2.c parser/tool_parse.c parser/tool_parse2.c parser/tool_parse_split.c parser/tool_token.c parser/tool_tknlst.c  parser/tool_str.c
-SRCS	+=	executer/execute.c executer/path_search.c executer/io.c
+SRCS	+=	executer/execute.c executer/path_search.c executer/io.c executer/io2.c
 SRCS	+=	builtins/builtins.c builtins/builtins2.c builtins/unset.c
 OBJS    =	$(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 LIBS	=	-lreadline -Llibft -lft

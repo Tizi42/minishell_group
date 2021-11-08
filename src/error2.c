@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   error2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/18 13:22:39 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/08 13:28:11 by jkromer          ###   ########.fr       */
+/*   Created: 2021/11/08 13:26:37 by jkromer           #+#    #+#             */
+/*   Updated: 2021/11/08 17:13:30 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#include "minishell.h"
 
-void	print_error(const char *prog, const char *arg);
-void	export_error(const char *arg);
-void	exit_error(const char *arg);
-void	execute_error(const char *arg);
-int		open_error(const char *file);
-
-#endif
+int	open_error(const char *file)
+{
+	perror(file);
+	return (0);
+}
