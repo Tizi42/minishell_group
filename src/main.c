@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/07 13:00:20 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/08 16:22:34 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	{
 		exec->saved_stdin = dup(STDIN_FILENO);
 		exec->saved_stdout = dup(STDOUT_FILENO);
-		set_io(cml, exec, i);
+		if (!set_io(cml, exec, i))
+			return ;
 		exec->status = execute(cml[i].argv, exec);
 		j = 0;
 		while (j < exec->nb_ps)
@@ -50,7 +51,7 @@ int	main(
 		line = readline("msh$ ");
 		if (!line)
 			exit_builtin(NULL, exec.status);
-		cml = parse(line);  // parse(line, env, exec.status);
+		cml = parse(line); // parse(line, env, exec.status);
 		execute_loop(cml, &exec);
 		free(line);
 	}
