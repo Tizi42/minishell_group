@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 12:36:42 by jkromer           #+#    #+#             */
-/*   Updated: 2021/10/23 20:01:08 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/09 17:02:27 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,27 @@ static int	match_name(const char *name, char *var)
 			return (0);
 		i++;
 	}
+	if (name[i] == '=' && var[i] == '=')
+		return (2);
 	return (!name[i] && var[i] == '=');
+}
+
+int	is_in_env(const char *arg, t_list **env)
+{
+	t_list	*cur;
+
+	cur = *env;
+	while (cur)
+	{
+		if (match_name(arg, cur->c) == 2)
+		{
+			free(cur->c);
+			cur->c = ft_strdup(arg);
+			return (1);
+		}
+		cur = cur->n;
+	}
+	return (0);
 }
 
 static void	delete_var(t_list **env, const char *var)
@@ -67,6 +87,8 @@ unsigned char	unset(char *const *args, t_list **env)
 			{
 				tmp = cur->n;
 				delete_var(env, cur->c);
+				if (!tmp)
+					return (0);
 				cur = tmp;
 			}
 			i++;

@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:08 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/03 11:01:42 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/09 17:17:25 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_cml	*parse(char *line)
 	n = 0;
 	while (cmls[n].line)
 	{
+		cmls[n].lst_redi = NULL;
+		cmls[n].lst_token = NULL;
 		set_token(&cmls[n]);
 		tknlstiter(cmls[n].lst_token, &variable_expansion);
 		tknlstiter(cmls[n].lst_token, &quote_removal);
