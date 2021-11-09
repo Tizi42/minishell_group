@@ -38,7 +38,7 @@ char	*combine_strings(char **tabs)
 	*newl = '\0';
 	j = 0;
 	while (tabs[j])
-		ft_strlcat(newl, tabs[j++], len);
+		ft_strlcat(newl, tabs[j++], len + 1);
 	return (newl);
 }
 
