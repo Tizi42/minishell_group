@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 12:36:42 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/09 17:02:27 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/09 20:23:21 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ unsigned char	unset(char *const *args, t_list **env)
 		i = 1;
 		while (args[i])
 		{
-			if (match_name(args[i], cur->c))
+			if (match_name(args[i], cur->c) == 1)
 			{
 				tmp = cur->n;
 				delete_var(env, cur->c);

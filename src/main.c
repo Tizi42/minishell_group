@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/09 19:06:15 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/09 20:07:37 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ int	main(
 	{
 		line = readline("msh$ ");
 		if (!line)
-		{
-			free(cml);
 			exit_builtin(NULL, exec.status);
-		}
 		if (*line)
 			add_history(line);
 		cml = parse(line); // parse(line, exec);
