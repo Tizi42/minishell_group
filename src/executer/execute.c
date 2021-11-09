@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/07 13:05:39 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/09 17:03:52 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_list	*init_env(char **envp)
 	i = 1;
 	while (envp[i])
 	{
-		ft_lstadd_back(&env, ft_lstnew(envp[i]));
+		ft_lstadd_back(&env, ft_lstnew(ft_strdup(envp[i])));
 		i++;
 	}
 	return (env);

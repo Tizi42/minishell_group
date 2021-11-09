@@ -6,12 +6,11 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 16:46:40 by jkromer           #+#    #+#             */
-/*   Updated: 2021/10/27 19:57:38 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/09 16:45:53 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "error.h"
+#include "minishell.h"
 
 static int	is_valid(char *name)
 {
@@ -40,7 +39,12 @@ unsigned char	export(char *const *args, t_list **env)
 			return (1);
 		}
 		if (ft_contains(args[i], '='))
-			ft_lstadd_back(env, ft_lstnew(args[i]));
+		{
+			if (is_in_env(args[i], env))
+				;
+			else
+				ft_lstadd_back(env, ft_lstnew(args[i]));
+		}
 		i++;
 	}
 	return (0);
