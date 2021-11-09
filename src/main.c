@@ -44,7 +44,6 @@ int	main(
 	t_cml	*cml;
 	t_exec	exec;
 
-	using_history();
 	exec.status = 0;
 	exec.env = init_env(envp);
 	while (isatty(STDIN_FILENO))
@@ -52,7 +51,8 @@ int	main(
 		line = readline("msh$ ");
 		if (!line)
 			exit_builtin(NULL, exec.status);
-		add_history(line);
+		if (*line)
+			add_history(line);
 		cml = parse(line); // parse(line, env, exec.status);
 		free(line);
 		execute_loop(cml, &exec);
