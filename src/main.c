@@ -54,9 +54,9 @@ int	main(
 		if (*line)
 			add_history(line);
 		cml = parse(line); // parse(line, env, exec.status);
+		if (cml)
+			execute_loop(cml, &exec); //free(cml);
 		free(line);
-		execute_loop(cml, &exec);
-		free(cml);
 	}
 	ft_lstclear(&exec.env);
 }

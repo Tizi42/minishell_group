@@ -13,10 +13,14 @@
 #ifndef ERROR_H
 # define ERROR_H
 
+/* error.c */
 void	print_error(const char *prog, const char *arg);
 void	export_error(const char *arg);
 void	exit_error(const char *arg);
 void	execute_error(const char *arg);
+
+/* error2.c */
 int		open_error(const char *file);
+void	syntax_error(const char *arg);
 
 #endif

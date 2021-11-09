@@ -32,8 +32,8 @@ void	variable_expansion(t_token *tok)
 	str_idx_split(tok->quoted, start, end, tab_q);
 	ret = expand(tabs, tab_q);
 	chang_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
-	//cleanup(tabs, (char *)start);
-	//cleanup(tab_q, (char *)end);
+	cleanup(tabs, (char *)start);
+	cleanup(tab_q, (char *)end);
 }
 
 int	locate_vars_to_expand(t_token *tok, int *start, int *end)

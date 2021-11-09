@@ -18,9 +18,9 @@ t_cml	*parse(char *line)
 	t_cml	*cmls;
 	int		n;
 
+	if (!check_syntax(line))
+		return (NULL);
 	cmls = parse_pipe(line);
-	cmls->lst_redi = NULL;
-	cmls->lst_token = NULL;
 	n = 0;
 	while (cmls[n].line)
 	{
@@ -49,6 +49,7 @@ t_cml	*parse_pipe(char *line)
 
 	cml_tab = jump_quotes_ft_split(line, set_quoted_bits(line), '|');
 	cmls = v_malloc(sizeof(t_cml) * (amount_of_cmls(cml_tab) + 1));
+	init_cml(cmls);
 	n = 0;
 	while (cml_tab[n])
 	{
@@ -56,7 +57,7 @@ t_cml	*parse_pipe(char *line)
 		n++;
 	}
 	cmls[n].line = NULL;
-	//free_split(cml_tab);
+	free_split(cml_tab);
 	return (cmls);
 }
 
@@ -82,7 +83,7 @@ void	set_token(t_cml *cml)
 		tabs++;
 	}
 	free(quoted);
-	//cleanup(tabs, line);
+	free(line);
 }
 
 /*

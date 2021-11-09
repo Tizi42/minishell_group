@@ -54,3 +54,43 @@ char	*sh_strjoin(char const *s1, char const *s2)
 	a[t1 + t2] = '\0';
 	return (a);
 }
+
+int	str_start_with(const char *line, char c)
+{
+	while (*line && *line == ' ')
+		line++;
+	if (*line == c)
+		return (1);
+	else
+		return (0);
+}
+
+int	str_end_with(const char *line, char c)
+{
+	int	n;
+
+	n = ft_strlen(line) - 1;
+	while (n > 0 && line[n] == ' ')
+		n--;
+	if (line[n] == c)
+		return (1);
+	else
+		return (0);
+}
+
+int	str_empty_between(const char *line, char c)
+{
+	while (*line)
+	{
+		if (*line == c)
+		{
+			line++;
+			while (*line == ' ')
+				line++;
+			if (*line == c)
+				return (1);
+		}
+		line++;
+	}
+	return (0);
+}

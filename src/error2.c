@@ -17,3 +17,10 @@ int	open_error(const char *file)
 	perror(file);
 	return (0);
 }
+
+void	syntax_error(const char *arg)
+{
+	write(2, "Syntax error: ", 14);
+	write(2, arg, ft_strlen(arg));
+	write(2, "\n", 1);
+}
