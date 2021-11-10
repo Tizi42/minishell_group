@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:03:44 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/03 09:04:13 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/10 14:40:44 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_env_value(char *key, t_exec exec)
 	while (cur)
 	{
 		if (match_name(key, cur->c) == 1)
-			return(ft_strdup(&cur->c[ft_strlen(key) + 1]));
+			return(ft_strdup(ft_strchr(cur->c, '=') + 1));
 		cur = cur->n;
 	}
 	return (ft_strdup(NULL));

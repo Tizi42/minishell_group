@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:08 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/09 17:17:25 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/10 14:34:28 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	quote_removal(t_token *tok, t_exec *exec)
 	int		i;
 	int		j;
 
-	exec = NULL;
+	(void)exec;
 	if (!tok->word)
 		return ;
 	tmp = ft_strdup(tok->word);
