@@ -67,5 +67,6 @@ typedef struct s_exec
 /* tool.c */
 void	*v_malloc(size_t size);
 void	cleanup(char **paths, char *new_prog);
+char	*get_env_value(char *key, t_exec exec);
 
 #endif

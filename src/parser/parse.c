@@ -121,12 +121,13 @@ void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 	}
 }
 
-void	quote_removal(t_token *tok)
+void	quote_removal(t_token *tok, t_exec *exec)
 {
 	char	*tmp;
 	int		i;
 	int		j;
 
+	exec = NULL;
 	if (!tok->word)
 		return ;
 	tmp = ft_strdup(tok->word);

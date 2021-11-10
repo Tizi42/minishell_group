@@ -29,7 +29,7 @@ t_cml		*parse(char *line, t_exec exec);
 t_cml		*parse_pipe(char *line);
 void		set_token(t_cml *cml);
 void		parse_redirection(t_tknlst **lst, char **l, char **quoted);
-void		quote_removal(t_token *tok);
+void		quote_removal(t_token *tok, t_exec *);
 
 /* parse2.c */
 void		variable_expansion(t_token *tok, t_exec *exec);
@@ -73,7 +73,7 @@ int			str_empty_between(const char *line, char c);
 
 /* tool_tknlst.c */
 t_tknlst	*tknlstnew(void *tkn);
-void		tknlstiter(t_tknlst *lst, void *op, void (*f)(t_token *, void *op));
+void		tknlstiter(t_tknlst *lst, t_exec *op, void (*f)(t_token *, t_exec *));
 void		tknlstadd_back(t_tknlst **alst, t_tknlst *new);
 t_tknlst	*tknlstlast(t_tknlst *lst);
 int			tknlstsize(t_tknlst *lst);

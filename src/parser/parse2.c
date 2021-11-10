@@ -63,22 +63,6 @@ int	locate_vars_to_expand(t_token *tok, int *start, int *end)
 	return (n);
 }
 
-char *get_env_value(char *key, t_exec exec)
-{
-	t_list	*cur;
-
-	if (*key == '?')
-		return (ft_itoa(exec.status));
-	cur = exec.env;
-	while (cur)
-	{
-		if (match_name(key, cur->c) == 1)
-			return(ft_strdup(&cur->c[ft_strlen(key) + 1]));
-		cur = cur->n;
-	}
-	return (ft_strdup(NULL));
-}
-
 int	expand(char **tabs, char **tab_q, t_exec exec)
 {
 	char	*tmp;

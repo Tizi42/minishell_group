@@ -22,11 +22,11 @@ t_tknlst	*tknlstnew(void *tkn)
 	return (new);
 }
 
-void	tknlstiter(t_tknlst *lst, void *optional, void (*f)(t_token *, void *op))
+void	tknlstiter(t_tknlst *lst, t_exec *optnl, void (*f)(t_token *, t_exec *op))
 {
 	while (lst)
 	{
-		(*f)(lst->tkn, optional);
+		(*f)(lst->tkn, optnl);
 		lst = lst->next;
 	}
 }
