@@ -68,5 +68,6 @@ typedef struct s_exec
 void	*v_malloc(size_t size);
 void	cleanup(char **paths, char *new_prog);
 char	*get_env_value(char *key, t_exec exec);
+int 	str_contains_set(const char *str, const char *set);
 
 #endif

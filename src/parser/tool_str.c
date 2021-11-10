@@ -77,20 +77,3 @@ int	str_end_with(const char *line, char c)
 	else
 		return (0);
 }
-
-int	str_empty_between(const char *line, char c)
-{
-	while (*line)
-	{
-		if (*line == c)
-		{
-			line++;
-			while (*line == ' ')
-				line++;
-			if (*line == c)
-				return (1);
-		}
-		line++;
-	}
-	return (0);
-}

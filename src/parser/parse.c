@@ -90,7 +90,6 @@ void	set_token(t_cml *cml)
 * ct[0]: current char
 * ct[1]: beinning of redirection operator
 * ct[2]: beginning of path
-* //need to make sure in syntax check that the line doest end with < > >>
 */
 void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 {
