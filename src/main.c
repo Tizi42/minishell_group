@@ -53,9 +53,9 @@ int	main(
 			exit_builtin(NULL, exec.status);
 		if (*line)
 			add_history(line);
-		cml = parse(line); // parse(line, exec);
+		cml = parse(line, exec);
 		if (cml)
-			execute_loop(cml, &exec); //free(cml);
+			execute_loop(cml, &exec); //free cml at the end of execute_loop()
 		free(line);
 	}
 	free(cml);

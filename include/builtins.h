@@ -20,6 +20,7 @@ unsigned char	exit_builtin(char *const *args,	unsigned char last);
 unsigned char	export(char *const *args, t_list **env);
 unsigned char	unset(char *const *args, t_list **env);
 unsigned char	env_builtin(const t_list *env);
+int				match_name(const char *name, char *var);
 int				is_in_env(const char *arg, t_list **env);
 
 #endif

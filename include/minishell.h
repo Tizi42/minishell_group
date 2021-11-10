@@ -22,8 +22,43 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <fcntl.h>
-
 # include "libft.h"
+
+typedef struct s_token
+{
+	int		type;
+	char	*word;
+	char	*quoted;
+}			t_token;
+
+typedef struct s_tknlst
+{
+	t_token			*tkn;
+	struct s_tknlst	*next;
+}					t_tknlst;
+
+typedef struct s_cml
+{
+	char		*line;
+	t_tknlst	*lst_token;
+	t_tknlst	*lst_redi;
+	char		**argv;
+}				t_cml;
+
+typedef struct s_exec
+{
+	int		in;
+	int		out;
+	int		status;
+	t_list	*env;
+	pid_t	pids[256]; // maybe linked list ?
+	int		pipe_fds[2][2];
+	int		nb_ps;
+	int		nb_pipe;
+	int		saved_stdin;
+	int		saved_stdout;
+}			t_exec;
+
 # include "parse.h"
 # include "execute.h"
 # include "builtins.h"

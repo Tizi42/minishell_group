@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /* err msg: ambiguous redirect.*/
-t_cml	*parse(char *line)
+t_cml	*parse(char *line, t_exec exec)
 {
 	t_cml	*cmls;
 	int		n;
@@ -24,17 +24,15 @@ t_cml	*parse(char *line)
 	n = 0;
 	while (cmls[n].line)
 	{
-		cmls[n].lst_redi = NULL;
-		cmls[n].lst_token = NULL;
 		set_token(&cmls[n]);
-		tknlstiter(cmls[n].lst_token, &variable_expansion);
-		tknlstiter(cmls[n].lst_token, &quote_removal);
+		tknlstiter(cmls[n].lst_token, &exec, &variable_expansion);
+		tknlstiter(cmls[n].lst_token, NULL, &quote_removal);
 		var_space_splitting(cmls[n].lst_token);
 		set_argv(&cmls[n]);
 		if (cmls[n].lst_redi)
 		{
-			tknlstiter(cmls[n].lst_redi, &variable_expansion);
-			tknlstiter(cmls[n].lst_redi, &quote_removal);
+			tknlstiter(cmls[n].lst_redi, &exec, &variable_expansion);
+			tknlstiter(cmls[n].lst_redi, NULL, &quote_removal);
 			if (if_unquoted_space(cmls[n].lst_redi))
 				exit (0);
 		}
@@ -51,14 +49,14 @@ t_cml	*parse_pipe(char *line)
 
 	cml_tab = jump_quotes_ft_split(line, set_quoted_bits(line), '|');
 	cmls = v_malloc(sizeof(t_cml) * (amount_of_cmls(cml_tab) + 1));
-	init_cml(cmls);
 	n = 0;
 	while (cml_tab[n])
 	{
+		init_cml(&cmls[n]);
 		cmls[n].line = ft_strdup(cml_tab[n]);
 		n++;
 	}
-	cmls[n].line = NULL;
+	init_cml(&cmls[n]);
 	free_split(cml_tab);
 	return (cmls);
 }

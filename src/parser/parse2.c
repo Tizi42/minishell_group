@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	variable_expansion(t_token *tok)
+void	variable_expansion(t_token *tok, t_exec *exec)
 {
 	char	**tabs;
 	char	**tab_q;
@@ -30,7 +30,7 @@ void	variable_expansion(t_token *tok)
 	locate_vars_to_expand(tok, start, end);
 	str_idx_split(tok->word, start, end, tabs);
 	str_idx_split(tok->quoted, start, end, tab_q);
-	ret = expand(tabs, tab_q);
+	ret = expand(tabs, tab_q, *exec);
 	chang_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
 	cleanup(tabs, (char *)start);
 	cleanup(tab_q, (char *)end);
@@ -48,10 +48,14 @@ int	locate_vars_to_expand(t_token *tok, int *start, int *end)
 		if (tok->word[i] == '$' && tok->quoted[i] != SINGLE_QUOTED)
 		{
 			start[n] = i++;
-			while (tok->word[i] && tok->word[i] != ' ' && tok->word[i] != '\''
-				&& tok->word[i] != '"' && tok->word[i] != '$')
-				i++;
-			end[n++] = --i;
+			if (tok->word[i] == '?')
+				end[n++] = i;
+			else
+			{
+				while (tok->word[i] && (ft_isalnum(tok->word[i]) || tok->word[i] == '_'))
+					i++;
+				end[n++] = --i;
+			}
 		}
 		i++;
 	}
@@ -59,7 +63,23 @@ int	locate_vars_to_expand(t_token *tok, int *start, int *end)
 	return (n);
 }
 
-int	expand(char **tabs, char **tab_q)
+char *get_env_value(char *key, t_exec exec)
+{
+	t_list	*cur;
+
+	if (*key == '?')
+		return (ft_itoa(exec.status));
+	cur = exec.env;
+	while (cur)
+	{
+		if (match_name(key, cur->c) == 1)
+			return(ft_strdup(&cur->c[ft_strlen(key) + 1]));
+		cur = cur->n;
+	}
+	return (ft_strdup(NULL));
+}
+
+int	expand(char **tabs, char **tab_q, t_exec exec)
 {
 	char	*tmp;
 	int		i;
@@ -72,7 +92,7 @@ int	expand(char **tabs, char **tab_q)
 		if (tabs[i][0] == '$')
 		{
 			tmp = tabs[i];
-			tabs[i] = ft_strdup(getenv(&tabs[i][1]));
+			tabs[i] = get_env_value(&tabs[i][1], exec);
 			free(tmp);
 			tmp = tab_q[i];
 			tab_q[i] = quoted_bit_reset(tabs[i], tab_q[i][0], &type);

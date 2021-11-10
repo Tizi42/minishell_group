@@ -13,20 +13,6 @@
 #ifndef EXECUTE_H
 # define EXECUTE_H
 
-typedef struct s_exec
-{
-	int		in;
-	int		out;
-	int		status;
-	t_list	*env;
-	pid_t	pids[256]; // maybe linked list ?
-	int		pipe_fds[2][2];
-	int		nb_ps;
-	int		nb_pipe;
-	int		saved_stdin;
-	int		saved_stdout;
-}			t_exec;
-
 t_list	*init_env(char **envp);
 int		execute(char *const *args, t_exec *exec);
 char	*search_path(const char *prog);

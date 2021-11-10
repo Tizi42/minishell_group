@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int	match_name(const char *name, char *var)
+int	match_name(const char *name, char *var)
 {
 	int	i;
 

@@ -24,38 +24,17 @@
 # define LESS 3
 # define UNQUOTED_SPACE 4
 
-typedef struct s_token
-{
-	int		type;
-	char	*word;
-	char	*quoted;
-}			t_token;
-
-typedef struct s_tknlst
-{
-	t_token			*tkn;
-	struct s_tknlst	*next;
-}					t_tknlst;
-
-typedef struct s_cml
-{
-	char		*line;
-	t_tknlst	*lst_token;
-	t_tknlst	*lst_redi;
-	char		**argv;
-}				t_cml;
-
 /* parse.c */
-t_cml		*parse(char *line);
+t_cml		*parse(char *line, t_exec exec);
 t_cml		*parse_pipe(char *line);
 void		set_token(t_cml *cml);
 void		parse_redirection(t_tknlst **lst, char **l, char **quoted);
 void		quote_removal(t_token *tok);
 
 /* parse2.c */
-void		variable_expansion(t_token *tok);
+void		variable_expansion(t_token *tok, t_exec *exec);
 int			locate_vars_to_expand(t_token *tok, int *start, int *end);
-int			expand(char **tabs, char **tab_q);
+int			expand(char **tabs, char **tab_q, t_exec exec);
 void		var_space_splitting(t_tknlst	*lst_token);
 void		set_argv(t_cml *cml);
 
@@ -94,7 +73,7 @@ int			str_empty_between(const char *line, char c);
 
 /* tool_tknlst.c */
 t_tknlst	*tknlstnew(void *tkn);
-void		tknlstiter(t_tknlst *lst, void (*f)(t_token *));
+void		tknlstiter(t_tknlst *lst, void *op, void (*f)(t_token *, void *op));
 void		tknlstadd_back(t_tknlst **alst, t_tknlst *new);
 t_tknlst	*tknlstlast(t_tknlst *lst);
 int			tknlstsize(t_tknlst *lst);
