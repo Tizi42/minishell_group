@@ -33,4 +33,6 @@ void	set_input_file(t_cml *cml, t_exec *exec, int i)
 	if (exec->in != STDIN_FILENO)
 		close(exec->in);
 	exec->in = open(cml[i].lst_redi->tkn->word, O_RDONLY);
+	if (cml[i].lst_redi->tkn->type == HEREDOC)
+		unlink(cml[i].lst_redi->tkn->word);
 }

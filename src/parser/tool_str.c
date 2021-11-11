@@ -77,3 +77,14 @@ int	str_end_with(const char *line, char c)
 	else
 		return (0);
 }
+
+char	*str_quote_removal(char *str)
+{
+	t_token *tok;
+
+	tok = new_token(WORD, str, set_quoted_bits(str));
+	quote_removal(tok, NULL);
+	free(tok->quoted);
+	free(tok);
+	return (tok->word);
+}

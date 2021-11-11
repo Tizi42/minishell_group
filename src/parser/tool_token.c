@@ -91,6 +91,10 @@ int	typeof_redi(char *line)
 		return (GREAT);
 	}
 	if (*line == '<')
+	{
+		if (*(line + 1) == '<')
+			return (HEREDOC);
 		return (LESS);
+	}
 	return (-1);
 }

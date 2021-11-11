@@ -23,6 +23,7 @@
 # define DGREAT 2
 # define LESS 3
 # define UNQUOTED_SPACE 4
+# define HEREDOC 5
 
 /* parse.c */
 t_cml		*parse(char *line, t_exec exec);
@@ -49,6 +50,7 @@ int			amount_of_cmls(char **cml_tab);
 int			if_unquoted_space(t_tknlst *lst);
 char		*quoted_bit_reset(char *line, char c, int *type);
 void		init_cml(t_cml *cmls);
+void		set_heredoc_path(t_cml *cmls);
 
 /* tool_token.c */
 t_token		*new_token(int type, char *nword, char *nquo);
@@ -67,6 +69,7 @@ char		*sh_substr(char const *s, unsigned int start, size_t len);
 char		*sh_strjoin(char const *s1, char const *s2);
 int			str_start_with(const char *line, char c);
 int			str_end_with(const char *line, char c);
+char		*str_quote_removal(char *str);
 
 /* tool_tknlst.c */
 t_tknlst	*tknlstnew(void *tkn);
@@ -77,6 +80,14 @@ t_tknlst	*tknlstlast(t_tknlst *lst);
 int			tknlstsize(t_tknlst *lst);
 
 /* tool_syntax.c */
-int			check_syntax(char *line);
+int			check_syntax(char *line, t_exec exec);
+int			unclosed_quot_mrks(char *line, char **p);
+
+/* heredoc.c */
+char	*available_heredoc_name(void);
+char	*str_variable_expansion(char *line, t_exec exec);
+void	str_expand(char **tabs, t_exec exec);
+void	creat_here_doc(char *delim, int expand, t_exec exec);
+char	*check_here_doc(char *operator, char *line, t_exec exec);
 
 #endif

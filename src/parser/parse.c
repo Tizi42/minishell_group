@@ -18,7 +18,7 @@ t_cml	*parse(char *line, t_exec exec)
 	t_cml	*cmls;
 	int		n;
 
-	if (!check_syntax(line))
+	if (!check_syntax(line, exec))
 		return (NULL);
 	cmls = parse_pipe(line);
 	n = 0;
@@ -38,6 +38,7 @@ t_cml	*parse(char *line, t_exec exec)
 		}
 		n++;
 	}
+	set_heredoc_path(cmls);
 	return (cmls);
 }
 
@@ -101,7 +102,7 @@ void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 		if (((*l)[ct[0]] == '>' || (*l)[ct[0]] == '<') && (*q)[ct[0]] == NQ)
 		{
 			ct[1] = ct[0]++;
-			if ((*l)[ct[0]] == '>')
+			if ((*l)[ct[0]] == '>' || (*l)[ct[0]] == '<')
 				ct[0]++;
 			while ((*l)[ct[0]] == ' ')
 				ct[0]++;
