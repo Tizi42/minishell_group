@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/10 18:40:45 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 11:41:52 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,14 @@ int	execute(char *const *args, t_exec *exec)
 		return (launch_builtin(args, exec->env, exec->status, exec));
 	strs_env = env_to_strs(exec->env);
 	exec->pids[exec->nb_ps] = fork();
+	g_sig.pid = exec->pids[exec->nb_ps];
 	if (exec->pids[exec->nb_ps++] == 0)
 	{
-		init_signals_child();
 		// maybe close the unused pipe end
 		if (ft_starts_with(args[0], "/") || ft_starts_with(args[0], "./"))
 			full_path = args[0];
 		else
-			full_path = search_path(args[0]);
+			full_path = search_path(args[0], exec->env);
 		execve(full_path, args, strs_env);
 		execute_error(args[0]);
 		free(strs_env);

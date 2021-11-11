@@ -6,17 +6,20 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 09:46:36 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 11:31:37 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+struct s_sig	g_sig;
 
 static void	execute_loop(t_cml *cml, t_exec *exec)
 {
 	int	i;
 	int	j;
 
+	reset_quit_handler();
 	exec->nb_ps = 0;
 	exec->nb_pipe = 0;
 	i = 0;
@@ -34,6 +37,8 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 			waitpid(exec->pids[j++], &exec->status, 0);
 		i++;
 	}
+	g_sig.pid = 0;
+	init_signals();
 	free(cml);
 }
 
@@ -49,7 +54,9 @@ int	main(
 
 	exec.status = 0;
 	exec.env = init_env(envp);
-	init_signals_main();
+	g_sig.pid = 0;
+	g_sig.status = &exec.status;
+	init_signals();
 	while (isatty(STDIN_FILENO))
 	{
 		line = readline("msh$ ");
@@ -62,6 +69,6 @@ int	main(
 			execute_loop(cml, &exec);
 		free(line);
 	}
-	ft_lstclear(&exec.env);
+	ft_lstclear(exec.env);
 	exit_builtin(NULL, exec.status);
 }
