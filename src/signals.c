@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 17:43:34 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 11:27:28 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 13:45:30 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,20 @@ static void	term_handler(int s)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		*g_sig.status = 130;
 	}
 	else
 		ft_putchar('\n');
+	*g_sig.status = 130;
 }
 
 static void	quit_handler(int s)
 {
 	(void)s;
 	if (g_sig.pid != 0)
+	{
 		ft_puts("Quit");
+		*g_sig.status = 131;
+	}
 }
 
 void init_signals(void)

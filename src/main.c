@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 12:38:53 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 13:37:28 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static void	wait_processes(t_exec *exec)
 	while (i < exec->nb_ps)
 	{
 		waitpid(exec->pids[i], &exec->status, 0);
+		if (WIFSIGNALED(exec->status))
+			exec->status = WTERMSIG(exec->status) + 128;
 		if (WIFEXITED(exec->status))
 			exec->status = WEXITSTATUS(exec->status);
-		printf("STATUS: %d\n", exec->status);
 		i++;
 	}
 }
@@ -82,5 +83,5 @@ int	main(
 		free(line);
 	}
 	ft_lstclear(exec.env);
-	exit_builtin(NULL, exec.status);
+	return (exec.status);
 }
