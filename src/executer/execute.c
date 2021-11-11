@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/09 17:03:52 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/10 18:40:45 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	execute(char *const *args, t_exec *exec)
 	exec->pids[exec->nb_ps] = fork();
 	if (exec->pids[exec->nb_ps++] == 0)
 	{
+		init_signals_child();
 		// maybe close the unused pipe end
 		if (ft_starts_with(args[0], "/") || ft_starts_with(args[0], "./"))
 			full_path = args[0];

@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 15:42:05 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/08 11:46:36 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/10 17:46:46 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ typedef struct s_exec
 void	*v_malloc(size_t size);
 void	cleanup(char **paths, char *new_prog);
 char	*get_env_value(char *key, t_exec exec);
+void	init_signals_child(void);
+void	init_signals_main(void);
 
 #endif

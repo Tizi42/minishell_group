@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/09 20:07:37 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/10 17:44:31 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 			waitpid(exec->pids[j++], &exec->status, 0);
 		i++;
 	}
+	free(cml);
 }
 
 int	main(
@@ -46,18 +47,19 @@ int	main(
 
 	exec.status = 0;
 	exec.env = init_env(envp);
+	init_signals_main();
 	while (isatty(STDIN_FILENO))
 	{
 		line = readline("msh$ ");
 		if (!line)
-			exit_builtin(NULL, exec.status);
+			break ;
 		if (*line)
 			add_history(line);
 		cml = parse(line, exec);
 		if (cml)
-			execute_loop(cml, &exec); //free cml at the end of execute_loop()
+			execute_loop(cml, &exec);
 		free(line);
 	}
-	free(cml);
 	ft_lstclear(&exec.env);
+	exit_builtin(NULL, exec.status);
 }
