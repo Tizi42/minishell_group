@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 15:42:05 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/11 09:28:20 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 11:26:08 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,20 @@ typedef struct s_exec
 # include "builtins.h"
 # include "error.h"
 
+struct s_sig
+{
+	pid_t	pid;
+	int		*status;
+};
+
 /* tool.c */
 void	*v_malloc(size_t size);
 void	cleanup(char **paths, char *new_prog);
 char	*get_env_value(char *key, t_exec exec);
-void	init_signals_child(void);
-void	init_signals_main(void);
+void	init_signals(void);
+void	reset_quit_handler(void);
 int 	str_contains_set(const char *str, const char *set);
+
+extern struct s_sig	g_sig;
 
 #endif

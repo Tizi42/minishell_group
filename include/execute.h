@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:00:08 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/08 17:03:22 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 11:41:08 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define EXECUTE_H
 
 t_list	*init_env(char **envp);
+char	*search_path(const char *prog, t_list *env);
 int		execute(char *const *args, t_exec *exec);
-char	*search_path(const char *prog);
 int		set_io(t_cml *cml, t_exec *exec, int i);
 void	redirect_io(t_exec *exec);
 void	reset_io(t_exec *exec);

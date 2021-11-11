@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 11:57:20 by jkromer           #+#    #+#             */
-/*   Updated: 2021/06/19 11:52:15 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 11:32:21 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *))
 		new = ft_lstnew(f(cur->c));
 		if (!new)
 		{
-			ft_lstclear(&new_lst);
+			ft_lstclear(new_lst);
 			return (NULL);
 		}
 		ft_lstadd_back(&new_lst, new);
