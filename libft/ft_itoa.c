@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 14:47:45 by jkromer           #+#    #+#             */
-/*   Updated: 2021/01/15 18:39:16 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 13:05:27 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,20 @@
 static size_t	count_chars(long int n)
 {
 	size_t		size;
-	long int	nb;
 
-	nb = n;
-	size = 1;
-	while (nb)
+	size = 0;
+	if (n == 0)
+		return (1);
+	else if (n < 0)
 	{
 		size++;
-		nb /= 10;
+		n = -n;
 	}
-	if (n < 0)
+	while (n)
+	{
 		size++;
+		n /= 10;
+	}
 	return (size);
 }
 
@@ -41,7 +44,7 @@ char	*ft_itoa(int n)
 	nbr = malloc(sizeof(char) * (size + 1));
 	if (!nbr)
 		return (NULL);
-	if (n == 0)
+	if (nb == 0)
 		nbr[0] = '0';
 	i = size - 1;
 	if (nb < 0)

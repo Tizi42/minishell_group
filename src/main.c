@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 12:15:42 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 12:38:53 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,24 @@
 
 struct s_sig	g_sig;
 
+static void	wait_processes(t_exec *exec)
+{
+	int	i;
+
+	i = 0;
+	while (i < exec->nb_ps)
+	{
+		waitpid(exec->pids[i], &exec->status, 0);
+		if (WIFEXITED(exec->status))
+			exec->status = WEXITSTATUS(exec->status);
+		printf("STATUS: %d\n", exec->status);
+		i++;
+	}
+}
+
 static void	execute_loop(t_cml *cml, t_exec *exec)
 {
 	int	i;
-	int	j;
 
 	reset_quit_handler();
 	exec->nb_ps = 0;
@@ -32,9 +46,7 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 		if (!cml[i].lst_token->tkn->word)
 			return ;
 		exec->status = execute(cml[i].argv, exec);
-		j = 0;
-		while (j < exec->nb_ps)
-			waitpid(exec->pids[j++], &exec->status, 0);
+		wait_processes(exec);
 		i++;
 	}
 	g_sig.pid = 0;
