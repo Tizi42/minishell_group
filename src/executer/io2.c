@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 16:28:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/08 17:03:45 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 20:17:37 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,31 @@ void	set_input_file(t_cml *cml, t_exec *exec, int i)
 	if (exec->in != STDIN_FILENO)
 		close(exec->in);
 	exec->in = open(cml[i].lst_redi->tkn->word, O_RDONLY);
+}
+
+void	init_pipes(t_exec *exec)
+{
+	exec->pipe_fds[0][0] = -1;
+	exec->pipe_fds[0][1] = -1;
+	exec->pipe_fds[1][0] = -1;
+	exec->pipe_fds[1][1] = -1;
+}
+
+void	close_pipes(t_exec *exec)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i <= 1)
+	{
+		j = 0;
+		while (j <= 1)
+		{
+			if (exec->pipe_fds[i][j] != -1)
+				close(exec->pipe_fds[i][j]);
+			j++;
+		}
+		i++;
+	}
 }

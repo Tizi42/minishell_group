@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 15:42:05 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/11 13:57:58 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 19:22:58 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,52 +23,11 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include "libft.h"
-
-typedef struct s_token
-{
-	int		type;
-	char	*word;
-	char	*quoted;
-}			t_token;
-
-typedef struct s_tknlst
-{
-	t_token			*tkn;
-	struct s_tknlst	*next;
-}					t_tknlst;
-
-typedef struct s_cml
-{
-	char		*line;
-	t_tknlst	*lst_token;
-	t_tknlst	*lst_redi;
-	char		**argv;
-}				t_cml;
-
-typedef struct s_exec
-{
-	int		in;
-	int		out;
-	int		status;
-	t_list	*env;
-	pid_t	pids[256]; // maybe linked list ?
-	int		pipe_fds[2][2];
-	int		nb_ps;
-	int		nb_pipe;
-	int		saved_stdin;
-	int		saved_stdout;
-}			t_exec;
-
+# include "structs.h"
 # include "parse.h"
 # include "execute.h"
 # include "builtins.h"
 # include "error.h"
-
-struct s_sig
-{
-	pid_t	pid;
-	int		*status;
-};
 
 /* tool.c */
 void	*v_malloc(size_t size);

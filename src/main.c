@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 13:37:28 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 20:22:37 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ static void	wait_processes(t_exec *exec)
 	}
 }
 
+static void	init_pids(t_cml *cml, t_exec *exec)
+{
+	int	i;
+
+	i = 0;
+	while (cml[i].line)
+		i++;
+	exec->pids = malloc(sizeof(pid_t) * i);
+}
+
 static void	execute_loop(t_cml *cml, t_exec *exec)
 {
 	int	i;
@@ -37,14 +47,16 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	reset_quit_handler();
 	exec->nb_ps = 0;
 	exec->nb_pipe = 0;
+	init_pids(cml, exec);
+	init_pipes(exec);
+	if (!exec->pids)
+		return ;
 	i = 0;
 	while (cml[i].line)
 	{
 		exec->saved_stdin = dup(STDIN_FILENO);
 		exec->saved_stdout = dup(STDOUT_FILENO);
-		if (!set_io(cml, exec, i))
-			return ;
-		if (!cml[i].lst_token->tkn->word)
+		if (!set_io(cml, exec, i) || !cml[i].lst_token->tkn->word)
 			return ;
 		exec->status = execute(cml[i].argv, exec);
 		wait_processes(exec);
@@ -52,6 +64,7 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	}
 	g_sig.pid = 0;
 	init_signals();
+	free(exec->pids);
 	free(cml);
 }
 
@@ -82,6 +95,7 @@ int	main(
 			execute_loop(cml, &exec);
 		free(line);
 	}
+	ft_puts("exit");
 	ft_lstclear(exec.env);
 	return (exec.status);
 }
