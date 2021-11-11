@@ -40,7 +40,8 @@ static int	set_redir_io(t_cml *cml, t_exec *exec, int i)
 			set_trunc_file(cml, exec, i);
 		else if (cml[i].lst_redi->tkn->type == DGREAT)
 			set_append_file(cml, exec, i);
-		else if (cml[i].lst_redi->tkn->type == LESS)
+		else if (cml[i].lst_redi->tkn->type == LESS
+			|| cml[i].lst_redi->tkn->type == HEREDOC)
 		{
 			set_input_file(cml, exec, i);
 			if (exec->in == -1)

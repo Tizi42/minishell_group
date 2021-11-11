@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	unclosed_quot_mrks(char *line, char **p)
+int	unclosed_quot_mrks(char *line, char **p)
 {
 	char	mark;
 
@@ -31,8 +31,11 @@ static int	unclosed_quot_mrks(char *line, char **p)
 	return (0);
 }
 
-static int	if_redi_error(char *line, char **p)
+static int	if_redi_error(char *line, char **p, t_exec exec)
 {
+	char	*operator;
+
+	operator = line;
 	if (*line == '>' || *line == '<')
 	{
 		if (*(line + 1) == *line)
@@ -48,10 +51,12 @@ static int	if_redi_error(char *line, char **p)
 			syntax_error("unexpected token `>'");
 		else if (*line == '|')
 			syntax_error("unexpected token `|'");
-		if (!*line || *line == '<' || *line == '>' || *line == '|')
+		if (!*line || ft_contains("<>|", *line))
 			return (1);
 	}
-	*p = line - 1;
+	*p = check_here_doc(operator, line, exec);
+	if (!*p)
+		return (1);
 	return (0);
 }
 
@@ -72,7 +77,7 @@ static int	empty_between_pipe(char *line, char **p)
 	return (0);
 }
 
-int	check_syntax(char *line)
+int	check_syntax(char *line, t_exec exec)
 {
 	if (str_start_with(line, '|'))
 	{
@@ -81,9 +86,9 @@ int	check_syntax(char *line)
 	}
 	while (*line)
 	{
-		if ((*line == '\'' || *line == '"') && unclosed_quot_mrks(line, &line))
+		if (ft_contains("'\"", *line) && unclosed_quot_mrks(line, &line))
 			return (0);
-		else if ((*line == '>' || *line == '<') && if_redi_error(line, &line))
+		else if (ft_contains("<>", *line) && if_redi_error(line, &line, exec))
 			return (0);
 		else if (*line == '|' && empty_between_pipe(line, &line))
 			return (0);
