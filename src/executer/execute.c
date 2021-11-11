@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 14:03:57 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 20:10:55 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	execute(char *const *args, t_exec *exec)
 	g_sig.pid = exec->pids[exec->nb_ps];
 	if (exec->pids[exec->nb_ps++] == 0)
 	{
-		// maybe close the unused pipe end
+		close_pipes(exec);
 		if (ft_starts_with(args[0], "/") || ft_starts_with(args[0], "./"))
 			full_path = args[0];
 		else
