@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/10 17:44:31 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 09:46:36 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 		exec->saved_stdin = dup(STDIN_FILENO);
 		exec->saved_stdout = dup(STDOUT_FILENO);
 		if (!set_io(cml, exec, i))
+			return ;
+		if (!cml[i].lst_token->tkn->word)
 			return ;
 		exec->status = execute(cml[i].argv, exec);
 		j = 0;
@@ -56,7 +58,7 @@ int	main(
 		if (*line)
 			add_history(line);
 		cml = parse(line, exec);
-		if (cml)
+		if (cml && cml->argv)
 			execute_loop(cml, &exec);
 		free(line);
 	}
