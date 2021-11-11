@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 17:43:34 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 13:45:30 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 13:52:11 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	quit_handler(int s)
 	}
 }
 
-void init_signals(void)
+void	init_signals(void)
 {
 	struct sigaction	quit_act;
 	struct sigaction	int_act;

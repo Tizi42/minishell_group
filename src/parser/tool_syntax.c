@@ -6,7 +6,7 @@
 /*   By: tyuan <tyuan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:21:51 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/10 18:22:00 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/11 13:56:07 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ int	check_syntax(char *line)
 	while (*line)
 	{
 		if ((*line == '\'' || *line == '"') && unclosed_quot_mrks(line, &line))
-				return (0);
+			return (0);
 		else if ((*line == '>' || *line == '<') && if_redi_error(line, &line))
-				return (0);
+			return (0);
 		else if (*line == '|' && empty_between_pipe(line, &line))
-				return (0);
+			return (0);
 		line++;
 	}
 	if (str_end_with(line, '|'))

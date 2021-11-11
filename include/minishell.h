@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 15:42:05 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/11 11:26:08 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 13:57:58 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	cleanup(char **paths, char *new_prog);
 char	*get_env_value(char *key, t_exec exec);
 void	init_signals(void);
 void	reset_quit_handler(void);
-int 	str_contains_set(const char *str, const char *set);
+int		str_contains_set(const char *str, const char *set);
 
 extern struct s_sig	g_sig;
 

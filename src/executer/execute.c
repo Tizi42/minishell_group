@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 12:24:21 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 14:03:57 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,7 @@ static int	is_builtin(const char *prog)
 		|| ft_strcmp(prog, "exit") == 0);
 }
 
-static unsigned char	launch_builtin(
-	char *const *args,
-	t_list *env,
-	int last_status,
-	t_exec *exec)
+static unsigned char	launch_builtin(char *const *args, t_exec *exec)
 {
 	unsigned char	status;
 
@@ -71,13 +67,13 @@ static unsigned char	launch_builtin(
 	else if (ft_strcmp(args[0], "echo") == 0)
 		status = echo(args);
 	else if (ft_strcmp(args[0], "env") == 0)
-		status = env_builtin(env);
+		status = env_builtin(exec->env);
 	else if (ft_strcmp(args[0], "export") == 0)
-		status = export(args, &env);
+		status = export(args, &exec->env);
 	else if (ft_strcmp(args[0], "unset") == 0)
-		status = unset(args, &env);
+		status = unset(args, &exec->env);
 	else
-		status = exit_builtin(args, last_status);
+		exit_builtin(args, exec);
 	reset_io(exec);
 	return (status);
 }
@@ -89,7 +85,7 @@ int	execute(char *const *args, t_exec *exec)
 
 	redirect_io(exec);
 	if (is_builtin(args[0]))
-		return (launch_builtin(args, exec->env, exec->status, exec));
+		return (launch_builtin(args, exec));
 	strs_env = env_to_strs(exec->env);
 	exec->pids[exec->nb_ps] = fork();
 	g_sig.pid = exec->pids[exec->nb_ps];

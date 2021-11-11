@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 16:46:40 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/09 16:45:53 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 14:08:38 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ unsigned char	export(char *const *args, t_list **env)
 	int	i;
 
 	i = 1;
+	if (!args[1])
+	{
+		env_builtin(*env);
+		return (0);
+	}
 	while (args[i])
 	{
 		if (!is_valid(args[i]))
@@ -82,21 +87,26 @@ static int	check_arg(const char *arg)
 	return (1);
 }
 
-unsigned char	exit_builtin(char *const *args,	unsigned char last_status)
+unsigned char	exit_builtin(char *const *args,	t_exec *exec)
 {
 	ft_puts("exit");
-	if (!args || !args[1])
-		exit(last_status);
+	if (!args[1])
+	{
+		ft_lstclear(exec->env);
+		exit(exec->status);
+	}
 	else if (args[2])
 	{
 		exit_error(NULL);
+		ft_lstclear(exec->env);
 		return (1);
 	}
 	else if (!check_arg(args[1]))
 	{
-		// check omega big arg (> INT_MAX * 10000) ?
 		exit_error(args[1]);
+		ft_lstclear(exec->env);
 		exit(2);
 	}
+	ft_lstclear(exec->env);
 	exit((unsigned char)ft_atoi(args[1]));
 }

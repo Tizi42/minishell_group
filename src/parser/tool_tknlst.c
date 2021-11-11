@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:39 by tyuan             #+#    #+#             */
-/*   Updated: 2021/10/30 13:59:26 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/11 13:56:44 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_tknlst	*tknlstnew(void *tkn)
 	return (new);
 }
 
-void	tknlstiter(t_tknlst *lst, t_exec *optnl, void (*f)(t_token *, t_exec *op))
+void	tknlstiter(t_tknlst *lst, t_exec *optnl,
+	void (*f)(t_token *, t_exec *op))
 {
 	while (lst)
 	{
