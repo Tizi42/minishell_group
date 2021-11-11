@@ -1,5 +1,5 @@
 NAME	=	msh
-CC		=	gcc
+CC		=	clang
 CFLAGS	=	-Wall -Werror -Wextra -g
 OBJ_DIR	=	obj/
 SRC_DIR	=	src/

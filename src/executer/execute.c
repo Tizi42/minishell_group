@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 20:10:55 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 20:51:57 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static unsigned char	launch_builtin(char *const *args, t_exec *exec)
 {
 	unsigned char	status;
 
+	status = 0;
 	if (ft_strcmp(args[0], "cd") == 0)
 		status = cd(args[1]);
 	else if (ft_strcmp(args[0], "pwd") == 0)
