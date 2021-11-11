@@ -33,7 +33,7 @@ char	*get_env_value(char *key, t_exec exec)
 	t_list	*cur;
 
 	if (*key == '?')
-		return (ft_itoa(exec.status));
+		return (ft_itoa(*g_sig.status));
 	cur = exec.env;
 	while (cur)
 	{

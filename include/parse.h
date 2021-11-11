@@ -35,7 +35,7 @@ void		quote_removal(t_token *tok, t_exec *exec);
 /* parse2.c */
 void		variable_expansion(t_token *tok, t_exec *exec);
 int			locate_vars_to_expand(t_token *tok, int *start, int *end);
-int			expand(char **tabs, char **tab_q, t_exec exec);
+int			expand(char **tabs, char **tab_q, t_exec exec, int type);
 void		var_space_splitting(t_tknlst	*lst_token);
 void		set_argv(t_cml *cml);
 
@@ -47,7 +47,7 @@ int			num_of_vars(t_token *tok);
 int			amount_of_cmls(char **cml_tab);
 
 /* tool_parse2.c */
-int			if_unquoted_space(t_tknlst *lst);
+int			if_unquoted_space_in_redi(t_tknlst *lst);
 char		*quoted_bit_reset(char *line, char c, int *type);
 void		init_cml(t_cml *cmls);
 void		set_heredoc_path(t_cml *cmls);
@@ -84,10 +84,10 @@ int			check_syntax(char *line, t_exec exec);
 int			unclosed_quot_mrks(char *line, char **p);
 
 /* heredoc.c */
-char	*available_heredoc_name(void);
-char	*str_variable_expansion(char *line, t_exec exec);
-void	str_expand(char **tabs, t_exec exec);
-void	creat_here_doc(char *delim, int expand, t_exec exec);
-char	*check_here_doc(char *operator, char *line, t_exec exec);
+char		*available_heredoc_name(void);
+char		*str_variable_expansion(char *line, t_exec exec);
+void		str_expand(char **tabs, t_exec exec);
+void		creat_here_doc(char *delim, int expand, t_exec exec);
+char		*check_here_doc(char *operator, char *line, t_exec exec);
 
 #endif

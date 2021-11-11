@@ -30,7 +30,7 @@ void	variable_expansion(t_token *tok, t_exec *exec)
 	locate_vars_to_expand(tok, start, end);
 	str_idx_split(tok->word, start, end, tabs);
 	str_idx_split(tok->quoted, start, end, tab_q);
-	ret = expand(tabs, tab_q, *exec);
+	ret = expand(tabs, tab_q, *exec, tok->type);
 	chang_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
 	cleanup(tabs, (char *)start);
 	cleanup(tab_q, (char *)end);
@@ -64,14 +64,12 @@ int	locate_vars_to_expand(t_token *tok, int *start, int *end)
 	return (n);
 }
 
-int	expand(char **tabs, char **tab_q, t_exec exec)
+int	expand(char **tabs, char **tab_q, t_exec exec, int type)
 {
 	char	*tmp;
 	int		i;
-	int		type;
 
 	i = 0;
-	type = WORD;
 	while (tabs[i])
 	{
 		if (tabs[i][0] == '$')

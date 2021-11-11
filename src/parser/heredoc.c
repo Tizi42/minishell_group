@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tyuan <tyuan@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/11 23:59:41 by tyuan             #+#    #+#             */
+/*   Updated: 2021/11/11 23:59:42 by tyuan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*available_heredoc_name(void)
@@ -72,9 +84,9 @@ void	creat_here_doc(char *delim, int expand, t_exec exec)
 	int		fd;
 
 	filepath = available_heredoc_name();
-	fd = open(filepath, O_WRONLY|O_CREAT|O_TRUNC, 0600);
+	fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
-		exit(-1) ; //clean_exit();
+		open_error(filepath);
 	line = readline("> ");
 	while (line && ft_strcmp(delim, line))
 	{

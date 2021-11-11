@@ -12,12 +12,15 @@
 
 #include "minishell.h"
 
-int	if_unquoted_space(t_tknlst *lst)
+int	if_unquoted_space_in_redi(t_tknlst *lst)
 {
 	while (lst)
 	{
 		if (lst->tkn->type == UNQUOTED_SPACE)
+		{
+			syntax_error("ambiguous redirect");
 			return (1);
+		}
 		lst = lst->next;
 	}
 	return (0);
@@ -48,7 +51,7 @@ void	init_cml(t_cml *cmls)
 	cmls->argv = NULL;
 }
 
-static char 	*get_hd_n_path(int n)
+static char	*get_hd_n_path(int n)
 {
 	char	*filepath;
 	char	*suffix;
@@ -66,7 +69,7 @@ void	set_heredoc_path(t_cml *cmls)
 	char		*tmp;
 
 	n = 0;
-	while(cmls->line)
+	while (cmls->line)
 	{
 		lst = cmls->lst_redi;
 		while (lst)

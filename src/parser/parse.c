@@ -33,8 +33,8 @@ t_cml	*parse(char *line, t_exec exec)
 		{
 			tknlstiter(cmls[n].lst_redi, &exec, &variable_expansion);
 			tknlstiter(cmls[n].lst_redi, NULL, &quote_removal);
-			if (if_unquoted_space(cmls[n].lst_redi))
-				exit (0);
+			if (if_unquoted_space_in_redi(cmls[n].lst_redi))
+				return (NULL);
 		}
 		n++;
 	}
