@@ -43,3 +43,16 @@ char	*get_env_value(char *key, t_exec exec)
 	}
 	return (ft_strdup(NULL));
 }
+
+int str_contains_set(const char *str, const char *set)
+{
+	if (!set)
+		return (0);
+	while (*set)
+	{
+		if (ft_contains(str, *set))
+			return (1);
+		set++;
+	}
+	return (0);
+}

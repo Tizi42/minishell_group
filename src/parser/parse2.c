@@ -52,7 +52,8 @@ int	locate_vars_to_expand(t_token *tok, int *start, int *end)
 				end[n++] = i;
 			else
 			{
-				while (tok->word[i] && (ft_isalnum(tok->word[i]) || tok->word[i] == '_'))
+				while (tok->word[i] && (ft_isalnum(tok->word[i])
+						|| tok->word[i] == '_'))
 					i++;
 				end[n++] = --i;
 			}
@@ -76,7 +77,11 @@ int	expand(char **tabs, char **tab_q, t_exec exec)
 		if (tabs[i][0] == '$')
 		{
 			tmp = tabs[i];
-			tabs[i] = get_env_value(&tabs[i][1], exec);
+			if (!tabs[i][1] && (tab_q[i][0] == DOUBLE_QUOTED || !tabs[i + 1]
+				|| (tabs[i + 1] && tab_q[i + 1][0] != QUOTATION_MARK)))
+				tabs[i] = ft_strdup("$");
+			else
+				tabs[i] = get_env_value(&tabs[i][1], exec);
 			free(tmp);
 			tmp = tab_q[i];
 			tab_q[i] = quoted_bit_reset(tabs[i], tab_q[i][0], &type);

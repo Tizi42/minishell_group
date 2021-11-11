@@ -49,8 +49,6 @@ int			amount_of_cmls(char **cml_tab);
 int			if_unquoted_space(t_tknlst *lst);
 char		*quoted_bit_reset(char *line, char c, int *type);
 void 		init_cml(t_cml *cmls);
-int			check_syntax(const char *line);
-int			unclosed_quot_mrks(const char *line);
 
 /* tool_token.c */
 t_token		*new_token(int type, char *nword, char *nquo);
@@ -69,7 +67,6 @@ char		*sh_substr(char const *s, unsigned int start, size_t len);
 char		*sh_strjoin(char const *s1, char const *s2);
 int			str_start_with(const char *line, char c);
 int			str_end_with(const char *line, char c);
-int			str_empty_between(const char *line, char c);
 
 /* tool_tknlst.c */
 t_tknlst	*tknlstnew(void *tkn);
@@ -77,5 +74,8 @@ void		tknlstiter(t_tknlst *lst, t_exec *op, void (*f)(t_token *, t_exec *));
 void		tknlstadd_back(t_tknlst **alst, t_tknlst *new);
 t_tknlst	*tknlstlast(t_tknlst *lst);
 int			tknlstsize(t_tknlst *lst);
+
+/* tool_syntax.c */
+int			check_syntax(char *line);
 
 #endif

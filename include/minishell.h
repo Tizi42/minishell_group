@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 15:42:05 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/10 17:46:46 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/11 09:28:20 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void	cleanup(char **paths, char *new_prog);
 char	*get_env_value(char *key, t_exec exec);
 void	init_signals_child(void);
 void	init_signals_main(void);
+int 	str_contains_set(const char *str, const char *set);
 
 #endif
