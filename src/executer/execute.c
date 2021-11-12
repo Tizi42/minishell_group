@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 20:51:57 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/12 14:45:40 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static unsigned char	launch_builtin(char *const *args, t_exec *exec)
 	else if (ft_strcmp(args[0], "unset") == 0)
 		status = unset(args, &exec->env);
 	else
-		exit_builtin(args, exec);
+		status = exit_builtin(args, exec);
 	reset_io(exec);
 	return (status);
 }

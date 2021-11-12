@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 16:46:40 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 14:08:38 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/12 14:57:49 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,16 @@ unsigned char	exit_builtin(char *const *args,	t_exec *exec)
 		ft_lstclear(exec->env);
 		exit(exec->status);
 	}
-	else if (args[2])
-	{
-		exit_error(NULL);
-		ft_lstclear(exec->env);
-		return (1);
-	}
 	else if (!check_arg(args[1]))
 	{
 		exit_error(args[1]);
 		ft_lstclear(exec->env);
 		exit(2);
+	}
+	else if (args[2])
+	{
+		exit_error(NULL);
+		return (1);
 	}
 	ft_lstclear(exec->env);
 	exit((unsigned char)ft_atoi(args[1]));
