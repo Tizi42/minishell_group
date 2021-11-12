@@ -29,13 +29,20 @@
 # include "builtins.h"
 # include "error.h"
 
+/* clean.c */
+void	clean_token(t_token *tok);
+void	clean_tknlst(t_tknlst *lst);
+void	clean_cml(t_cml *cml);
+void	cleanup(char **paths, char *new_prog);
+
 /* tool.c */
 void	*v_malloc(size_t size);
-void	cleanup(char **paths, char *new_prog);
+int		str_contains_set(const char *str, const char *set);
 char	*get_env_value(char *key, t_exec exec);
+
+/* signals.c */
 void	init_signals(void);
 void	reset_quit_handler(void);
-int		str_contains_set(const char *str, const char *set);
 
 extern struct s_sig	g_sig;
 

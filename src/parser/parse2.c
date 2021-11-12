@@ -124,7 +124,8 @@ void	set_argv(t_cml *cml)
 
 	i = 0;
 	lst = cml->lst_token;
-	cml->argv = v_malloc(sizeof(char *) * (tknlstsize(lst) + 1));
+	if (lst)
+		cml->argv = v_malloc(sizeof(char *) * (tknlstsize(lst) + 1));
 	while (lst)
 	{
 		cml->argv[i++] = ft_strdup(lst->tkn->word);

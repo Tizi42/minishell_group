@@ -81,10 +81,11 @@ int	str_end_with(const char *line, char c)
 char	*str_quote_removal(char *str)
 {
 	t_token	*tok;
+	char	*ret;
 
 	tok = new_token(WORD, str, set_quoted_bits(str));
 	quote_removal(tok, NULL);
-	free(tok->quoted);
-	free(tok);
-	return (tok->word);
+	ret = ft_strdup(tok->word);
+	clean_token(tok);
+	return (ret);
 }

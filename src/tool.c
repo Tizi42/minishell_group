@@ -22,12 +22,6 @@ void	*v_malloc(size_t size)
 	return (ret);
 }
 
-void	cleanup(char **paths, char *new_prog)
-{
-	free(new_prog);
-	free_split(paths);
-}
-
 char	*get_env_value(char *key, t_exec exec)
 {
 	t_list	*cur;

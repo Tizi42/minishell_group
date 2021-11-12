@@ -65,7 +65,7 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	g_sig.pid = 0;
 	init_signals();
 	free(exec->pids);
-	free(cml);
+	clean_cml(cml);
 }
 
 int	main(
@@ -91,7 +91,7 @@ int	main(
 		if (*line)
 			add_history(line);
 		cml = parse(line, exec);
-		if (cml && cml->argv)
+		if (cml)
 			execute_loop(cml, &exec);
 		free(line);
 	}
