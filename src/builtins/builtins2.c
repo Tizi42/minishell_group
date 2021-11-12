@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 16:46:40 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/12 16:49:41 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/12 19:43:55 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ unsigned char	export(char *const *args, t_list **env)
 			if (is_in_env(args[i], env))
 				;
 			else
-				ft_lstadd_back(env, ft_lstnew(args[i]));
+				ft_lstadd_back(env, ft_lstnew(ft_strdup(args[i])));
 		}
 		i++;
 	}
