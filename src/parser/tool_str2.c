@@ -65,33 +65,3 @@ void	str_idx_split(char *l, int *start, int *end, char **tabs)
 	}
 	tabs[n] = NULL;
 }
-
-int	num_of_vars(t_token *tok)
-{
-	int	i;
-	int	n;
-
-	i = 0;
-	n = 0;
-	if (!tok->word)
-		return (0);
-	while (tok->word[i])
-	{
-		if (tok->word[i] == '$' && tok->quoted[i] != SINGLE_QUOTED)
-			n++;
-		i++;
-	}
-	return (n);
-}
-
-int	amount_of_cmls(char **cml_tab)
-{
-	int	n;
-
-	n = 0;
-	if (!cml_tab)
-		return (0);
-	while (cml_tab[n])
-		n++;
-	return (n);
-}

@@ -82,19 +82,19 @@ char	*set_quoted_bits(char *line)
 	return (quoted);
 }
 
-int	typeof_redi(char *line)
+char	*quoted_bit_reset(char *line, char c, int *type)
 {
-	if (*line == '>')
+	char	*quo;
+	int		n;
+
+	quo = v_malloc(sizeof(char) * (ft_strlen(line) + 1));
+	n = 0;
+	while (line[n])
 	{
-		if (*(line + 1) == '>')
-			return (DGREAT);
-		return (GREAT);
+		if (line[n] == ' ' && c == NQ)
+			*type = UNQUOTED_SPACE;
+		quo[n++] = c;
 	}
-	if (*line == '<')
-	{
-		if (*(line + 1) == '<')
-			return (HEREDOC);
-		return (LESS);
-	}
-	return (-1);
+	quo[n] = '\0';
+	return (quo);
 }

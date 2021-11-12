@@ -47,9 +47,9 @@ int			num_of_vars(t_token *tok);
 int			amount_of_cmls(char **cml_tab);
 
 /* tool_parse2.c */
-int			if_unquoted_space_in_redi(t_tknlst *lst);
-char		*quoted_bit_reset(char *line, char c, int *type);
 void		init_cml(t_cml *cmls);
+int			if_unquoted_space_in_redi(t_tknlst *lst);
+int			typeof_redi(char *line);
 void		set_heredoc_path(t_cml *cmls);
 
 /* tool_token.c */
@@ -57,7 +57,7 @@ t_token		*new_token(int type, char *nword, char *nquo);
 void		chang_token_value(t_token *tok, int type, char *nword, char *nquo);
 char		*be_not_quoted(char *w);
 char		*set_quoted_bits(char *line);
-int			typeof_redi(char *line);
+char		*quoted_bit_reset(char *line, char c, int *type);
 
 /* tool_parse_split.c */
 char		**jump_quotes_ft_split(char const *s, char *quoted, char c);
@@ -87,7 +87,7 @@ int			unclosed_quot_mrks(char *line, char **p);
 char		*available_heredoc_name(void);
 char		*str_variable_expansion(char *line, t_exec exec);
 void		str_expand(char **tabs, t_exec exec);
-void		creat_here_doc(char *delim, int expand, t_exec exec);
-char		*check_here_doc(char *operator, char *line, t_exec exec);
+void		creat_heredoc(char *delim, int expand, t_exec exec);
+char		*check_heredoc(char *operator, char *line, t_exec exec);
 
 #endif

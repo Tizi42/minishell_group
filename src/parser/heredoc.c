@@ -77,7 +77,7 @@ void	str_expand(char **tabs, t_exec exec)
 	}
 }
 
-void	creat_here_doc(char *delim, int expand, t_exec exec)
+void	creat_heredoc(char *delim, int expand, t_exec exec)
 {
 	char	*filepath;
 	char	*line;
@@ -104,7 +104,7 @@ void	creat_here_doc(char *delim, int expand, t_exec exec)
 	free(filepath);
 }
 
-char	*check_here_doc(char *operator, char *line, t_exec exec)
+char	*check_heredoc(char *operator, char *line, t_exec exec)
 {
 	int		n;
 	int		expand;
@@ -126,6 +126,6 @@ char	*check_here_doc(char *operator, char *line, t_exec exec)
 		}
 		n++;
 	}
-	creat_here_doc(str_quote_removal(ft_strndup(line, n)), expand, exec);
+	creat_heredoc(str_quote_removal(ft_strndup(line, n)), expand, exec);
 	return (&line[n - 1]);
 }

@@ -54,7 +54,7 @@ static int	if_redi_error(char *line, char **p, t_exec exec)
 		if (!*line || ft_contains("<>|", *line))
 			return (1);
 	}
-	*p = check_here_doc(operator, line, exec);
+	*p = check_heredoc(operator, line, exec);
 	if (!*p)
 		return (1);
 	return (0);
