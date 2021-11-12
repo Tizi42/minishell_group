@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_search.c                                      :+:      :+:    :+:   */
+/*   execute2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:50:11 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 11:45:34 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/12 16:32:50 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,46 @@ char	*search_path(const char *prog, t_list *env)
 	}
 	cleanup(paths, new_prog);
 	return (NULL);
+}
+
+int	has_pipe(t_exec *exec)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i <= 1)
+	{
+		j = 0;
+		while (j <= 1)
+		{
+			if (exec->pipe_fds[i][j] != -1)
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+unsigned char	exec_builtins(char *const *args, t_exec *exec)
+{
+	unsigned char	status;
+
+	status = 0;
+	if (ft_strcmp(args[0], "cd") == 0)
+		status = cd(args[1]);
+	else if (ft_strcmp(args[0], "pwd") == 0)
+		status = pwd();
+	else if (ft_strcmp(args[0], "echo") == 0)
+		status = echo(args);
+	else if (ft_strcmp(args[0], "env") == 0)
+		status = env_builtin(exec->env);
+	else if (ft_strcmp(args[0], "export") == 0)
+		status = export(args, &exec->env);
+	else if (ft_strcmp(args[0], "unset") == 0)
+		status = unset(args, &exec->env);
+	else
+		status = exit_builtin(args, exec);
+	return (status);
 }

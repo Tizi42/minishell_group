@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 20:22:37 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/12 15:06:28 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 		if (!set_io(cml, exec, i) || !cml[i].lst_token->tkn->word)
 			return ;
 		exec->status = execute(cml[i].argv, exec);
-		wait_processes(exec);
 		i++;
 	}
+	wait_processes(exec);
 	g_sig.pid = 0;
 	init_signals();
 	free(exec->pids);

@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 12:00:08 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 20:15:10 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/12 16:34:15 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ void	set_append_file(t_cml *cml, t_exec *exec, int i);
 void	set_input_file(t_cml *cml, t_exec *exec, int i);
 void	close_pipes(t_exec *exec);
 void	init_pipes(t_exec *exec);
+int		has_pipe(t_exec *exec);
 
 #endif

@@ -5,7 +5,7 @@ OBJ_DIR	=	obj/
 SRC_DIR	=	src/
 SRCS	+=	main.c error.c error2.c tool.c signals.c clean.c
 SRCS	+=	parser/parse.c parser/parse2.c parser/tool_cml_redi.c parser/tool_heredoc.c parser/split.c parser/token.c parser/tknlst.c  parser/tool_str.c parser/tool_str2.c parser/syntax.c parser/heredoc.c
-SRCS	+=	executer/execute.c executer/path_search.c executer/io.c executer/io2.c
+SRCS	+=	executer/execute.c executer/execute2.c executer/io.c executer/io2.c
 SRCS	+=	builtins/builtins.c builtins/builtins2.c builtins/unset.c
 OBJS    =	$(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 LIBS	=	-lreadline -Llibft -lft

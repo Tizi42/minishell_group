@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:13:04 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 14:03:40 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/12 16:34:27 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ unsigned char	exit_builtin(char *const *args,	t_exec *env);
 unsigned char	export(char *const *args, t_list **env);
 unsigned char	unset(char *const *args, t_list **env);
 unsigned char	env_builtin(const t_list *env);
+unsigned char	exec_builtins(char *const *args, t_exec *exec);
 int				match_name(const char *name, char *var);
 int				is_in_env(const char *arg, t_list **env);
 

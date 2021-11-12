@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/12 14:45:40 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/12 16:37:24 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,19 @@ static unsigned char	launch_builtin(char *const *args, t_exec *exec)
 	unsigned char	status;
 
 	status = 0;
-	if (ft_strcmp(args[0], "cd") == 0)
-		status = cd(args[1]);
-	else if (ft_strcmp(args[0], "pwd") == 0)
-		status = pwd();
-	else if (ft_strcmp(args[0], "echo") == 0)
-		status = echo(args);
-	else if (ft_strcmp(args[0], "env") == 0)
-		status = env_builtin(exec->env);
-	else if (ft_strcmp(args[0], "export") == 0)
-		status = export(args, &exec->env);
-	else if (ft_strcmp(args[0], "unset") == 0)
-		status = unset(args, &exec->env);
+	if (has_pipe(exec))
+	{
+		exec->pids[exec->nb_ps] = fork();
+		g_sig.pid = exec->pids[exec->nb_ps];
+		if (exec->pids[exec->nb_ps++] == 0)
+		{
+			close_pipes(exec);
+			status = exec_builtins(args, exec);
+			exit(status);
+		}
+	}
 	else
-		status = exit_builtin(args, exec);
+		status = exec_builtins(args, exec);
 	reset_io(exec);
 	return (status);
 }
