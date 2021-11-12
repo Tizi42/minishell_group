@@ -30,21 +30,19 @@ void	clean_tknlst(t_tknlst *lst)
 void	clean_cml(t_cml *cml)
 {
 	t_cml	*cur;
-	t_cml	*next;
 
 	cur = cml;
-	while (cur)
+	while (cur->line)
 	{
-		next = cur++;
 		if (cur->line)
 			free(cur->line);
 		if (cur->argv)
 			free_split(cur->argv);
-		free(cur->lst_token);
-		free(cur->lst_redi);
-		free(cur);
-		cur = next;
+		clean_tknlst(cur->lst_token);
+		clean_tknlst(cur->lst_redi);
+		cur++;
 	}
+	free(cml);
 }
 
 void	cleanup(char **paths, char *new_prog)
