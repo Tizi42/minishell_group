@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 16:46:40 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/12 14:57:49 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/12 16:49:41 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static int	check_arg(const char *arg)
 	int	i;
 
 	i = 0;
+	if (ft_atoul(arg) > 9223372036854775807)
+		return (0);
 	while (arg[i] && ft_isspace(arg[i]))
 		i++;
 	if (!arg[i])
@@ -80,7 +82,7 @@ static int	check_arg(const char *arg)
 		i++;
 	while (arg[i])
 	{
-		if (!ft_isdigit(arg[i]))
+		if (!ft_isdigit(arg[i]) && arg[i] != ' ')
 			return (0);
 		i++;
 	}
