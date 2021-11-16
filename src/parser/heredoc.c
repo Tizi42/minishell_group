@@ -6,7 +6,7 @@
 /*   By: tyuan <tyuan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 23:59:41 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/11 23:59:42 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/16 12:40:09 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,28 @@ void	creat_heredoc(char *delim, int expand, t_exec exec)
 	fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
 		open_error(filepath);
-	line = readline("> ");
-	while (line && ft_strcmp(delim, line))
+	g_sig.pid = fork();
+	if (g_sig.pid == 0)
 	{
-		if (expand)
-			line = str_variable_expansion(line, exec);
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
+		reset_term_handler();
 		line = readline("> ");
-	}
-	if (line)
+		while (line && ft_strcmp(delim, line))
+		{
+			if (expand)
+				line = str_variable_expansion(line, exec);
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+			line = readline("> ");
+		}
+		close(fd);
 		free(line);
+	}
+	waitpid(g_sig.pid, g_sig.status, 0);
+	if (WIFSIGNALED(*g_sig.status))
+		*g_sig.status = WTERMSIG(*g_sig.status) + 128;
+	g_sig.pid = 0;
+	init_signals();
 	close(fd);
 	free(delim);
 	free(filepath);

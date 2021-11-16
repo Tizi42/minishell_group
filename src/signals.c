@@ -6,11 +6,13 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 17:43:34 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/11 13:52:11 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/15 12:46:53 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+struct s_sig	g_sig;
 
 static void	term_handler(int s)
 {
@@ -54,4 +56,12 @@ void	reset_quit_handler(void)
 
 	quit_act.sa_handler = quit_handler;
 	sigaction(SIGQUIT, &quit_act, NULL);
+}
+
+void	reset_term_handler(void)
+{
+	struct sigaction	int_act;
+
+	int_act.sa_handler = SIG_DFL;
+	sigaction(SIGINT, &int_act, NULL);
 }

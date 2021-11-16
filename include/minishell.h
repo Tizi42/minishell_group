@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 15:42:05 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/11 19:22:58 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/15 11:59:48 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ char	*get_env_value(char *key, t_exec exec);
 /* signals.c */
 void	init_signals(void);
 void	reset_quit_handler(void);
+void	reset_term_handler(void);
 
 extern struct s_sig	g_sig;
 
