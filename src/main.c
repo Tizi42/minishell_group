@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/15 12:47:10 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/17 13:11:47 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,34 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	clean_cml(cml);
 }
 
+static void	increment_shlvl(t_exec *exec)
+{
+	t_list		*cur;
+	char		*new_shlvl;
+	char		*new_value;
+	char *const	args[3] = {"export", "SHLVL=1", NULL};
+
+	cur = exec->env;
+	while (cur)
+	{
+		if (match_name("SHLVL", cur->c) == 1)
+		{
+			new_value = ft_itoa(ft_atoi(ft_strchr(cur->c, '=') + 1) + 1);
+			new_shlvl = malloc(sizeof(char) * (ft_strlen("SHLVL=")
+						+ ft_strlen(new_value) + 1));
+			ft_strcpy(new_shlvl, "SHLVL=");
+			ft_strcat(new_shlvl, new_value);
+			free(cur->c);
+			cur->c = ft_strdup(new_shlvl);
+			free(new_value);
+			free(new_shlvl);
+			return ;
+		}
+		cur = cur->n;
+	}
+	export(args, &exec->env);
+}
+
 int	main(
 	int ac __attribute__((unused)),
 	char **av __attribute__((unused)),
@@ -80,6 +108,7 @@ int	main(
 	exec.env = init_env(envp);
 	g_sig.pid = 0;
 	g_sig.status = &exec.status;
+	increment_shlvl(&exec);
 	init_signals();
 	while (isatty(STDIN_FILENO))
 	{

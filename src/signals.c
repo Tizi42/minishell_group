@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 17:43:34 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/15 12:46:53 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/16 17:21:39 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ void	init_signals(void)
 	struct sigaction	int_act;
 
 	quit_act.sa_handler = SIG_IGN;
+	quit_act.sa_flags = 0;
 	sigaction(SIGQUIT, &quit_act, NULL);
 	int_act.sa_handler = term_handler;
+	int_act.sa_flags = 0;
 	sigaction(SIGINT, &int_act, NULL);
 }
 
@@ -55,6 +57,7 @@ void	reset_quit_handler(void)
 	struct sigaction	quit_act;
 
 	quit_act.sa_handler = quit_handler;
+	quit_act.sa_flags = 0;
 	sigaction(SIGQUIT, &quit_act, NULL);
 }
 
@@ -63,5 +66,6 @@ void	reset_term_handler(void)
 	struct sigaction	int_act;
 
 	int_act.sa_handler = SIG_DFL;
+	int_act.sa_flags = 0;
 	sigaction(SIGINT, &int_act, NULL);
 }
