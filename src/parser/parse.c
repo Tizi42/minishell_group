@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:08 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/18 15:14:56 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 17:09:15 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	set_token(t_cml *cml)
 void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 {
 	int		ct[3];
+	char	*qb;
 
 	ft_memset(ct, 0, sizeof(ct));
 	while ((*l)[ct[0]])
@@ -116,9 +117,9 @@ void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 			while ((*l)[ct[0]] && (((*l)[ct[0]] != ' ' && (*l)[ct[0]] != '<' &&
 				(*l)[ct[0]] != '>' && (*q)[ct[0]] == NQ) || (*q)[ct[0]] > NQ))
 				ct[0]++;
+			qb = set_quoted_bits(sh_substr(*l, ct[2], ct[0] - ct[2]));
 			tknlstadd_back(lst_redi, tknlstnew(new_token(typeof_redi(&(*l)
-						[ct[1]]), sh_substr(*l, ct[2], ct[0] - ct[2]),
-						set_quoted_bits(sh_substr(*l, ct[2], ct[0] - ct[2])))));
+						[ct[1]]), sh_substr(*l, ct[2], ct[0] - ct[2]),qb)));
 			remove_substr(l, ct[1], ct[0] - 1);
 			remove_substr(q, ct[1], ct[0] - 1);
 			ct[0] = ct[1] - 1;

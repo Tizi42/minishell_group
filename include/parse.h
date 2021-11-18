@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:00:34 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/18 16:34:00 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 17:18:39 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int			typeof_redi(char *line);
 
 /* tool_heredoc.c */
 void		set_heredoc_path(t_cml *cmls);
-int			wait_heredoc(const char *filepath);
+int			wait_heredoc(char *filepath);
 
 /* token.c */
 t_token		*new_token(int type, char *nword, char *nquo);

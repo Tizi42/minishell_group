@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 16:46:40 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/15 12:29:52 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 17:54:28 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,13 @@ static int	check_arg(const char *arg)
 	return (1);
 }
 
-unsigned char	exit_builtin(char *const *args,	t_exec *exec)
+unsigned char	exit_builtin(char *const *args,	t_exec *exec, t_cml *cml)
 {
 	ft_puts("exit");
 	if (!args[1])
 	{
 		ft_lstclear(exec->env);
+		clean_cml(cml);
 		exit(exec->status);
 	}
 	else if (!check_arg(args[1]))
@@ -106,8 +107,10 @@ unsigned char	exit_builtin(char *const *args,	t_exec *exec)
 	else if (args[2])
 	{
 		exit_error(NULL);
+		clean_cml(cml);
 		return (1);
 	}
+	clean_cml(cml);
 	ft_lstclear(exec->env);
 	exit((unsigned char)ft_atoi(args[1]));
 }

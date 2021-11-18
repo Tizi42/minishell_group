@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:50:11 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/12 16:32:50 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 17:45:34 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	has_pipe(t_exec *exec)
 	return (0);
 }
 
-unsigned char	exec_builtins(char *const *args, t_exec *exec)
+unsigned char	exec_builtins(char *const *args, t_exec *exec, t_cml *cml)
 {
 	unsigned char	status;
 
@@ -89,6 +89,6 @@ unsigned char	exec_builtins(char *const *args, t_exec *exec)
 	else if (ft_strcmp(args[0], "unset") == 0)
 		status = unset(args, &exec->env);
 	else
-		status = exit_builtin(args, exec);
+		status = exit_builtin(args, exec, cml);
 	return (status);
 }

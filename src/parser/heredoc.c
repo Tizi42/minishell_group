@@ -6,7 +6,7 @@
 /*   By: tyuan <tyuan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 23:59:41 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/18 16:36:52 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 17:19:13 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,10 @@ int	creat_heredoc(char *delim, int expand, t_exec exec)
 		}
 		close(fd);
 		free(line);
+		exit(0);
 	}
-	if (wait_heredoc(filepath))
-		return (1);
-	init_signals();
 	free(delim);
-	free(filepath);
-	return (0);
+	return (wait_heredoc(filepath));
 }
 
 char	*check_heredoc(char *operator, char *line, t_exec exec)
