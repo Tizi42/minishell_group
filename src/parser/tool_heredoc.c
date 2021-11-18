@@ -6,7 +6,7 @@
 /*   By: tyuan <tyuan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 09:31:47 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/12 09:31:49 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/18 16:32:22 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,17 @@ void	set_heredoc_path(t_cml *cmls)
 		}
 		cmls++;
 	}
+}
+
+int	wait_heredoc(const char *filepath)
+{
+	waitpid(g_sig.pid, g_sig.status, 0);
+	g_sig.pid = 0;
+	if (WIFSIGNALED(*g_sig.status))
+	{
+		*g_sig.status = WTERMSIG(*g_sig.status) + 128;
+		unlink(filepath);
+		return (1);
+	}
+	return (0);
 }

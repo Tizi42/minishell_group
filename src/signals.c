@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 17:43:34 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/16 17:21:39 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 15:45:11 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 struct s_sig	g_sig;
 
-static void	term_handler(int s)
+static void	int_handler(int s)
 {
 	(void)s;
-	if (g_sig.pid == 0)
+		if (g_sig.pid == -1)
 	{
 		ft_putchar('\n');
 		rl_on_new_line();
@@ -32,7 +32,7 @@ static void	term_handler(int s)
 static void	quit_handler(int s)
 {
 	(void)s;
-	if (g_sig.pid != 0)
+	if (g_sig.pid != -1)
 	{
 		ft_puts("Quit");
 		*g_sig.status = 131;
@@ -47,7 +47,7 @@ void	init_signals(void)
 	quit_act.sa_handler = SIG_IGN;
 	quit_act.sa_flags = 0;
 	sigaction(SIGQUIT, &quit_act, NULL);
-	int_act.sa_handler = term_handler;
+	int_act.sa_handler = int_handler;
 	int_act.sa_flags = 0;
 	sigaction(SIGINT, &int_act, NULL);
 }
@@ -61,7 +61,7 @@ void	reset_quit_handler(void)
 	sigaction(SIGQUIT, &quit_act, NULL);
 }
 
-void	reset_term_handler(void)
+void	reset_int_handler(void)
 {
 	struct sigaction	int_act;
 

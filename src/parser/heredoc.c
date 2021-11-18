@@ -6,7 +6,7 @@
 /*   By: tyuan <tyuan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 23:59:41 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/16 12:40:09 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 16:36:52 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,22 @@ void	str_expand(char **tabs, t_exec exec)
 	}
 }
 
-void	creat_heredoc(char *delim, int expand, t_exec exec)
+int	creat_heredoc(char *delim, int expand, t_exec exec)
 {
 	char	*filepath;
 	char	*line;
 	int		fd;
 
 	filepath = available_heredoc_name();
-	fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd == -1)
-		open_error(filepath);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	g_sig.pid = fork();
 	if (g_sig.pid == 0)
 	{
-		reset_term_handler();
+		fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		if (fd == -1)
+			open_error(filepath);
+		reset_int_handler();
 		line = readline("> ");
 		while (line && ft_strcmp(delim, line))
 		{
@@ -104,14 +106,12 @@ void	creat_heredoc(char *delim, int expand, t_exec exec)
 		close(fd);
 		free(line);
 	}
-	waitpid(g_sig.pid, g_sig.status, 0);
-	if (WIFSIGNALED(*g_sig.status))
-		*g_sig.status = WTERMSIG(*g_sig.status) + 128;
-	g_sig.pid = 0;
+	if (wait_heredoc(filepath))
+		return (1);
 	init_signals();
-	close(fd);
 	free(delim);
 	free(filepath);
+	return (0);
 }
 
 char	*check_heredoc(char *operator, char *line, t_exec exec)
@@ -136,6 +136,7 @@ char	*check_heredoc(char *operator, char *line, t_exec exec)
 		}
 		n++;
 	}
-	creat_heredoc(str_quote_removal(ft_strndup(line, n)), expand, exec);
+	if (creat_heredoc(str_quote_removal(ft_strndup(line, n)), expand, exec))
+		return (NULL);
 	return (&line[n - 1]);
 }

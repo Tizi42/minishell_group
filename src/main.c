@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/17 13:11:47 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 16:11:31 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,13 @@ static void	wait_processes(t_exec *exec)
 	{
 		waitpid(exec->pids[i], &exec->status, 0);
 		if (WIFSIGNALED(exec->status))
+		{
+			if (WTERMSIG(exec->status) == SIGINT)
+				ft_putchar('\n');
+			if (WTERMSIG(exec->status) == SIGQUIT)
+				ft_puts("Quit");
 			exec->status = WTERMSIG(exec->status) + 128;
+		}
 		if (WIFEXITED(exec->status))
 			exec->status = WEXITSTATUS(exec->status);
 		i++;
@@ -60,7 +66,7 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 		i++;
 	}
 	wait_processes(exec);
-	g_sig.pid = 0;
+	g_sig.pid = -1;
 	init_signals();
 	free(exec->pids);
 	clean_cml(cml);
@@ -106,7 +112,7 @@ int	main(
 
 	exec.status = 0;
 	exec.env = init_env(envp);
-	g_sig.pid = 0;
+	g_sig.pid = -1;
 	g_sig.status = &exec.status;
 	increment_shlvl(&exec);
 	init_signals();

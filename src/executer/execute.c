@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/16 17:29:10 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 15:50:33 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,6 @@ int	execute(char *const *args, t_exec *exec)
 	if (is_builtin(args[0]))
 		return (launch_builtin(args, exec));
 	strs_env = env_to_strs(exec->env);
-	if (ft_ends_with(args[0], "/msh"))
-	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, SIG_IGN);
-	}
 	exec->pids[exec->nb_ps] = fork();
 	g_sig.pid = exec->pids[exec->nb_ps];
 	if (exec->pids[exec->nb_ps++] == 0)
@@ -106,6 +101,8 @@ int	execute(char *const *args, t_exec *exec)
 		free(strs_env);
 		exit(127);
 	}
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	reset_io(exec);
 	free(strs_env);
 	return (exec->status);

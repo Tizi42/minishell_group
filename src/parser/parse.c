@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:08 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/10 14:34:28 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/18 15:14:56 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,14 @@ t_cml	*parse(char *line, t_exec exec)
 
 t_cml	*parse_pipe(char *line)
 {
+	char	*quoted_bits;
 	char	**cml_tab;
 	t_cml	*cmls;
 	int		n;
 
-	cml_tab = jump_quotes_ft_split(line, set_quoted_bits(line), '|');
+	quoted_bits = set_quoted_bits(line);
+	cml_tab = jump_quotes_ft_split(line, quoted_bits, '|');
+	free(quoted_bits);
 	cmls = v_malloc(sizeof(t_cml) * (amount_of_cmls(cml_tab) + 1));
 	n = 0;
 	while (cml_tab[n])
@@ -67,6 +70,7 @@ void	set_token(t_cml *cml)
 	char	**tabs;
 	char	*quoted;
 	char	*line;
+	int		i;
 
 	line = ft_strdup(cml->line);
 	quoted = set_quoted_bits(line);
@@ -77,12 +81,14 @@ void	set_token(t_cml *cml)
 		tknlstadd_back(&(cml->lst_token), tknlstnew(
 				new_token(WORD, *tabs, set_quoted_bits(*tabs))));
 	}
-	while (*tabs)
+	i = 0;
+	while (tabs[i])
 	{
 		tknlstadd_back(&(cml->lst_token), tknlstnew(
-				new_token(WORD, *tabs, set_quoted_bits(*tabs))));
-		tabs++;
+				new_token(WORD, tabs[i], set_quoted_bits(*tabs))));
+		i++;
 	}
+	free(tabs);
 	free(quoted);
 	free(line);
 }
