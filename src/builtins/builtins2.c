@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 16:46:40 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/18 17:54:28 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/22 17:33:10 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ static int	is_valid(char *name)
 	i = 0;
 	while (name[i] && name[i] != '=')
 	{
+		if (name[i] == '+' && name[i + 1] == '=')
+		{
+			i++;
+			continue ;
+		}
 		if (name[i] != '_' && !ft_isalnum(name[i]))
 			return (0);
 		i++;
@@ -45,24 +50,25 @@ unsigned char	export(char *const *args, t_list **env)
 		}
 		if (ft_contains(args[i], '='))
 		{
-			if (is_in_env(args[i], env))
-				;
-			else
-				ft_lstadd_back(env, ft_lstnew(ft_strdup(args[i])));
+			if (!is_in_env(args[i], env))
+				ft_lstadd_back(env, ft_lstnew(ft_strdup_env(args[i])));
 		}
 		i++;
 	}
 	return (0);
 }
 
-unsigned char	env_builtin(const t_list *env)
+unsigned char	env_builtin(t_list *env)
 {
+	t_list	*cur;
+
 	if (!env)
 		return (0);
-	while (env)
+	cur = env;
+	while (cur)
 	{
-		ft_puts(env->c);
-		env = env->n;
+		ft_puts(cur->c);
+		cur = cur->n;
 	}
 	return (0);
 }

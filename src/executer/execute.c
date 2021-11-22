@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:55:48 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/18 17:45:04 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/22 17:39:57 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static int	is_builtin(const char *prog)
 		|| ft_strcmp(prog, "exit") == 0);
 }
 
-static unsigned char	launch_builtin(char *const *args, t_exec *exec, t_cml *cml)
+static unsigned char	launch_builtin(char *const *args, t_exec *exec,
+	t_cml *cml)
 {
 	unsigned char	status;
 

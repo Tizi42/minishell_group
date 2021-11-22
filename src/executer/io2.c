@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 16:28:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/15 12:26:40 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/22 17:40:16 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,6 @@ void	close_pipes(t_exec *exec)
 		}
 		i++;
 	}
+	close(exec->saved_stdin);
+	close(exec->saved_stdout);
 }

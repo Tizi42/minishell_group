@@ -6,11 +6,11 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 12:36:42 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/09 20:23:21 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/22 16:44:16 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
 int	match_name(const char *name, char *var)
 {
@@ -23,9 +23,32 @@ int	match_name(const char *name, char *var)
 			return (0);
 		i++;
 	}
-	if (name[i] == '=' && var[i] == '=')
+	if ((name[i] == '=' || name[i] == '+') && var[i] == '=')
 		return (2);
 	return (!name[i] && var[i] == '=');
+}
+
+char	*ft_strdup_env(const char *arg)
+{
+	char	*dup;
+	int		i;
+	int		j;
+	int		ignore;
+
+	dup = v_malloc(sizeof(char) * (ft_strlen(arg) + 1));
+	i = 0;
+	j = 0;
+	ignore = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '+' && arg[i + 1] == '=' && !ignore)
+			ignore = 1;
+		else
+			dup[j++] = arg[i];
+		i++;
+	}
+	dup[i] = 0;
+	return (dup);
 }
 
 int	is_in_env(const char *arg, t_list **env)
@@ -37,9 +60,17 @@ int	is_in_env(const char *arg, t_list **env)
 	{
 		if (match_name(arg, cur->c) == 2)
 		{
-			free(cur->c);
-			cur->c = ft_strdup(arg);
-			return (1);
+			if (!append_env(arg))
+			{
+				free(cur->c);
+				cur->c = ft_strdup_env(arg);
+				return (1);
+			}
+			else
+			{
+				cur->c = ft_strmerge_env(arg, cur->c);
+				return (1);
+			}
 		}
 		cur = cur->n;
 	}

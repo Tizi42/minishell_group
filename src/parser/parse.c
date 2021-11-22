@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 17:30:08 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/18 17:09:15 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/20 11:56:45 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 				ct[0]++;
 			qb = set_quoted_bits(sh_substr(*l, ct[2], ct[0] - ct[2]));
 			tknlstadd_back(lst_redi, tknlstnew(new_token(typeof_redi(&(*l)
-						[ct[1]]), sh_substr(*l, ct[2], ct[0] - ct[2]),qb)));
+						[ct[1]]), sh_substr(*l, ct[2], ct[0] - ct[2]), qb)));
 			remove_substr(l, ct[1], ct[0] - 1);
 			remove_substr(q, ct[1], ct[0] - 1);
 			ct[0] = ct[1] - 1;

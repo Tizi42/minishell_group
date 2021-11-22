@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 17:43:34 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/18 15:45:11 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/20 11:55:48 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ struct s_sig	g_sig;
 static void	int_handler(int s)
 {
 	(void)s;
-		if (g_sig.pid == -1)
+	if (g_sig.pid == -1)
 	{
 		ft_putchar('\n');
 		rl_on_new_line();
