@@ -77,6 +77,8 @@ void	heredoc_cprocess(char *filepath, char *delim, int expand, t_exec exec)
 		line = readline("> ");
 	}
 	close(fd);
+	if (!line)
+		ft_puts("msh: warning: here-document delimited by end-of-file");
 	free(line);
 	exit(0);
 }
