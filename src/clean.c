@@ -39,7 +39,7 @@ void	clean_tknlst(t_tknlst *lst)
 	}
 }
 
-void	clean_cml(t_cml *cml)
+void	*clean_cml(t_cml *cml)
 {
 	t_cml	*cur;
 
@@ -55,6 +55,7 @@ void	clean_cml(t_cml *cml)
 		cur++;
 	}
 	free(cml);
+	return (NULL);
 }
 
 void	cleanup(char **paths, char *new_prog)

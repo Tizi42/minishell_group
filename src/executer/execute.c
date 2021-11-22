@@ -56,14 +56,15 @@ static int	is_builtin(const char *prog)
 		|| ft_strcmp(prog, "exit") == 0);
 }
 
-static unsigned char	launch_builtin(char *const *args, t_exec *exec, t_cml *cml)
+static unsigned char	launch_builtin(char *const *args,
+	t_exec *exec, t_cml *cml)
 {
 	unsigned char	status;
 
 	status = 0;
 	if (has_pipe(exec))
 	{
-		exec->pids[exec->nb_ps] = fork();
+		exec->pids[exec->nb_ps] = v_fork();
 		g_sig.pid = exec->pids[exec->nb_ps];
 		if (exec->pids[exec->nb_ps++] == 0)
 		{
@@ -87,7 +88,7 @@ int	execute(char *const *args, t_exec *exec, t_cml *cml)
 	if (is_builtin(args[0]))
 		return (launch_builtin(args, exec, cml));
 	strs_env = env_to_strs(exec->env);
-	exec->pids[exec->nb_ps] = fork();
+	exec->pids[exec->nb_ps] = v_fork();
 	g_sig.pid = exec->pids[exec->nb_ps];
 	if (exec->pids[exec->nb_ps++] == 0)
 	{

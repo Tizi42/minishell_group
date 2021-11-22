@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+char	*available_heredoc_name(void)
+{
+	char	*filepath;
+	int		n;
+	char	*suffix;
+
+	filepath = v_malloc(sizeof(char) * 30);
+	*filepath = '\0';
+	ft_strcat(filepath, "/tmp/msh-hd-0");
+	n = 1;
+	while (!access(filepath, F_OK) && n < 99999)
+	{
+		filepath[12] = '\0';
+		suffix = ft_itoa(n++);
+		ft_strcat(filepath, suffix);
+		free(suffix);
+	}
+	return (filepath);
+}
+
 static char	*get_hd_n_path(int n)
 {
 	char	*filepath;
@@ -60,5 +80,6 @@ int	wait_heredoc(char *filepath)
 		free(filepath);
 		return (1);
 	}
+	free(filepath);
 	return (0);
 }

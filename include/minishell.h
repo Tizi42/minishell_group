@@ -32,11 +32,12 @@
 /* clean.c */
 void	clean_token(t_token *tok);
 void	clean_tknlst(t_tknlst *lst);
-void	clean_cml(t_cml *cml);
+void	*clean_cml(t_cml *cml);
 void	cleanup(char **paths, char *new_prog);
 
 /* tool.c */
 void	*v_malloc(size_t size);
+pid_t	v_fork(void);
 int		str_contains_set(const char *str, const char *set);
 char	*get_env_value(char *key, t_exec exec);
 
