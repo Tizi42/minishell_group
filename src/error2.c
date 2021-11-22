@@ -24,3 +24,9 @@ void	syntax_error(const char *arg)
 	write(2, arg, ft_strlen(arg));
 	write(2, "\n", 1);
 }
+
+void	unix_error(char *msg)
+{
+	perror(msg);
+	exit (-1);
+}

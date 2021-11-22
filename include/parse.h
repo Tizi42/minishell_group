@@ -44,9 +44,9 @@ int			check_syntax(char *line, t_exec exec);
 int			unclosed_quot_mrks(char *line, char **p);
 
 /* heredoc.c */
-char		*available_heredoc_name(void);
 char		*str_variable_expansion(char *line, t_exec exec);
 void		str_expand(char **tabs, t_exec exec);
+void		heredoc_cprocess(char *fpath, char *delim, int expand, t_exec exec);
 int			creat_heredoc(char *delim, int expand, t_exec exec);
 char		*check_heredoc(char *operator, char *line, t_exec exec);
 
@@ -60,6 +60,7 @@ int			typeof_redi(char *line);
 /* tool_heredoc.c */
 void		set_heredoc_path(t_cml *cmls);
 int			wait_heredoc(char *filepath);
+char		*available_heredoc_name(void);
 
 /* token.c */
 t_token		*new_token(int type, char *nword, char *nquo);

@@ -12,26 +12,6 @@
 
 #include "minishell.h"
 
-char	*available_heredoc_name(void)
-{
-	char	*filepath;
-	int		n;
-	char	*suffix;
-
-	filepath = v_malloc(sizeof(char) * 30);
-	*filepath = '\0';
-	ft_strcat(filepath, "/tmp/msh-hd-0");
-	n = 1;
-	while (!access(filepath, F_OK) && n < 99999)
-	{
-		filepath[12] = '\0';
-		suffix = ft_itoa(n++);
-		ft_strcat(filepath, suffix);
-		free(suffix);
-	}
-	return (filepath);
-}
-
 char	*str_variable_expansion(char *line, t_exec exec)
 {
 	char	**tabs;
@@ -77,36 +57,42 @@ void	str_expand(char **tabs, t_exec exec)
 	}
 }
 
+void	heredoc_cprocess(char *filepath, char *delim, int expand, t_exec exec)
+{
+	int		fd;
+	char	*line;
+
+	fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (fd == -1)
+		open_error(filepath);
+	reset_int_handler();
+	line = readline("> ");
+	while (line && ft_strcmp(delim, line))
+	{
+		if (expand)
+			line = str_variable_expansion(line, exec);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+		line = readline("> ");
+	}
+	close(fd);
+	if (!line)
+		ft_puts("msh: warning: here-document delimited by end-of-file");
+	free(line);
+	exit(0);
+}
+
 int	creat_heredoc(char *delim, int expand, t_exec exec)
 {
 	char	*filepath;
-	char	*line;
-	int		fd;
 
 	filepath = available_heredoc_name();
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
-	g_sig.pid = fork();
+	g_sig.pid = v_fork();
 	if (g_sig.pid == 0)
-	{
-		fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-		if (fd == -1)
-			open_error(filepath);
-		reset_int_handler();
-		line = readline("> ");
-		while (line && ft_strcmp(delim, line))
-		{
-			if (expand)
-				line = str_variable_expansion(line, exec);
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
-			free(line);
-			line = readline("> ");
-		}
-		close(fd);
-		free(line);
-		exit(0);
-	}
+		heredoc_cprocess(filepath, delim, expand, exec);
 	free(delim);
 	return (wait_heredoc(filepath));
 }

@@ -18,8 +18,18 @@ void	*v_malloc(size_t size)
 
 	ret = malloc(size);
 	if (!ret)
-		exit (0);
+		unix_error("Malloc error");
 	return (ret);
+}
+
+pid_t	v_fork(void)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+		unix_error("Fork error");
+	return (pid);
 }
 
 char	*get_env_value(char *key, t_exec exec)
