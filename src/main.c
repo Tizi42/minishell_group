@@ -41,7 +41,7 @@ static void	init_pids(t_cml *cml, t_exec *exec)
 	i = 0;
 	while (cml[i].line)
 		i++;
-	exec->pids = malloc(sizeof(pid_t) * i);
+	exec->pids = v_malloc(sizeof(pid_t) * i);
 }
 
 static void	execute_loop(t_cml *cml, t_exec *exec)
@@ -53,15 +53,12 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	exec->nb_pipe = 0;
 	init_pids(cml, exec);
 	init_pipes(exec);
-	if (!exec->pids)
-		return ;
 	i = 0;
 	while (cml[i].line)
 	{
 		exec->saved_stdin = dup(STDIN_FILENO);
 		exec->saved_stdout = dup(STDOUT_FILENO);
-		if (!set_io(cml, exec, i) || !cml[i].lst_token->tkn->word)
-			return ;
+		set_io(cml, exec, i);
 		exec->status = execute(cml[i].argv, exec, cml);
 		i++;
 	}
@@ -121,11 +118,13 @@ int	main(
 		line = readline("msh$ ");
 		if (!line)
 			break ;
-		if (*line)
+		if (*line && !empty_line(line))
+		{
 			add_history(line);
-		cml = parse(line, exec);
-		if (cml)
-			execute_loop(cml, &exec);
+			cml = parse(line, exec);
+			if (cml)
+				execute_loop(cml, &exec);
+		}
 		free(line);
 	}
 	ft_puts("exit");

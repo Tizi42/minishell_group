@@ -25,7 +25,7 @@ t_token	*new_token(int type, char *nword, char *nquo)
 	return (new);
 }
 
-void	chang_token_value(t_token *tok, int type, char *nword, char *nquo)
+void	change_token_value(t_token *tok, int type, char *nword, char *nquo)
 {
 	char	*tmp;
 

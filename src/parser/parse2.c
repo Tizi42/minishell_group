@@ -31,7 +31,7 @@ void	variable_expansion(t_token *tok, t_exec *exec)
 	str_idx_split(tok->word, start, end, tabs);
 	str_idx_split(tok->quoted, start, end, tab_q);
 	ret = expand(tabs, tab_q, *exec, tok->type);
-	chang_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
+	change_token_value(tok, ret, combine_strings(tabs), combine_strings(tab_q));
 	cleanup(tabs, (char *)start);
 	cleanup(tab_q, (char *)end);
 }
@@ -104,7 +104,7 @@ void	var_space_splitting(t_tknlst *lst_token)
 		if (cur->tkn->type == UNQUOTED_SPACE)
 		{
 			tabs = jump_quotes_ft_split(cur->tkn->word, cur->tkn->quoted, ' ');
-			chang_token_value(cur->tkn, WORD, *tabs++, NULL);
+			change_token_value(cur->tkn, WORD, *tabs++, NULL);
 			while (*tabs)
 				tknlstadd_back(&nlst, tknlstnew(
 						new_token(WORD, *tabs++, NULL)));

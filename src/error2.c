@@ -12,12 +12,6 @@
 
 #include "minishell.h"
 
-int	open_error(const char *file)
-{
-	perror(file);
-	return (0);
-}
-
 void	syntax_error(const char *arg)
 {
 	write(2, "Syntax error: ", 14);

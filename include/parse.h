@@ -44,7 +44,7 @@ int			check_syntax(char *line, t_exec exec);
 int			unclosed_quot_mrks(char *line, char **p);
 
 /* heredoc.c */
-char		*str_variable_expansion(char *line, t_exec exec);
+char		*str_variable_expansion(char *line, t_exec exec, int n);
 void		str_expand(char **tabs, t_exec exec);
 void		heredoc_cprocess(char *fpath, char *delim, int expand, t_exec exec);
 int			creat_heredoc(char *delim, int expand, t_exec exec);
@@ -64,7 +64,7 @@ char		*available_heredoc_name(void);
 
 /* token.c */
 t_token		*new_token(int type, char *nword, char *nquo);
-void		chang_token_value(t_token *tok, int type, char *nword, char *nquo);
+void		change_token_value(t_token *tok, int type, char *nword, char *nquo);
 char		*be_not_quoted(char *w);
 char		*set_quoted_bits(char *line);
 char		*quoted_bit_reset(char *line, char c, int *type);

@@ -20,7 +20,6 @@ void	exit_error(const char *arg);
 void	execute_error(const char *arg);
 
 /* error2.c */
-int		open_error(const char *file);
 void	syntax_error(const char *arg);
 void	unix_error(char *msg);
 

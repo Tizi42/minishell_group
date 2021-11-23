@@ -45,7 +45,7 @@ static int	set_redir_io(t_cml *cml, t_exec *exec, int i)
 		{
 			set_input_file(cml, exec, i);
 			if (exec->in == -1)
-				return (open_error(cml[i].lst_redi->tkn->word));
+				unix_error(cml[i].lst_redi->tkn->word);
 		}
 		cml[i].lst_redi = cml[i].lst_redi->next;
 	}
@@ -58,7 +58,7 @@ int	set_io(t_cml *cml, t_exec *exec, int i)
 	exec->out = STDOUT_FILENO;
 	set_pipe_io(cml, exec, i);
 	if (cml[i].lst_redi)
-		return (set_redir_io(cml, exec, i));
+		set_redir_io(cml, exec, i);
 	return (1);
 }
 

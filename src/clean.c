@@ -46,8 +46,7 @@ void	*clean_cml(t_cml *cml)
 	cur = cml;
 	while (cur->line)
 	{
-		if (cur->line)
-			free(cur->line);
+		free(cur->line);
 		if (cur->argv)
 			free_split(cur->argv);
 		clean_tknlst(cur->lst_token);

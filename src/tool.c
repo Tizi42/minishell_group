@@ -60,3 +60,16 @@ int	str_contains_set(const char *str, const char *set)
 	}
 	return (0);
 }
+
+int	empty_line(char *line)
+{
+	if (!line)
+		return (1);
+	while (*line)
+	{
+		if (*line != ' ')
+			return (0);
+		line++;
+	}
+	return (1);
+}

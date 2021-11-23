@@ -12,28 +12,33 @@
 
 #include "minishell.h"
 
-char	*str_variable_expansion(char *line, t_exec exec)
+char	*str_variable_expansion(char *line, t_exec exec, int n)
 {
 	char	**tabs;
 	int		*start;
 	int		*end;
-	int		ret;
+	char	*ret;
 	t_token	*tok;
 
 	tok = new_token(WORD, line, NULL);
-	ret = num_of_vars(tok);
-	if (!ret)
-		return (line);
-	tabs = v_malloc(sizeof(char *) * (ret * 2 + 2));
-	start = v_malloc(sizeof(int) * (ret + 1));
-	end = v_malloc(sizeof(int) * (ret + 1));
-	locate_vars_to_expand(tok, start, end);
-	str_idx_split(tok->word, start, end, tabs);
-	str_expand(tabs, exec);
-	chang_token_value(tok, WORD, combine_strings(tabs), NULL);
-	cleanup(tabs, (char *)start);
-	free(end);
-	return (tok->word);
+	n = num_of_vars(tok);
+	if (!n)
+		ret = ft_strdup(line);
+	else
+	{
+		tabs = v_malloc(sizeof(char *) * (n * 2 + 2));
+		start = v_malloc(sizeof(int) * (n + 1));
+		end = v_malloc(sizeof(int) * (n + 1));
+		locate_vars_to_expand(tok, start, end);
+		str_idx_split(tok->word, start, end, tabs);
+		str_expand(tabs, exec);
+		ret = combine_strings(tabs);
+		free_split(tabs);
+		free(start);
+		free(end);
+	}
+	clean_token(tok);
+	return (ret);
 }
 
 void	str_expand(char **tabs, t_exec exec)
@@ -64,13 +69,13 @@ void	heredoc_cprocess(char *filepath, char *delim, int expand, t_exec exec)
 
 	fd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
-		open_error(filepath);
+		unix_error(filepath);
 	reset_int_handler();
 	line = readline("> ");
 	while (line && ft_strcmp(delim, line))
 	{
 		if (expand)
-			line = str_variable_expansion(line, exec);
+			line = str_variable_expansion(line, exec, 0);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);

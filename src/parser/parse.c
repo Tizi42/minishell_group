@@ -79,16 +79,16 @@ void	set_token(t_cml *cml)
 	if (!(*tabs))
 	{
 		tknlstadd_back(&(cml->lst_token), tknlstnew(
-				new_token(WORD, *tabs, set_quoted_bits(*tabs))));
+				new_token(WORD, ft_strdup(*tabs), set_quoted_bits(*tabs))));
 	}
 	i = 0;
 	while (tabs[i])
 	{
 		tknlstadd_back(&(cml->lst_token), tknlstnew(
-				new_token(WORD, tabs[i], set_quoted_bits(*tabs))));
+				new_token(WORD, ft_strdup(tabs[i]), set_quoted_bits(tabs[i]))));
 		i++;
 	}
-	free(tabs);
+	free_split(tabs);
 	free(quoted);
 	free(line);
 }
@@ -101,6 +101,7 @@ void	set_token(t_cml *cml)
 void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 {
 	int		ct[3];
+	char	*sub;
 
 	ft_memset(ct, 0, sizeof(ct));
 	while ((*l)[ct[0]])
@@ -113,12 +114,12 @@ void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 			while ((*l)[ct[0]] == ' ')
 				ct[0]++;
 			ct[2] = ct[0];
-			while ((*l)[ct[0]] && (((*l)[ct[0]] != ' ' && (*l)[ct[0]] != '<' &&
-				(*l)[ct[0]] != '>' && (*q)[ct[0]] == NQ) || (*q)[ct[0]] > NQ))
+			while ((*l)[ct[0]] && ((!ft_contains(" <>", (*l)[ct[0]])
+					&& (*q)[ct[0]] == NQ) || (*q)[ct[0]] > NQ))
 				ct[0]++;
+			sub = sh_substr(*l, ct[2], ct[0] - ct[2]);
 			tknlstadd_back(lst_redi, tknlstnew(new_token(typeof_redi(&(*l)
-						[ct[1]]), sh_substr(*l, ct[2], ct[0] - ct[2]),
-						set_quoted_bits(sh_substr(*l, ct[2], ct[0] - ct[2])))));
+						[ct[1]]), sub, set_quoted_bits(sub))));
 			remove_substr(l, ct[1], ct[0] - 1);
 			remove_substr(q, ct[1], ct[0] - 1);
 			ct[0] = ct[1] - 1;

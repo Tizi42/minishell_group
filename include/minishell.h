@@ -45,6 +45,7 @@ char	*get_env_value(char *key, t_exec exec);
 void	init_signals(void);
 void	reset_quit_handler(void);
 void	reset_int_handler(void);
+int	empty_line(char *line);
 
 extern struct s_sig	g_sig;
 
