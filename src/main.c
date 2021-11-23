@@ -12,38 +12,6 @@
 
 #include "minishell.h"
 
-static void	wait_processes(t_exec *exec)
-{
-	int	i;
-
-	i = 0;
-	while (i < exec->nb_ps)
-	{
-		waitpid(exec->pids[i], &exec->status, 0);
-		if (WIFSIGNALED(exec->status))
-		{
-			if (WTERMSIG(exec->status) == SIGINT)
-				ft_putchar('\n');
-			if (WTERMSIG(exec->status) == SIGQUIT)
-				ft_puts("Quit");
-			exec->status = WTERMSIG(exec->status) + 128;
-		}
-		if (WIFEXITED(exec->status))
-			exec->status = WEXITSTATUS(exec->status);
-		i++;
-	}
-}
-
-static void	init_pids(t_cml *cml, t_exec *exec)
-{
-	int	i;
-
-	i = 0;
-	while (cml[i].line)
-		i++;
-	exec->pids = v_malloc(sizeof(pid_t) * i);
-}
-
 static void	execute_loop(t_cml *cml, t_exec *exec)
 {
 	int	i;
@@ -69,32 +37,17 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	clean_cml(cml);
 }
 
-static void	increment_shlvl(t_exec *exec)
+void	ignore_sig(void)
 {
-	t_list		*cur;
-	char		*new_shlvl;
-	char		*new_value;
-	char *const	args[3] = {"export", "SHLVL=1", NULL};
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+}
 
-	cur = exec->env;
-	while (cur)
-	{
-		if (match_name("SHLVL", cur->c) == 1)
-		{
-			new_value = ft_itoa(ft_atoi(ft_strchr(cur->c, '=') + 1) + 1);
-			new_shlvl = malloc(sizeof(char) * (ft_strlen("SHLVL=")
-						+ ft_strlen(new_value) + 1));
-			ft_strcpy(new_shlvl, "SHLVL=");
-			ft_strcat(new_shlvl, new_value);
-			free(cur->c);
-			cur->c = ft_strdup(new_shlvl);
-			free(new_value);
-			free(new_shlvl);
-			return ;
-		}
-		cur = cur->n;
-	}
-	export(args, &exec->env);
+void	close_std_fds(void)
+{
+	close(0);
+	close(1);
+	close(2);
 }
 
 int	main(
@@ -107,10 +60,7 @@ int	main(
 	t_cml	*cml;
 	t_exec	exec;
 
-	exec.status = 0;
-	exec.env = init_env(envp);
-	g_sig.pid = -1;
-	g_sig.status = &exec.status;
+	exec = init_msh(envp);
 	increment_shlvl(&exec);
 	init_signals();
 	while (isatty(STDIN_FILENO))
@@ -128,6 +78,7 @@ int	main(
 		free(line);
 	}
 	ft_puts("exit");
+	close_pipes(&exec);
 	ft_lstclear(exec.env);
 	return (exec.status);
 }

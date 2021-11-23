@@ -65,3 +65,9 @@ void	str_idx_split(char *l, int *start, int *end, char **tabs)
 	}
 	tabs[n] = NULL;
 }
+
+void	remove_substrs(char **l, char **q, int s, int e)
+{
+	remove_substr(l, s, e);
+	remove_substr(q, s, e);
+}

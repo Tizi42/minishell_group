@@ -93,17 +93,16 @@ int	execute(char *const *args, t_exec *exec, t_cml *cml)
 	if (exec->pids[exec->nb_ps++] == 0)
 	{
 		close_pipes(exec);
-		if (ft_starts_with(args[0], "/") || ft_starts_with(args[0], "./"))
-			full_path = args[0];
-		else
-			full_path = search_path(args[0], exec->env);
+		full_path = get_full_path(args[0], exec->env);
 		execve(full_path, args, strs_env);
 		execute_error(args[0]);
 		free(strs_env);
+		free(full_path);
+		clean_cml(cml);
+		close_std_fds();
 		exit(127);
 	}
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_IGN);
+	ignore_sig();
 	reset_io(exec);
 	free(strs_env);
 	return (exec->status);

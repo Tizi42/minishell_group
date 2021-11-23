@@ -12,6 +12,25 @@
 
 #include "minishell.h"
 
+int	is_valid(char *name)
+{
+	int	i;
+
+	i = 0;
+	while (name[i] && name[i] != '=')
+	{
+		if (name[i] == '+' && name[i + 1] == '=')
+		{
+			i++;
+			continue ;
+		}
+		if (name[i] != '_' && !ft_isalnum(name[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	append_env(const char *arg)
 {
 	int	i;
@@ -37,4 +56,32 @@ char	*ft_strmerge_env(const char *arg, char *var)
 	ft_strcat(join, value);
 	free(var);
 	return (join);
+}
+
+void	increment_shlvl(t_exec *exec)
+{
+	t_list		*cur;
+	char		*new_shlvl;
+	char		*new_value;
+	char *const	args[3] = {"export", "SHLVL=1", NULL};
+
+	cur = exec->env;
+	while (cur)
+	{
+		if (match_name("SHLVL", cur->c) == 1)
+		{
+			new_value = ft_itoa(ft_atoi(ft_strchr(cur->c, '=') + 1) + 1);
+			new_shlvl = malloc(sizeof(char) * (ft_strlen("SHLVL=")
+						+ ft_strlen(new_value) + 1));
+			ft_strcpy(new_shlvl, "SHLVL=");
+			ft_strcat(new_shlvl, new_value);
+			free(cur->c);
+			cur->c = ft_strdup(new_shlvl);
+			free(new_value);
+			free(new_shlvl);
+			return ;
+		}
+		cur = cur->n;
+	}
+	export(args, &exec->env);
 }

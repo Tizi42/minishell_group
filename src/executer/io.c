@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 12:15:10 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/08 17:04:04 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/23 16:58:29 by tyuan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,23 @@ static void	set_pipe_io(t_cml *cml, t_exec *exec, int i)
 
 static int	set_redir_io(t_cml *cml, t_exec *exec, int i)
 {
-	while (cml[i].lst_redi)
+	t_tknlst	*lst;
+
+	lst = cml[i].lst_redi;
+	while (lst)
 	{
-		if (cml[i].lst_redi->tkn->type == GREAT)
+		if (lst->tkn->type == GREAT)
 			set_trunc_file(cml, exec, i);
-		else if (cml[i].lst_redi->tkn->type == DGREAT)
+		else if (lst->tkn->type == DGREAT)
 			set_append_file(cml, exec, i);
-		else if (cml[i].lst_redi->tkn->type == LESS
-			|| cml[i].lst_redi->tkn->type == HEREDOC)
+		else if (lst->tkn->type == LESS
+			|| lst->tkn->type == HEREDOC)
 		{
 			set_input_file(cml, exec, i);
 			if (exec->in == -1)
-				unix_error(cml[i].lst_redi->tkn->word);
+				unix_error(lst->tkn->word);
 		}
-		cml[i].lst_redi = cml[i].lst_redi->next;
+		lst = lst->next;
 	}
 	return (1);
 }

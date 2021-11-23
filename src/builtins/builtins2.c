@@ -12,23 +12,12 @@
 
 #include "minishell.h"
 
-static int	is_valid(char *name)
+char	*get_full_path(char *arg, t_list *env)
 {
-	int	i;
-
-	i = 0;
-	while (name[i] && name[i] != '=')
-	{
-		if (name[i] == '+' && name[i + 1] == '=')
-		{
-			i++;
-			continue ;
-		}
-		if (name[i] != '_' && !ft_isalnum(name[i]))
-			return (0);
-		i++;
-	}
-	return (1);
+	if (ft_starts_with(arg, "/") || ft_starts_with(arg, "./"))
+		return (arg);
+	else
+		return (search_path(arg, env));
 }
 
 unsigned char	export(char *const *args, t_list **env)
@@ -97,8 +86,10 @@ static int	check_arg(const char *arg)
 
 unsigned char	exit_builtin(char *const *args,	t_exec *exec, t_cml *cml)
 {
-	ft_puts("exit");
-	if (!args[1])
+	unsigned char	ret;
+
+	close_pipes(exec);
+	if (ft_puts("exit") && !args[1])
 	{
 		ft_lstclear(exec->env);
 		clean_cml(cml);
@@ -116,7 +107,8 @@ unsigned char	exit_builtin(char *const *args,	t_exec *exec, t_cml *cml)
 		clean_cml(cml);
 		return (1);
 	}
+	ret = ft_atoi(args[1]);
 	clean_cml(cml);
 	ft_lstclear(exec->env);
-	exit((unsigned char)ft_atoi(args[1]));
+	exit(ret);
 }

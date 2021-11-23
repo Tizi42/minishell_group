@@ -25,5 +25,7 @@ void	set_input_file(t_cml *cml, t_exec *exec, int i);
 void	close_pipes(t_exec *exec);
 void	init_pipes(t_exec *exec);
 int		has_pipe(t_exec *exec);
+void	wait_processes(t_exec *exec);
+char	*get_full_path(char *arg, t_list *env);
 
 #endif

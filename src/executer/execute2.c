@@ -48,7 +48,7 @@ char	*search_path(const char *prog, t_list *env)
 		free(full_path);
 	}
 	cleanup(paths, new_prog);
-	return (NULL);
+	return (ft_strdup(prog));
 }
 
 int	has_pipe(t_exec *exec)
@@ -91,4 +91,26 @@ unsigned char	exec_builtins(char *const *args, t_exec *exec, t_cml *cml)
 	else
 		status = exit_builtin(args, exec, cml);
 	return (status);
+}
+
+void	wait_processes(t_exec *exec)
+{
+	int	i;
+
+	i = 0;
+	while (i < exec->nb_ps)
+	{
+		waitpid(exec->pids[i], &exec->status, 0);
+		if (WIFSIGNALED(exec->status))
+		{
+			if (WTERMSIG(exec->status) == SIGINT)
+				ft_putchar('\n');
+			if (WTERMSIG(exec->status) == SIGQUIT)
+				ft_puts("Quit");
+			exec->status = WTERMSIG(exec->status) + 128;
+		}
+		if (WIFEXITED(exec->status))
+			exec->status = WEXITSTATUS(exec->status);
+		i++;
+	}
 }

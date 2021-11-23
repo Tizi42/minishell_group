@@ -120,8 +120,7 @@ void	parse_redirection(t_tknlst **lst_redi, char **l, char **q)
 			sub = sh_substr(*l, ct[2], ct[0] - ct[2]);
 			tknlstadd_back(lst_redi, tknlstnew(new_token(typeof_redi(&(*l)
 						[ct[1]]), sub, set_quoted_bits(sub))));
-			remove_substr(l, ct[1], ct[0] - 1);
-			remove_substr(q, ct[1], ct[0] - 1);
+			remove_substrs(l, q, ct[1], ct[0] - 1);
 			ct[0] = ct[1] - 1;
 		}
 		ct[0]++;

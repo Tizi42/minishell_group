@@ -85,6 +85,7 @@ char		*str_quote_removal(char *str);
 void		remove_substr(char **line, int sub_start, int sub_end);
 char		*combine_strings(char **tabs);
 void		str_idx_split(char *l, int *start, int *end, char **tabs);
+void		remove_substrs(char **l, char **q, int s, int e);
 
 /* tknlst.c */
 t_tknlst	*tknlstnew(void *tkn);

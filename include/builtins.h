@@ -26,5 +26,7 @@ int				is_in_env(const char *arg, t_list **env);
 char			*ft_strdup_env(const char *arg);
 int				append_env(const char *arg);
 char			*ft_strmerge_env(const char *arg, char *var);
+void			increment_shlvl(t_exec *exec);
+int				is_valid(char *name);
 
 #endif

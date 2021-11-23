@@ -79,7 +79,7 @@ void				ft_lstclear(t_list *lst);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *));
 int					ft_indexof(char c, const char *s);
-void				ft_puts(const char *str);
+int					ft_puts(const char *str);
 int					ft_starts_with(const char *str, const char *pattern);
 int					ft_ends_with(const char *str, const char *pattern);
 char				*ft_strcpy(char *dst, const char *src);
