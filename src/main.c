@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/18 17:52:53 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/26 12:14:53 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ int	main(
 		{
 			add_history(line);
 			cml = parse(line, exec);
+			free(line);
 			if (cml)
 				execute_loop(cml, &exec);
 		}
-		free(line);
 	}
 	ft_puts("exit");
 	close_pipes(&exec);

@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:03:44 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/11 13:52:57 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/26 12:16:22 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_env_value(char *key, t_exec exec)
 	t_list	*cur;
 
 	if (*key == '?')
-		return (ft_itoa(*g_sig.status));
+		return (ft_itoa(exec.status));
 	cur = exec.env;
 	while (cur)
 	{

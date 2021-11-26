@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:50:11 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/18 17:45:34 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/26 12:18:00 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,11 @@ void	wait_processes(t_exec *exec)
 		{
 			if (WTERMSIG(exec->status) == SIGINT)
 				ft_putchar('\n');
-			if (WTERMSIG(exec->status) == SIGQUIT)
+			else if (WTERMSIG(exec->status) == SIGQUIT)
 				ft_puts("Quit");
 			exec->status = WTERMSIG(exec->status) + 128;
 		}
-		if (WIFEXITED(exec->status))
+		else if (WIFEXITED(exec->status))
 			exec->status = WEXITSTATUS(exec->status);
 		i++;
 	}
