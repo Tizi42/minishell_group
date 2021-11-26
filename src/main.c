@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/26 12:14:53 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/26 12:57:28 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	ignore_sig(void)
 
 void	close_std_fds(void)
 {
-	close(0);
-	close(1);
-	close(2);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 }
 
 int	main(
@@ -60,7 +60,7 @@ int	main(
 	t_cml	*cml;
 	t_exec	exec;
 
-	exec = init_msh(envp);
+	init_msh(&exec, envp);
 	increment_shlvl(&exec);
 	init_signals();
 	while (isatty(STDIN_FILENO))

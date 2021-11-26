@@ -6,21 +6,18 @@
 /*   By: tyuan <tyuan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 18:07:04 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/23 18:07:07 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/26 12:59:06 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_exec	init_msh(char **envp)
+void	init_msh(t_exec *exec, char **envp)
 {
-	t_exec	exec;
-
-	exec.status = 0;
-	exec.env = init_env(envp);
+	exec->status = 0;
+	exec->env = init_env(envp);
 	g_sig.pid = -1;
-	g_sig.status = &exec.status;
-	return (exec);
+	g_sig.status = &exec->status;
 }
 
 void	init_pids(t_cml *cml, t_exec *exec)

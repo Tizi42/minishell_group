@@ -6,7 +6,7 @@
 /*   By: tyuan <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 15:42:05 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/23 16:57:27 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/26 12:58:47 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	reset_quit_handler(void);
 void	reset_int_handler(void);
 
 /* init.c */
-t_exec	init_msh(char **envp);
+void	init_msh(t_exec *exec, char **envp);
 void	init_pids(t_cml *cml, t_exec *exec);
 
 extern struct s_sig	g_sig;
