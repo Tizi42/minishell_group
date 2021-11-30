@@ -6,39 +6,38 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 16:28:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/22 17:40:16 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/30 13:40:53 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_trunc_file(t_cml *cml, t_exec *exec, int i)
+void	set_trunc_file(const char *file, t_exec *exec)
 {
 	if (exec->out != STDOUT_FILENO)
 		close(exec->out);
-	exec->out = open(cml[i].lst_redi->tkn->word,
-			O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	exec->out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 }
 
-void	set_append_file(t_cml *cml, t_exec *exec, int i)
+void	set_append_file(const char *file, t_exec *exec)
 {
 	if (exec->out != STDOUT_FILENO)
 		close(exec->out);
-	exec->out = open(cml[i].lst_redi->tkn->word,
-			O_CREAT | O_WRONLY | O_APPEND, 0644);
+	exec->out = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 }
 
-void	set_input_file(t_cml *cml, t_exec *exec, int i)
+void	set_input_file(const char *file, int type, t_exec *exec)
 {
 	if (exec->in != STDIN_FILENO)
 		close(exec->in);
-	exec->in = open(cml[i].lst_redi->tkn->word, O_RDONLY);
-	if (cml[i].lst_redi->tkn->type == HEREDOC)
-		unlink(cml[i].lst_redi->tkn->word);
+	exec->in = open(file, O_RDONLY);
+	if (type == HEREDOC)
+		unlink(file);
 }
 
 void	init_pipes(t_exec *exec)
 {
+	exec->nb_pipe = 0;
 	exec->pipe_fds[0][0] = -1;
 	exec->pipe_fds[0][1] = -1;
 	exec->pipe_fds[1][0] = -1;

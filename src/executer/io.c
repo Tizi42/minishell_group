@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 12:15:10 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/23 16:58:29 by tyuan            ###   ########.fr       */
+/*   Updated: 2021/11/30 12:52:19 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,19 @@ static int	set_redir_io(t_cml *cml, t_exec *exec, int i)
 	while (lst)
 	{
 		if (lst->tkn->type == GREAT)
-			set_trunc_file(cml, exec, i);
+			set_trunc_file(lst->tkn->word, exec);
 		else if (lst->tkn->type == DGREAT)
-			set_append_file(cml, exec, i);
+			set_append_file(lst->tkn->word, exec);
 		else if (lst->tkn->type == LESS
 			|| lst->tkn->type == HEREDOC)
 		{
-			set_input_file(cml, exec, i);
+			set_input_file(lst->tkn->word, lst->tkn->type, exec);
 			if (exec->in == -1)
-				unix_error(lst->tkn->word);
+			{
+				perror(lst->tkn->word);
+				exec->status = 1;
+				return (0);
+			}
 		}
 		lst = lst->next;
 	}
@@ -61,7 +65,7 @@ int	set_io(t_cml *cml, t_exec *exec, int i)
 	exec->out = STDOUT_FILENO;
 	set_pipe_io(cml, exec, i);
 	if (cml[i].lst_redi)
-		set_redir_io(cml, exec, i);
+		return (set_redir_io(cml, exec, i));
 	return (1);
 }
 

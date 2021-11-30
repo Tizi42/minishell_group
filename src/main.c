@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 15:42:47 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/26 12:57:28 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/30 16:58:11 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	int	i;
 
 	reset_quit_handler();
-	exec->nb_ps = 0;
-	exec->nb_pipe = 0;
 	init_pids(cml, exec);
 	init_pipes(exec);
 	i = 0;
@@ -26,7 +24,8 @@ static void	execute_loop(t_cml *cml, t_exec *exec)
 	{
 		exec->saved_stdin = dup(STDIN_FILENO);
 		exec->saved_stdout = dup(STDOUT_FILENO);
-		set_io(cml, exec, i);
+		if (!set_io(cml, exec, i) || !*cml[i].lst_token->tkn->word)
+			break ;
 		exec->status = execute(cml[i].argv, exec, cml);
 		i++;
 	}

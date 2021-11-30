@@ -6,7 +6,7 @@
 /*   By: tyuan <tyuan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 18:07:04 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/26 12:59:06 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/30 13:40:33 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_pids(t_cml *cml, t_exec *exec)
 {
 	int	i;
 
+	exec->nb_ps = 0;
 	i = 0;
 	while (cml[i].line)
 		i++;
