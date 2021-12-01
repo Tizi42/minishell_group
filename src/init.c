@@ -6,7 +6,7 @@
 /*   By: tyuan <tyuan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 18:07:04 by tyuan             #+#    #+#             */
-/*   Updated: 2021/11/30 13:40:33 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/11/30 19:01:16 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_msh(t_exec *exec, char **envp)
 	exec->env = init_env(envp);
 	g_sig.pid = -1;
 	g_sig.status = &exec->status;
+	init_pipes(exec);
 }
 
 void	init_pids(t_cml *cml, t_exec *exec)
