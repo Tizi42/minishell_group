@@ -6,7 +6,7 @@
 /*   By: jkromer <jkromer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 12:36:42 by jkromer           #+#    #+#             */
-/*   Updated: 2021/11/22 16:44:16 by jkromer          ###   ########.fr       */
+/*   Updated: 2021/12/08 14:18:29 by jkromer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static void	delete_var(t_list **env, const char *var)
 	if (ft_strcmp(var, cur->c) == 0)
 	{
 		*env = cur->n;
+		free(cur->c);
 		free(cur);
 		return ;
 	}
@@ -95,6 +96,7 @@ static void	delete_var(t_list **env, const char *var)
 		{
 			tmp = cur->n;
 			cur->n = cur->n->n;
+			free(tmp->c);
 			free(tmp);
 			break ;
 		}

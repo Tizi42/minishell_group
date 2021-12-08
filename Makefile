@@ -1,5 +1,5 @@
 NAME	=	msh
-CC		=	clang
+CC		=	cc
 CFLAGS	=	-Wall -Werror -Wextra -g
 OBJ_DIR	=	obj/
 SRC_DIR	=	src/
@@ -12,9 +12,9 @@ LIBS	=	-lreadline -Llibft -lft
 INC		=	-Iinclude -Ilibft
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
-	mkdir -p $(OBJ_DIR)/parser
-	mkdir -p $(OBJ_DIR)/executer
-	mkdir -p $(OBJ_DIR)/builtins
+	mkdir -p $(OBJ_DIR)parser
+	mkdir -p $(OBJ_DIR)executer
+	mkdir -p $(OBJ_DIR)builtins
 	$(CC) -c $(INC) $(CFLAGS) $< -o $@
 
 all:		$(NAME)
