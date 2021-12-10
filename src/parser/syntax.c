@@ -79,6 +79,9 @@ static int	empty_between_pipe(char *line, char **p)
 
 int	check_syntax(char *line, t_exec exec)
 {
+	char	*cp;
+
+	cp = line;
 	if (str_start_with(line, '|'))
 	{
 		syntax_error("unexpected token `|'");
@@ -94,7 +97,7 @@ int	check_syntax(char *line, t_exec exec)
 			return (0);
 		line++;
 	}
-	if (str_end_with(line, '|'))
+	if (str_end_with(cp, '|'))
 	{
 		syntax_error("command should not end with token `|'");
 		return (0);
